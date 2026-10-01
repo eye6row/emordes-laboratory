@@ -5,8 +5,8 @@ h1,h2,h3,.btn,nav a{font-family:Oswald,sans-serif;font-weight:700;text-transform
 nav{position:fixed;top:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;align-items:center;padding:14px 4vw;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);border-bottom:1px solid var(--l)}
 .nl{height:26px}nav div a{margin-left:22px;text-decoration:none;font-size:14px}nav div a:hover{color:var(--r)}
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-#weave{position:absolute;inset:0;width:100%;height:100%;opacity:.55}.hi{position:relative;padding:0 5vw}
-h1{font-size:clamp(56px,14vw,210px);line-height:.9;color:#fff;position:relative;animation:in 1.2s cubic-bezier(.2,.8,.2,1)}
+#weave{position:absolute;inset:0;width:100%;height:100%;opacity:.55}.hi{position:relative;padding:0 5vw;width:100%;max-width:100vw}
+h1{font-size:clamp(38px,13vw,210px);line-height:.9;color:#fff;position:relative;animation:in 1.2s cubic-bezier(.2,.8,.2,1)}
 h1:after{content:attr(data-text);position:absolute;inset:0;color:var(--r);clip-path:inset(0 0 0 0);mix-blend-mode:screen;animation:gl 4s infinite steps(1)}
 @keyframes gl{0%,92%,100%{transform:none;clip-path:inset(100% 0 0 0)}93%{transform:translate(-6px,2px);clip-path:inset(20% 0 55% 0)}96%{transform:translate(5px,-2px);clip-path:inset(60% 0 10% 0)}}
 @keyframes in{from{opacity:0;letter-spacing:.4em;filter:blur(10px)}}
