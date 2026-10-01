@@ -1,6 +1,6 @@
 :root{--r:#D64541;--l:rgba(255,255,255,.12)}*{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}body{background:#000;color:#eee;font-family:"JetBrains Mono",monospace;background-image:linear-gradient(var(--l) 1px,transparent 1px),linear-gradient(90deg,var(--l) 1px,transparent 1px);background-size:80px 80px;background-attachment:fixed}
-a{color:inherit}.mono{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;color:#999}
+html,body{overflow-x:hidden}img{max-width:100%}a{color:inherit}.mono{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.1em;color:#999}
 h1,h2,h3,.btn,nav a{font-family:Oswald,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
 nav{position:fixed;top:0;left:0;right:0;z-index:9;display:flex;justify-content:space-between;align-items:center;padding:14px 4vw;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);border-bottom:1px solid var(--l)}
 .nl{height:26px}nav div a{margin-left:22px;text-decoration:none;font-size:14px}nav div a:hover{color:var(--r)}
