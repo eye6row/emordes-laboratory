@@ -39,7 +39,12 @@
       "image": "images/sample-10.jpg",
       "images": [
         "images/sample-10.jpg"
-      ]
+      ],
+      "crop": {
+        "x": 30,
+        "y": 70,
+        "zoom": 2.2
+      }
     },
     {
       "n": "001",
