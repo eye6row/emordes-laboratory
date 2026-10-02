@@ -27,11 +27,24 @@
             },
             {
               "ingredient": "Glycerin",
-              "amount": "30g (50g if adding powder dye)"
+              "amount": "30 g (50g if adding powder dye)"
             },
             {
               "ingredient": "Water",
-              "amount": "500g"
+              "amount": "500 mL"
+            }
+          ]
+        },
+        {
+          "title": "Extrusion Bath",
+          "rows": [
+            {
+              "ingredient": "Calcium Chloride",
+              "amount": "40 g"
+            },
+            {
+              "ingredient": "Water",
+              "amount": "2 L"
             }
           ]
         }
