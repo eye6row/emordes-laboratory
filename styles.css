@@ -134,3 +134,4 @@ main{padding:calc(var(--bar) + 10px) 22px 40px}
 [data-theme=dark] .back{background:rgba(20,20,20,.72)}
 [data-theme=dark] .lb{background:rgba(8,8,8,.9)}[data-theme=dark] .lbw img{box-shadow:0 20px 60px rgba(0,0,0,.6)}
 @media (max-width:720px){nav{gap:12px}}
+.desc p+p{margin-top:.8em}.desc p{max-width:62ch}

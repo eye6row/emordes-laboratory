@@ -151,7 +151,7 @@ function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--
   <label>Add photos<input type="file" id="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label></div>
   ${s.images[0]?`<button class="pill cropbtn" id="cropB">Crop cover${s.crop?' (custom)':''}</button>`:''}<div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p></div>
  <div class="fields">${F.map(([k,l,t])=>`<label class="f${k==='title'||k==='tags'?' w':''}"><span>${l}</span><input data-k="${k}" type="${t}" ${t==='number'?'inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}"></label>`).join('')}
-  <label class="f w"><span>Description</span><textarea data-k="description">${esc(s.description)}</textarea></label>
+  <label class="f w"><span>Description</span><textarea data-k="description" rows="8" maxlength="4000">${esc(s.description)}</textarea></label>
   <div class="f w"><span>Recipes (optional, show on the sample page)</span><div class="recs" id="rec"></div><button class="add" id="addR">+ Add recipe</button></div>
  </div></div>`;
  rec();

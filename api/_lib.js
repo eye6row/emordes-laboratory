@@ -67,7 +67,7 @@ function clean(input) {
         n: str(s.n, 12) || '000', title: str(s.title, 120) || 'Untitled', fiber: str(s.fiber, 160), gsm: Number.isFinite(gsm) ? Math.max(0, Math.min(99999, Math.round(gsm))) : 0,
         finish: str(s.finish, 160), origin: str(s.origin, 120),
         tags: (Array.isArray(s.tags) ? s.tags : String(s.tags || '').split(',')).map(t => str(t, 40).toLowerCase()).filter(Boolean).slice(0, 12),
-        description: str(s.description, 2000), year: str(s.year, 12),
+        description: str(String(s.description == null ? '' : s.description).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 4000), year: str(s.year, 12),
         recipes: (() => { const row = r => ({ ingredient: str(r && (r.ingredient ?? r.item), 120), amount: str(r && r.amount, 120) }); const rows = a => (Array.isArray(a) ? a : []).slice(0, 40).map(row).filter(r => r.ingredient || r.amount);
           let rs = Array.isArray(s.recipes) ? s.recipes : (Array.isArray(s.recipe) && s.recipe.length ? [{ title: 'Recipe', rows: s.recipe }] : []);
           return rs.slice(0, 12).map(x => ({ title: str(x && x.title, 120), rows: rows(x && x.rows) })).filter(x => x.title || x.rows.length); })(),
