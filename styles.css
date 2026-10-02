@@ -140,3 +140,15 @@ main{padding:calc(var(--bar) + 10px) 22px 40px}
 .dcol{min-width:0}.dwide{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:0 40px}.dwide>dl{min-width:0}
 .dbelow{margin-top:30px}
 @media (max-width:760px){.dwide{grid-template-columns:1fr}}
+
+/* photo captions */
+.dshot-f{margin:0;min-width:0;min-height:0;display:flex;flex-direction:column}.dshot-f>.dshot{flex:1;min-height:0}
+.dimgs[data-n="3"] .dshot-f:first-child{grid-row:1/3}
+.dfc{display:none}
+.dcap{display:flex;gap:14px;align-items:baseline;min-height:2.9em;margin:12px 0 0;font-size:11px;line-height:1.45;letter-spacing:.01em;color:var(--mut);max-width:62ch;opacity:0;transform:translateY(-4px);transition:opacity .35s var(--ease),transform .45s var(--ease)}
+.dcap.on{opacity:1;transform:none}.dcap .dcn{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--ink);letter-spacing:.06em;flex:none}
+.dcap[hidden]{display:none}
+.lbcap{margin:0 auto;padding:0 22px 12px;max-width:62ch;text-align:center;font-size:12px;line-height:1.5;color:var(--ink)}.lbcap[hidden]{display:none}
+@media (hover:none),(max-width:760px){.dcap{display:none!important}.dfc{display:block;margin:8px 2px 0;font-size:11px;line-height:1.45;color:var(--mut)}
+ .dimgs.hascap{aspect-ratio:auto}.dimgs.hascap .dshot{aspect-ratio:1;flex:none}}
+@media (max-width:760px){.dimgs[data-n] .dshot-f{grid-row:auto!important}.lbcap{padding:0 14px 10px}}

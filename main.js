@@ -5,7 +5,7 @@ function lay(x){const out=[],seen=new Set();(Array.isArray(x.fields)?x.fields:[]
  if(f.key){const d=DEF.find(d=>d[0]===f.key);if(!d||seen.has(f.key))return;seen.add(f.key);out.push({key:f.key,label:f.label||d[1],zone:z||d[2],hidden:!!f.hidden})}
  else out.push({label:f.label||'',value:f.value||'',zone:z||'r',hidden:!!f.hidden})});
  DEF.forEach(d=>{if(!seen.has(d[0]))out.push({key:d[0],label:d[1],zone:d[2],hidden:false})});return out}
-const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),L:lay(x),imgs:(x.images&&x.images.length?x.images:x.image?[x.image]:[]).map(u)})).map(s=>(s.img=s.imgs[0]||'',s));
+const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),L:lay(x),raw:(x.images&&x.images.length?x.images:x.image?[x.image]:[]),cm:x.captions&&typeof x.captions==='object'?x.captions:{}})).map(s=>(s.imgs=s.raw.map(u),s.caps=s.raw.map(p=>String(s.cm[p]||'').trim()),s.img=s.imgs[0]||'',s));
 const u=p=>/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):p;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -55,7 +55,8 @@ const zl=zone('l'),zr=zone('r'),zw=zone('w'),zb=zone('b');
 $('#d-meta').innerHTML=(zl||zr?`<div class="dcol">${zl}</div><div class="dcol">${zr}</div>`:'')+(zw?`<div class="dwide">${zw}</div>`:'');
 $('#d-below').innerHTML=zb?`<div class="dwide">${zb}</div>`:'';$('#d-below').hidden=!zb;
 const G=$('#d-imgs'),n=s.imgs.length;G.dataset.n=n>3?'many':Math.max(n,1);
-G.innerHTML=n?s.imgs.map((src,j)=>`<button class="dshot" data-j="${j}" aria-label="Enlarge photo ${j+1} of ${n}">${img(s,cur,n>1?' / '+(j+1):'',src)}</button>`).join(''):img(s,cur,'','');
+G.innerHTML=n?s.imgs.map((src,j)=>`<figure class="dshot-f"><button class="dshot" data-j="${j}" aria-label="Enlarge photo ${j+1} of ${n}"${s.caps[j]?` aria-describedby="dc${j}"`:''}>${img(s,cur,n>1?' / '+(j+1):'',src)}</button>${s.caps[j]?`<figcaption class="dfc" id="dc${j}">${esc(s.caps[j]).replace(/\n/g,'<br>')}</figcaption>`:''}</figure>`).join(''):img(s,cur,'','');
+const C=$('#d-cap'),any=s.caps.some(Boolean);C.hidden=!any;C.classList.remove('on');C.innerHTML='';G.classList.toggle('hascap',any);
 if(det.hidden){closePanel(false);det.hidden=false;document.body.classList.add('lock');requestAnimationFrame(()=>det.classList.add('in'))}
 det.scrollTop=0;history.replaceState(null,'','#'+s.code.toLowerCase());$('#back').focus()}
 function closeDetail(ret=true){if(det.hidden)return;det.classList.remove('in');document.body.classList.remove('lock');history.replaceState(null,'',location.pathname);
@@ -67,9 +68,14 @@ $('#req').onclick=()=>{const s=S[cur];closeDetail(false);$$('#picks input').forE
 
 // lightbox
 const lb=$('#lb');let lj=0,lbFocus=null;
-function lbShow(j){const s=S[cur],n=s.imgs.length;lj=(j+n)%n;$('#lb-img').src=s.imgs[lj];$('#lb-img').alt=`${s.t} photo ${lj+1}`;$('#lb-c').textContent=`${s.code} / ${lj+1} of ${n}`;$('#lb-p').hidden=$('#lb-n').hidden=n<2;
+function lbShow(j){const s=S[cur],n=s.imgs.length;lj=(j+n)%n;$('#lb-img').src=s.imgs[lj];$('#lb-img').alt=`${s.t} photo ${lj+1}`;$('#lb-c').textContent=`${s.code} / ${lj+1} of ${n}`;const lc=$('#lb-cap');lc.innerHTML=s.caps[lj]?esc(s.caps[lj]).replace(/\n/g,'<br>'):'';lc.hidden=!s.caps[lj];$('#lb-p').hidden=$('#lb-n').hidden=n<2;
 if(lb.hidden){lbFocus=document.activeElement;lb.hidden=false;requestAnimationFrame(()=>lb.classList.add('in'));$('#lb-x').focus()}}
 function lbClose(){if(lb.hidden)return;lb.classList.remove('in');setTimeout(()=>{lb.hidden=true;$('#lb-img').removeAttribute('src')},220);lbFocus&&lbFocus.focus()}
+const capOn=j=>{const s=S[cur],C=$('#d-cap');if(!s||!s.caps[j]){C.classList.remove('on');return}C.innerHTML=`<span class="dcn">${String(j+1).padStart(2,'0')}</span><span class="dct">${esc(s.caps[j]).replace(/\n/g,'<br>')}</span>`;C.classList.add('on')};
+$('#d-imgs').addEventListener('mouseover',e=>{const b=e.target.closest('.dshot');if(b)capOn(+b.dataset.j)});
+$('#d-imgs').addEventListener('focusin',e=>{const b=e.target.closest('.dshot');if(b)capOn(+b.dataset.j)});
+$('#d-imgs').addEventListener('mouseleave',()=>$('#d-cap').classList.remove('on'));
+$('#d-imgs').addEventListener('focusout',()=>$('#d-cap').classList.remove('on'));
 $('#d-imgs').addEventListener('click',e=>{const b=e.target.closest('.dshot');if(b)lbShow(+b.dataset.j)});
 $('#lb-x').onclick=lbClose;$('#lb-p').onclick=()=>lbShow(lj-1);$('#lb-n').onclick=()=>lbShow(lj+1);
 lb.addEventListener('click',e=>{if(e.target===lb||e.target.classList.contains('lbw'))lbClose()});

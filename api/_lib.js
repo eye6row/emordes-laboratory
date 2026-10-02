@@ -72,6 +72,9 @@ function clean(input) {
           let rs = Array.isArray(s.recipes) ? s.recipes : (Array.isArray(s.recipe) && s.recipe.length ? [{ title: 'Recipe', rows: s.recipe }] : []);
           return rs.slice(0, 12).map(x => ({ title: str(x && x.title, 120), rows: rows(x && x.rows) })).filter(x => x.title || x.rows.length); })(),
         image, images,
+        ...(() => { const c = s.captions && typeof s.captions === 'object' && !Array.isArray(s.captions) ? s.captions : {}, o = {};
+          for (const p of images) { const v = str(String(c[p] == null ? '' : c[p]).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 300); if (v) o[p] = v; }
+          return Object.keys(o).length ? { captions: o } : {}; })(),
         ...(() => { if (!Array.isArray(s.fields)) return {}; const KEYS = ['code', 'fiber', 'gsm', 'finish', 'origin', 'tags', 'year', 'description', 'recipes'], Z = ['l', 'r', 'w', 'b'], seen = new Set(), out = [];
           const ml = v => str(String(v == null ? '' : v).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 2000);
           for (const f of s.fields.slice(0, 60)) { if (!f || typeof f !== 'object') continue; const zone = Z.includes(f.zone) ? f.zone : 'r', hidden = f.hidden === true;
