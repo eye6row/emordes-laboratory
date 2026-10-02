@@ -72,6 +72,13 @@ function clean(input) {
           let rs = Array.isArray(s.recipes) ? s.recipes : (Array.isArray(s.recipe) && s.recipe.length ? [{ title: 'Recipe', rows: s.recipe }] : []);
           return rs.slice(0, 12).map(x => ({ title: str(x && x.title, 120), rows: rows(x && x.rows) })).filter(x => x.title || x.rows.length); })(),
         image, images,
+        ...(() => { if (!Array.isArray(s.fields)) return {}; const KEYS = ['code', 'fiber', 'gsm', 'finish', 'origin', 'tags', 'year', 'description', 'recipes'], Z = ['l', 'r', 'w', 'b'], seen = new Set(), out = [];
+          const ml = v => str(String(v == null ? '' : v).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 2000);
+          for (const f of s.fields.slice(0, 60)) { if (!f || typeof f !== 'object') continue; const zone = Z.includes(f.zone) ? f.zone : 'r', hidden = f.hidden === true;
+            if (f.key != null) { const k = String(f.key); if (!KEYS.includes(k) || seen.has(k)) continue; seen.add(k); const o = { key: k, zone }; const l = str(f.label, 60); if (l) o.label = l; if (hidden) o.hidden = true; out.push(o); }
+            else { const o = { label: str(f.label, 60), value: ml(f.value), zone }; if (hidden) o.hidden = true; if (o.label || o.value) out.push(o); } }
+          if (out.filter(f => !f.key).length > 40) throw new Error('too many custom fields (max 40)');
+          return out.length ? { fields: out } : {}; })(),
         ...(() => { const c = s.crop; if (!c || typeof c !== 'object' || !image) return {}; const n = (v, lo, hi, d) => { v = Number(v); return Number.isFinite(v) ? Math.round(Math.max(lo, Math.min(hi, v)) * 100) / 100 : d; };
           const o = { x: n(c.x, 0, 100, 50), y: n(c.y, 0, 100, 50), zoom: n(c.zoom, 1, 3, 1) }; return (o.x === 50 && o.y === 50 && o.zoom === 1) ? {} : { crop: o }; })()
       };

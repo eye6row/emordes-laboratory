@@ -1,6 +1,11 @@
 const para=v=>String(v||'').replace(/\r\n?/g,'\n').trim().split(/\n\s*\n/).map(b=>'<p>'+esc(b).replace(/\n/g,'<br>')+'</p>').join('');
 let S=[];
-const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),imgs:(x.images&&x.images.length?x.images:x.image?[x.image]:[]).map(u)})).map(s=>(s.img=s.imgs[0]||'',s));
+const DEF=[['code','Code','l'],['fiber','Fiber','l'],['gsm','Weight','l'],['finish','Finish','l'],['origin','Origin','r'],['tags','Tags','r'],['year','Year','r'],['description','Description','r'],['recipes','Recipes','w']],ZONES=['l','r','w','b'];
+function lay(x){const out=[],seen=new Set();(Array.isArray(x.fields)?x.fields:[]).forEach(f=>{if(!f||typeof f!=='object')return;const z=ZONES.includes(f.zone)?f.zone:null;
+ if(f.key){const d=DEF.find(d=>d[0]===f.key);if(!d||seen.has(f.key))return;seen.add(f.key);out.push({key:f.key,label:f.label||d[1],zone:z||d[2],hidden:!!f.hidden})}
+ else out.push({label:f.label||'',value:f.value||'',zone:z||'r',hidden:!!f.hidden})});
+ DEF.forEach(d=>{if(!seen.has(d[0]))out.push({key:d[0],label:d[1],zone:d[2],hidden:false})});return out}
+const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),L:lay(x),imgs:(x.images&&x.images.length?x.images:x.image?[x.image]:[]).map(u)})).map(s=>(s.img=s.imgs[0]||'',s));
 const u=p=>/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):p;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -42,7 +47,13 @@ $$('[data-home]').forEach(a=>a.onclick=e=>{e.preventDefault();closePanel(false);
 let cur=-1,detFocus=null;const det=$('#detail');
 function showDetail(i,from){const N=S.length;cur=(i+N)%N;const s=S[cur];if(det.hidden){detFocus=from||document.activeElement}
 $('#d-title').innerHTML=`<span>${esc(s.code)}</span>${esc(s.t)}`;
-$('#d-meta').innerHTML=`<dl>${[['Code',s.code],['Fiber',s.f],['Weight',s.g+' GSM'],['Finish',s.fi]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl><dl>${[['Origin',s.o],['Tags',s.tags.join(', ')],['Year',s.y],['Description',s.d]].map(([k,v])=>`<dt>${k}</dt><dd${k==='Description'?' class="desc"':''}>${k==='Description'?para(v):esc(v)}</dd>`).join('')}</dl>${s.r.map(q=>`<dl>${(q.rows.length?q.rows:[{i:'',a:''}]).map((r,j)=>`<dt>${j?'':esc(q.title)}</dt><dd>${esc((r.i+' '+r.a).trim())}</dd>`).join('')}</dl>`).join('')}`;
+const V=f=>({code:s.code,fiber:s.f,gsm:s.g+' GSM',finish:s.fi,origin:s.o,tags:s.tags.join(', '),year:s.y})[f.key];
+const zone=z=>{let h='',row='';const flush=()=>{if(row)h+=`<dl>${row}</dl>`;row=''};
+ s.L.filter(f=>!f.hidden&&f.zone===z).forEach(f=>{if(f.key==='recipes'){flush();h+=s.r.map(q=>`<dl>${(q.rows.length?q.rows:[{i:'',a:''}]).map((r,j)=>`<dt>${j?'':esc(q.title)}</dt><dd>${esc((r.i+' '+r.a).trim())}</dd>`).join('')}</dl>`).join('')}
+  else if(f.key==='description'||!f.key)row+=`<dt>${esc(f.label)}</dt><dd class="desc">${para(f.key?s.d:f.value)}</dd>`;else row+=`<dt>${esc(f.label)}</dt><dd>${esc(V(f))}</dd>`});flush();return h};
+const zl=zone('l'),zr=zone('r'),zw=zone('w'),zb=zone('b');
+$('#d-meta').innerHTML=(zl||zr?`<div class="dcol">${zl}</div><div class="dcol">${zr}</div>`:'')+(zw?`<div class="dwide">${zw}</div>`:'');
+$('#d-below').innerHTML=zb?`<div class="dwide">${zb}</div>`:'';$('#d-below').hidden=!zb;
 const G=$('#d-imgs'),n=s.imgs.length;G.dataset.n=n>3?'many':Math.max(n,1);
 G.innerHTML=n?s.imgs.map((src,j)=>`<button class="dshot" data-j="${j}" aria-label="Enlarge photo ${j+1} of ${n}">${img(s,cur,n>1?' / '+(j+1):'',src)}</button>`).join(''):img(s,cur,'','');
 if(det.hidden){closePanel(false);det.hidden=false;document.body.classList.add('lock');requestAnimationFrame(()=>det.classList.add('in'))}

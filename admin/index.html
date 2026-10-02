@@ -47,6 +47,19 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 .add{justify-self:start;color:var(--mut);padding:4px 0}.add:hover{color:var(--ink)}
 .del{color:var(--bad)}
 .dirty{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--bad);margin-right:6px;vertical-align:middle}
+/* fields */
+.flds{display:grid;gap:8px}.fr{display:grid;grid-template-columns:18px 1fr;gap:8px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.fr.off{opacity:.5}.fr.drag{opacity:.3}.fr.over{outline:1.5px solid var(--ink);outline-offset:2px}
+.hd{cursor:grab;color:var(--mut);letter-spacing:-2px;padding-top:9px;user-select:none}
+.fm{display:grid;gap:6px;min-width:0}.ft{display:flex;gap:8px;align-items:center}.fl{font-weight:600}.fl:disabled{opacity:.7}
+.tag{color:var(--mut);font-size:10px;text-transform:uppercase;letter-spacing:.06em}.tag.c{color:var(--ok)}
+.fv.mut{color:var(--mut);padding:2px 0}.fvi{min-height:0}
+.fc{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.fc select{border:1px solid var(--line);border-radius:10px;padding:6px 8px;background:var(--bg);font:inherit;color:inherit}
+.fc .mvb{width:28px;height:28px}.hz{display:flex;gap:5px;align-items:center;color:var(--mut);margin-right:auto}.hz input{width:auto}
+.pv{margin-top:10px;padding:12px;border-radius:12px;background:var(--bg2);color:var(--mut)}.pv b{font-weight:500;color:var(--ink)}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}.pg>div{border:1px dashed var(--line);border-radius:8px;padding:6px 8px;display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.pg small{width:100%;font-size:9px;text-transform:uppercase;letter-spacing:.06em}.pg i{font-style:normal;background:var(--bg);color:var(--ink);border-radius:99px;padding:2px 8px}.pg em{font-style:normal;opacity:.6}
+.pw{grid-column:1/-1}.ph2{justify-content:center;min-height:34px;background:var(--line)}
 /* gallery */
 .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .g{position:relative;aspect-ratio:1;border-radius:14px;background:var(--bg2) center/cover;border:1px solid var(--line);cursor:grab;overflow:hidden}
@@ -118,7 +131,14 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const norm=a=>a.map(s=>({...s,recipes:(Array.isArray(s.recipes)?s.recipes:(s.recipe&&s.recipe.length?[{title:'Recipe',rows:s.recipe}]:[])).map(q=>({title:q.title||'',rows:(q.rows||[]).map(r=>({ingredient:r.ingredient??r.item??'',amount:r.amount||''}))})),recipe:undefined,images:s.images&&s.images.length?[...s.images]:s.image?[s.image]:[]}));
+const DEF=[['code','Code','l'],['fiber','Fiber','l'],['gsm','Weight','l'],['finish','Finish','l'],['origin','Origin','r'],['tags','Tags','r'],['year','Year','r'],['description','Description','r'],['recipes','Recipes','w']],ZN=[['l','Meta, left column'],['r','Meta, right column'],['w','Meta, full row'],['b','Below photos']];
+function lay(x){const out=[],seen=new Set();(Array.isArray(x.fields)?x.fields:[]).forEach(f=>{if(!f||typeof f!=='object')return;const z=ZN.some(q=>q[0]===f.zone)?f.zone:null;
+ if(f.key){const d=DEF.find(d=>d[0]===f.key);if(!d||seen.has(f.key))return;seen.add(f.key);out.push({key:f.key,label:f.label||d[1],zone:z||d[2],hidden:!!f.hidden})}
+ else out.push({label:f.label||'',value:f.value||'',zone:z||'r',hidden:!!f.hidden})});
+ DEF.forEach(d=>{if(!seen.has(d[0]))out.push({key:d[0],label:d[1],zone:d[2],hidden:false})});return out}
+const pack=a=>a.map(s=>{const f=s.fields.map(x=>{const d=x.key&&DEF.find(d=>d[0]===x.key),o=x.key?{key:x.key,zone:x.zone}:{label:x.label,value:x.value,zone:x.zone};if(d&&x.label.trim()&&x.label.trim()!==d[1])o.label=x.label.trim();if(x.hidden)o.hidden=true;return o});
+ const isDef=f.every((x,i)=>x.key===DEF[i]?.[0]&&x.zone===DEF[i][2]&&!x.label&&!x.hidden)&&f.length===DEF.length;const o={...s};if(isDef)delete o.fields;else o.fields=f;return o});
+const norm=a=>a.map(s=>({...s,fields:lay(s),recipes:(Array.isArray(s.recipes)?s.recipes:(s.recipe&&s.recipe.length?[{title:'Recipe',rows:s.recipe}]:[])).map(q=>({title:q.title||'',rows:(q.rows||[]).map(r=>({ingredient:r.ingredient??r.item??'',amount:r.amount||''}))})),recipe:undefined,images:s.images&&s.images.length?[...s.images]:s.image?[s.image]:[]}));
 let D=[],sha=null,sel=0,dirty=false,busy=false;
 const src=p=>!p?'':/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):'/'+p;
 let mt;function status(t,c=''){const s=$('#status');s.textContent=t;s.className=c;const m=$('#mstat');m.textContent=t;clearTimeout(mt);if(!/Unsaved|…/.test(t))mt=setTimeout(()=>m.textContent=dirty?'Unsaved changes':'',3000)}
@@ -144,19 +164,21 @@ $('#items').onkeydown=e=>{if(e.key==='Enter'&&e.target.classList.contains('item'
 $('#addS').onclick=()=>{const max=D.reduce((m,s)=>Math.max(m,parseInt(s.n)||0),0);
  D.push({n:String(max+1).padStart(3,'0'),title:'New Sample',fiber:'',gsm:0,finish:'',origin:'',tags:[],description:'',year:String(new Date().getFullYear()),recipes:[],image:'',images:[]});sel=D.length-1;setDirty();list();edit()};
 
-const F=[['n','No.','text'],['title','Title','text'],['fiber','Fiber','text'],['gsm','Weight (GSM)','number'],['finish','Finish','text'],['origin','Origin','text'],['tags','Tags (comma separated)','text'],['year','Year','text']];
+const F=[['n','No.','text'],['title','Title','text']];
 function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--mut)">No samples. Add one.</p>';return}
  $('#ed').innerHTML=`<div class="top"><h2><span>EML-${esc(s.n)}</span>${esc(s.title)}</h2><button class="pill del" id="delS">Delete sample</button></div>
  <div class="cols"><div><div class="photo${s.images[0]?' has':''}" id="ph" style="${s.images[0]?`background-image:url('${esc(src(s.images[0]))}')`:''}">${s.images[0]?'':'No photos'}
   <label>Add photos<input type="file" id="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label></div>
   ${s.images[0]?`<button class="pill cropbtn" id="cropB">Crop cover${s.crop?' (custom)':''}</button>`:''}<div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p></div>
  <div class="fields">${F.map(([k,l,t])=>`<label class="f${k==='title'||k==='tags'?' w':''}"><span>${l}</span><input data-k="${k}" type="${t}" ${t==='number'?'inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}"></label>`).join('')}
-  <label class="f w"><span>Description</span><textarea data-k="description" rows="8" maxlength="4000">${esc(s.description)}</textarea></label>
+  <div class="f w"><span>Fields &amp; placement on the sample page. Drag or use ↑↓ to reorder, pick where each shows.</span><div class="flds" id="flds"></div><button class="add" id="addF">+ Add field</button>
+   <div class="pv" id="pv" aria-hidden="true"></div></div>
   <div class="f w"><span>Recipes (optional, show on the sample page)</span><div class="recs" id="rec"></div><button class="add" id="addR">+ Add recipe</button></div>
  </div></div>`;
- rec();
+ rec();flds();
  $('#ed').querySelectorAll('[data-k]').forEach(el=>el.oninput=()=>{const k=el.dataset.k;s[k]=k==='tags'?el.value.split(',').map(t=>t.trim()).filter(Boolean):k==='gsm'?Number(el.value)||0:el.value;setDirty();
   if(k==='title'||k==='n'){$('#ed h2').innerHTML=`<span>EML-${esc(s.n)}</span>${esc(s.title)}`;const it=$(`.item[data-i="${sel}"]`);it.querySelector('b').textContent=s.title;it.querySelector('small').textContent='EML-'+s.n}});
+ $('#addF').onclick=()=>{if(s.fields.filter(f=>!f.key).length>=40)return alert('Max 40 custom fields');s.fields.push({label:'',value:'',zone:'r',hidden:false});setDirty();flds();$('#flds .fr:last-child .fl').focus()};
  $('#delS').onclick=()=>{if(!confirm(`Delete EML-${s.n} ${s.title}? (Takes effect when you Save)`))return;D.splice(sel,1);sel=Math.max(0,sel-1);setDirty();list();edit()};
  $('#addR').onclick=()=>{s.recipes.push({title:'',rows:[{ingredient:'',amount:''}]});setDirty();rec();$('#rec .rb:last-child .rt').focus()};
  $('#file').onchange=e=>upload([...e.target.files]);if($('#cropB'))$('#cropB').onclick=crop;gal()}
@@ -170,6 +192,31 @@ function gal(){const s=D[sel],g=$('#gal');
   el.ondragover=e=>{e.preventDefault();el.classList.add('over')};el.ondragleave=()=>el.classList.remove('over');
   el.ondrop=e=>{e.preventDefault();if(from!=null)mv(from,+el.dataset.j);from=null}})}
 function changed(){const s=D[sel];if((s.images[0]||'')!==s.image)delete s.crop;s.image=s.images[0]||'';setDirty();list();edit()}
+function flds(){const s=D[sel],L=s.fields,n=L.length,box=$('#flds');
+ const val=f=>{const k=f.key;if(k==='code')return `<span class="fv mut">EML-${esc(s.n)} (from No.)</span>`;if(k==='recipes')return `<span class="fv mut">${s.recipes.length} recipe${s.recipes.length==1?'':'s'}, edit below. Recipe titles are used as labels.</span>`;
+  if(k==='description')return `<textarea class="fvi" data-v="description" rows="6" maxlength="4000" aria-label="Description">${esc(s.description)}</textarea>`;
+  if(!k)return `<textarea class="fvi" data-v="" rows="2" maxlength="2000" placeholder="Value" aria-label="Value">${esc(f.value)}</textarea>`;
+  return `<input class="fvi" data-v="${k}" ${k==='gsm'?'type="number" inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}" placeholder="${k==='tags'?'comma separated':''}" aria-label="${esc(f.label)} value">`};
+ box.innerHTML=L.map((f,i)=>`<div class="fr${f.hidden?' off':''}" data-i="${i}" draggable="true"><span class="hd" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
+  <div class="fm"><div class="ft"><input class="fl" value="${esc(f.label)}" ${f.key==='recipes'?'disabled':''} maxlength="60" placeholder="${f.key?esc(DEF.find(d=>d[0]===f.key)[1]):'Label'}" aria-label="Field label">${f.key?'<small class="tag">default</small>':'<small class="tag c">custom</small>'}</div>${val(f)}
+  <div class="fc"><select class="fz" aria-label="Placement">${ZN.map(([z,l])=>`<option value="${z}"${z===f.zone?' selected':''}>${l}</option>`).join('')}</select>
+  <label class="hz"><input type="checkbox" class="fh" ${f.hidden?'':'checked'}> Show</label>
+  <button class="mvb" data-m="-1" ${i?'':'disabled'} aria-label="Move up">↑</button><button class="mvb" data-m="1" ${i<n-1?'':'disabled'} aria-label="Move down">↓</button>${f.key?'':'<button class="x fdel" aria-label="Delete field">✕</button>'}</div></div></div>`).join('');
+ const mv=(a,b)=>{if(b<0||b>=n||a===b)return;const [x]=L.splice(a,1);L.splice(b,0,x);setDirty();flds()};
+ box.querySelectorAll('.fr').forEach(r=>{const i=+r.dataset.i,f=L[i];
+  r.querySelector('.fl').oninput=e=>{f.label=e.target.value;setDirty();pv()};
+  const v=r.querySelector('.fvi');if(v)v.oninput=()=>{const k=v.dataset.v;if(!k)f.value=v.value;else s[k]=k==='tags'?v.value.split(',').map(t=>t.trim()).filter(Boolean):k==='gsm'?Number(v.value)||0:v.value;setDirty()};
+  r.querySelector('.fz').onchange=e=>{f.zone=e.target.value;setDirty();pv()};
+  r.querySelector('.fh').onchange=e=>{f.hidden=!e.target.checked;r.classList.toggle('off',f.hidden);setDirty();pv()};
+  r.querySelectorAll('.mvb').forEach(b=>b.onclick=()=>mv(i,i+ +b.dataset.m));
+  const d=r.querySelector('.fdel');if(d)d.onclick=()=>{if((f.label||f.value)&&!confirm('Delete field "'+(f.label||'Untitled')+'"?'))return;L.splice(i,1);setDirty();flds()};
+  r.ondragstart=e=>{if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)){e.preventDefault();return}box.dataset.from=i;r.classList.add('drag');e.dataTransfer.effectAllowed='move'};
+  r.ondragend=()=>{r.classList.remove('drag');box.querySelectorAll('.over').forEach(o=>o.classList.remove('over'))};
+  r.ondragover=e=>{e.preventDefault();r.classList.add('over')};r.ondragleave=()=>r.classList.remove('over');
+  r.ondrop=e=>{e.preventDefault();const a=+box.dataset.from;if(!isNaN(a))mv(a,i);delete box.dataset.from}});
+ pv()}
+function pv(){const L=D[sel].fields,b=z=>L.filter(f=>!f.hidden&&f.zone===z).map(f=>`<i>${esc(f.label||'Untitled')}</i>`).join('')||'<em>empty</em>';
+ $('#pv').innerHTML=`<b>Preview of layout</b><div class="pg"><div><small>Left</small>${b('l')}</div><div><small>Right</small>${b('r')}</div><div class="pw"><small>Full row</small>${b('w')}</div><div class="pw ph2">Photos</div><div class="pw"><small>Below photos</small>${b('b')}</div></div>`}
 function rec(){const s=D[sel],R=s.recipes,n=R.length;$('#rec').innerHTML=R.map((q,k)=>`<div class="rb" data-k="${k}"><div class="rh"><input class="rt" placeholder="Recipe title" value="${esc(q.title)}" aria-label="Recipe title"><button class="mvb" data-m="-1" ${k?'':'disabled'} aria-label="Move recipe up">↑</button><button class="mvb" data-m="1" ${k<n-1?'':'disabled'} aria-label="Move recipe down">↓</button><button class="x rdel" aria-label="Delete recipe">✕</button></div><div class="rec">${q.rows.map((r,j)=>`<div class="rrow" data-j="${j}"><input data-r="ingredient" placeholder="Ingredient" value="${esc(r.ingredient)}" aria-label="Ingredient"><input data-r="amount" placeholder="Amount" value="${esc(r.amount)}" aria-label="Amount"><button class="x" aria-label="Remove ingredient">✕</button></div>`).join('')}</div><button class="add addI">+ Add ingredient</button></div>`).join('');
  $('#rec').querySelectorAll('.rb').forEach(b=>{const k=+b.dataset.k,q=R[k];b.querySelector('.rt').oninput=e=>{q.title=e.target.value;setDirty()};
   b.querySelectorAll('.mvb').forEach(m=>m.onclick=()=>{const t=k+ +m.dataset.m;[R[k],R[t]]=[R[t],R[k]];setDirty();rec()});
@@ -216,7 +263,7 @@ async function upload(files){if(!files.length)return;const s=D[sel];busy=true;$(
  catch(e){busy=false;if(done){s.image=s.images[0];setDirty();list();edit()}else setDirty(dirty);status(e.message,'bad')}}
 
 $('#save').onclick=async()=>{busy=true;$('#save').disabled=true;status('Saving…');
- try{const j=await api('save',{samples:D,sha});sha=j.sha;D=norm(j.data.samples);busy=false;setDirty(false);status('Saved, live in a few seconds','ok');list();edit()}
+ try{const j=await api('save',{samples:pack(D),sha});sha=j.sha;D=norm(j.data.samples);busy=false;setDirty(false);status('Saved, live in a few seconds','ok');list();edit()}
  catch(e){busy=false;$('#save').disabled=false;status(e.message,'bad')}};
 addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
 boot();
