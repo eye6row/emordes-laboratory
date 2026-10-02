@@ -57,7 +57,52 @@
         "x": 17.16,
         "y": 47.32,
         "zoom": 1.2
-      }
+      },
+      "fields": [
+        {
+          "key": "code",
+          "zone": "l"
+        },
+        {
+          "key": "fiber",
+          "zone": "b",
+          "label": "Fibre"
+        },
+        {
+          "key": "gsm",
+          "zone": "l"
+        },
+        {
+          "key": "finish",
+          "zone": "l"
+        },
+        {
+          "label": "Dye source",
+          "value": "Spirulina powder\nfrom local co-op",
+          "zone": "r"
+        },
+        {
+          "key": "origin",
+          "zone": "r"
+        },
+        {
+          "key": "tags",
+          "zone": "r"
+        },
+        {
+          "key": "year",
+          "zone": "r",
+          "hidden": true
+        },
+        {
+          "key": "description",
+          "zone": "r"
+        },
+        {
+          "key": "recipes",
+          "zone": "b"
+        }
+      ]
     },
     {
       "n": "001",
