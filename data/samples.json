@@ -1,4 +1,8 @@
 {
+  "categories": [
+    "Biomaterials",
+    "Woven Textiles"
+  ],
   "samples": [
     {
       "n": "010",
@@ -57,7 +61,8 @@
         "x": 17.16,
         "y": 47.32,
         "zoom": 1.2
-      }
+      },
+      "category": "Biomaterials"
     },
     {
       "n": "001",
@@ -76,7 +81,8 @@
       "image": "images/sample-01.jpg",
       "images": [
         "images/sample-01.jpg"
-      ]
+      ],
+      "category": "Woven Textiles"
     },
     {
       "n": "002",
@@ -133,7 +139,8 @@
       "image": "images/sample-04.jpg",
       "images": [
         "images/sample-04.jpg"
-      ]
+      ],
+      "category": "Biomaterials"
     },
     {
       "n": "005",
@@ -190,7 +197,8 @@
       "image": "images/sample-07.jpg",
       "images": [
         "images/sample-07.jpg"
-      ]
+      ],
+      "category": "Woven Textiles"
     },
     {
       "n": "008",
@@ -247,7 +255,8 @@
       "image": "images/sample-11.jpg",
       "images": [
         "images/sample-11.jpg"
-      ]
+      ],
+      "category": "Woven Textiles"
     },
     {
       "n": "012",
