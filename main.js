@@ -1,5 +1,5 @@
 let S=[];
-const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),imgs:(x.images&&x.images.length?x.images:x.image?[x.image]:[]).map(u)})).map(s=>(s.img=s.imgs[0]||'',s));
+const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),imgs:(x.images&&x.images.length?x.images:x.image?[x.image]:[]).map(u)})).map(s=>(s.img=s.imgs[0]||'',s));
 const u=p=>/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):p;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -11,10 +11,11 @@ const ARROW='<svg class="dm" viewBox="0 0 13 13" aria-hidden="true">'+[[0,0],[0,
 // placeholder: woven pattern seeded per sample
 function ph(i){const hue=[30,48,40,25,200,52,18,0,35,150,10,330][i%12],sat=i===7?0:i===4?20:28;
 return `style="--h:${hue};--s:${sat}%;--a:${(i*37)%90}deg"`}
-const img=(s,i,k='',src=s.img)=>`<div class="ph-img" ${ph(i)}><span>${s.code}${k}</span><img src="${esc(src)}" alt="${esc(s.t)} sample${k}" loading="lazy" onerror="this.remove()"></div>`;
+const cst=c=>{if(!c)return '';const n=(v,a,b,d)=>{v=+v;return isFinite(v)?Math.max(a,Math.min(b,v)):d},x=n(c.x,0,100,50),y=n(c.y,0,100,50),z=n(c.zoom,1,3,1);return ` style="object-position:${x}% ${y}%;transform-origin:${x}% ${y}%;transform:scale(${z})"`};
+const img=(s,i,k='',src=s.img,cr='')=>`<div class="ph-img" ${ph(i)}><span>${s.code}${k}</span><img src="${esc(src)}" alt="${esc(s.t)} sample${k}" loading="lazy"${cr} onerror="this.remove()"></div>`;
 
 function render(){const N=S.length;$('#count').textContent=N+' Specimens / Placeholder data';$('#shown').textContent=N+' / '+N;
-$('#grid').innerHTML=S.map((s,i)=>`<li class="card" data-i="${i}" data-tags="${esc(s.tags.join(' '))}" style="--d:${i*40}ms"><button aria-label="Open ${esc(s.t)}, ${s.code}">${img(s,i)}<span class="ov"><span class="ot"><b>${esc(s.t)}</b><small>${esc(s.code)} / ${esc(s.tags[0])}</small></span>${ARROW}</span></button><div class="cap"><span>${esc(s.code)}</span><span>${esc(s.t)}</span><span>${esc(s.g)} gsm</span></div></li>`).join('');
+$('#grid').innerHTML=S.map((s,i)=>`<li class="card" data-i="${i}" data-tags="${esc(s.tags.join(' '))}" style="--d:${i*40}ms"><button aria-label="Open ${esc(s.t)}, ${s.code}">${img(s,i,'',s.img,cst(s.c))}<span class="ov"><span class="ot"><b>${esc(s.t)}</b><small>${esc(s.code)} / ${esc(s.tags[0])}</small></span>${ARROW}</span></button><div class="cap"><span>${esc(s.code)}</span><span>${esc(s.t)}</span><span>${esc(s.g)} gsm</span></div></li>`).join('');
 $('#idx').innerHTML=S.map((s,i)=>`<tr data-i="${i}" data-tags="${esc(s.tags.join(' '))}"><td>${esc(s.n)}</td><td><button>${esc(s.t)}</button></td><td>${esc(s.tags[0])}</td><td>${esc(s.y)}</td></tr>`).join('');
 $('#picks').innerHTML=S.map(s=>`<label><input type="checkbox" name="s" value="${esc(s.code)} ${esc(s.t)}"><span>${esc(s.code)}</span> ${esc(s.t)}</label>`).join('');}
 

@@ -56,6 +56,16 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 .g .gb button{width:24px;height:24px;border-radius:99px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:11px;line-height:1}
 .g .gb button:hover{background:#fff}.g .gb .x:hover{color:var(--bad)}
 .ghint{color:var(--mut);margin-top:8px}
+/* crop */
+.cropbtn{margin-top:10px;width:100%}
+.cm{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(17,17,17,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.cbox{width:min(420px,100%);display:grid;gap:14px;padding:18px;border-radius:var(--r);background:#fff;border:1px solid var(--line)}
+.cbox h3{font-size:12px;font-weight:700;letter-spacing:.04em}.cbox p{color:var(--mut)}
+.cv2{position:relative;aspect-ratio:1;border-radius:var(--r);overflow:hidden;background:var(--bg2);cursor:grab;touch-action:none;user-select:none}
+.cv2.on{cursor:grabbing}.cv2 img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;-webkit-user-drag:none}
+.cv2::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent 33.2%,rgba(255,255,255,.5) 33.3%,transparent 33.5%,transparent 66.5%,rgba(255,255,255,.5) 66.6%,transparent 66.8%),linear-gradient(transparent 33.2%,rgba(255,255,255,.5) 33.3%,transparent 33.5%,transparent 66.5%,rgba(255,255,255,.5) 66.6%,transparent 66.8%)}
+.zr{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;color:var(--mut)}.zr input{padding:0;accent-color:var(--ink)}
+.cacts{display:flex;justify-content:space-between;gap:8px}.cacts div{display:flex;gap:8px}
 @media (max-width:760px){
  .bar{padding:0 14px}.brand span{display:none}#status{display:none}
  .app{grid-template-columns:1fr}.list{position:static;height:auto;max-height:42svh;border-right:0;border-bottom:1px solid var(--line)}
@@ -124,7 +134,7 @@ function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--
  $('#ed').innerHTML=`<div class="top"><h2><span>EML-${esc(s.n)}</span>${esc(s.title)}</h2><button class="pill del" id="delS">Delete sample</button></div>
  <div class="cols"><div><div class="photo${s.images[0]?' has':''}" id="ph" style="${s.images[0]?`background-image:url('${esc(src(s.images[0]))}')`:''}">${s.images[0]?'':'No photos'}
   <label>Add photos<input type="file" id="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label></div>
-  <div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p></div>
+  ${s.images[0]?`<button class="pill cropbtn" id="cropB">Crop cover${s.crop?' (custom)':''}</button>`:''}<div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p></div>
  <div class="fields">${F.map(([k,l,t])=>`<label class="f${k==='title'||k==='tags'?' w':''}"><span>${l}</span><input data-k="${k}" type="${t}" ${t==='number'?'inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}"></label>`).join('')}
   <label class="f w"><span>Description</span><textarea data-k="description">${esc(s.description)}</textarea></label>
   <div class="f w"><span>Recipes (optional, show on the sample page)</span><div class="recs" id="rec"></div><button class="add" id="addR">+ Add recipe</button></div>
@@ -134,7 +144,7 @@ function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--
   if(k==='title'||k==='n'){$('#ed h2').innerHTML=`<span>EML-${esc(s.n)}</span>${esc(s.title)}`;const it=$(`.item[data-i="${sel}"]`);it.querySelector('b').textContent=s.title;it.querySelector('small').textContent='EML-'+s.n}});
  $('#delS').onclick=()=>{if(!confirm(`Delete EML-${s.n} ${s.title}? (Takes effect when you Save)`))return;D.splice(sel,1);sel=Math.max(0,sel-1);setDirty();list();edit()};
  $('#addR').onclick=()=>{s.recipes.push({title:'',rows:[{ingredient:'',amount:''}]});setDirty();rec();$('#rec .rb:last-child .rt').focus()};
- $('#file').onchange=e=>upload([...e.target.files]);gal()}
+ $('#file').onchange=e=>upload([...e.target.files]);if($('#cropB'))$('#cropB').onclick=crop;gal()}
 function gal(){const s=D[sel],g=$('#gal');
  g.innerHTML=s.images.map((p,j)=>`<div class="g" draggable="true" data-j="${j}" style="background-image:url('${esc(src(p))}')">${j?'':'<span class="cv">COVER</span>'}<span class="gb"><button data-a="l" aria-label="Move photo ${j+1} earlier">←</button>${j?`<button data-a="c" aria-label="Make photo ${j+1} the cover">★</button>`:''}<button data-a="r" aria-label="Move photo ${j+1} later">→</button><button class="x" data-a="x" aria-label="Remove photo ${j+1}">✕</button></span></div>`).join('');
  const mv=(a,b)=>{if(b<0||b>=s.images.length||a===b)return;const [x]=s.images.splice(a,1);s.images.splice(b,0,x);changed()};
@@ -144,7 +154,7 @@ function gal(){const s=D[sel],g=$('#gal');
   el.ondragend=()=>{el.classList.remove('drag');g.querySelectorAll('.over').forEach(o=>o.classList.remove('over'))};
   el.ondragover=e=>{e.preventDefault();el.classList.add('over')};el.ondragleave=()=>el.classList.remove('over');
   el.ondrop=e=>{e.preventDefault();if(from!=null)mv(from,+el.dataset.j);from=null}})}
-function changed(){const s=D[sel];s.image=s.images[0]||'';setDirty();list();edit()}
+function changed(){const s=D[sel];if((s.images[0]||'')!==s.image)delete s.crop;s.image=s.images[0]||'';setDirty();list();edit()}
 function rec(){const s=D[sel],R=s.recipes,n=R.length;$('#rec').innerHTML=R.map((q,k)=>`<div class="rb" data-k="${k}"><div class="rh"><input class="rt" placeholder="Recipe title" value="${esc(q.title)}" aria-label="Recipe title"><button class="mvb" data-m="-1" ${k?'':'disabled'} aria-label="Move recipe up">↑</button><button class="mvb" data-m="1" ${k<n-1?'':'disabled'} aria-label="Move recipe down">↓</button><button class="x rdel" aria-label="Delete recipe">✕</button></div><div class="rec">${q.rows.map((r,j)=>`<div class="rrow" data-j="${j}"><input data-r="ingredient" placeholder="Ingredient" value="${esc(r.ingredient)}" aria-label="Ingredient"><input data-r="amount" placeholder="Amount" value="${esc(r.amount)}" aria-label="Amount"><button class="x" aria-label="Remove ingredient">✕</button></div>`).join('')}</div><button class="add addI">+ Add ingredient</button></div>`).join('');
  $('#rec').querySelectorAll('.rb').forEach(b=>{const k=+b.dataset.k,q=R[k];b.querySelector('.rt').oninput=e=>{q.title=e.target.value;setDirty()};
   b.querySelectorAll('.mvb').forEach(m=>m.onclick=()=>{const t=k+ +m.dataset.m;[R[k],R[t]]=[R[t],R[k]];setDirty();rec()});
@@ -152,6 +162,29 @@ function rec(){const s=D[sel],R=s.recipes,n=R.length;$('#rec').innerHTML=R.map((
   b.querySelector('.addI').onclick=()=>{q.rows.push({ingredient:'',amount:''});setDirty();rec();$(`#rec .rb[data-k="${k}"] .rrow:last-child input`).focus()};
   b.querySelectorAll('.rrow').forEach(row=>{const j=+row.dataset.j;row.querySelectorAll('input').forEach(i=>i.oninput=()=>{q.rows[j][i.dataset.r]=i.value;setDirty()});row.querySelector('.x').onclick=()=>{q.rows.splice(j,1);setDirty();rec()}})})}
 
+function crop(){const s=D[sel],c0=s.crop||{x:50,y:50,zoom:1};let c={...c0};
+ const m=document.createElement('div');m.className='cm';m.innerHTML=`<div class="cbox" role="dialog" aria-modal="true" aria-label="Crop cover"><h3>Crop cover / EML-${esc(s.n)}</h3><p>Drag to reposition, pinch or slide to zoom. This is exactly how the card looks on the home grid.</p>
+ <div class="cv2" id="cv2"><img src="${esc(src(s.images[0]))}" alt=""></div>
+ <label class="zr"><span>Zoom</span><input type="range" id="cz" min="1" max="3" step="0.01" aria-label="Zoom"><span id="czv"></span></label>
+ <div class="cacts"><button class="pill" id="crs">Reset</button><div><button class="pill" id="ccn">Cancel</button><button class="pill dark" id="cok">Done</button></div></div></div>`;
+ document.body.appendChild(m);const v=m.querySelector('#cv2'),im=v.querySelector('img'),z=m.querySelector('#cz');
+ const cl=(a,lo,hi)=>Math.max(lo,Math.min(hi,a)),r2=a=>Math.round(a*100)/100;
+ const draw=()=>{c.x=r2(cl(c.x,0,100));c.y=r2(cl(c.y,0,100));c.zoom=r2(cl(c.zoom,1,3));im.style.objectPosition=`${c.x}% ${c.y}%`;im.style.transformOrigin=`${c.x}% ${c.y}%`;im.style.transform=`scale(${c.zoom})`;z.value=c.zoom;m.querySelector('#czv').textContent=c.zoom.toFixed(2)+'×'};
+ draw();z.oninput=()=>{c.zoom=+z.value;draw()};
+ // overflow in px for each axis, to map drag px -> focal %
+ const span=()=>{const W=v.clientWidth,H=v.clientHeight,iw=im.naturalWidth||1,ih=im.naturalHeight||1,k=Math.max(W/iw,H/ih);return{ox:Math.max(iw*k-W,0)+W*(c.zoom-1),oy:Math.max(ih*k-H,0)+H*(c.zoom-1),W,H}};
+ const P=new Map();let last=null;
+ v.onpointerdown=e=>{v.setPointerCapture(e.pointerId);P.set(e.pointerId,{x:e.clientX,y:e.clientY});v.classList.add('on');last=null};
+ v.onpointermove=e=>{if(!P.has(e.pointerId))return;const prev=P.get(e.pointerId),cur={x:e.clientX,y:e.clientY};
+  if(P.size===1){const o=span();if(o.ox)c.x-=(cur.x-prev.x)/o.ox*100;if(o.oy)c.y-=(cur.y-prev.y)/o.oy*100}
+  P.set(e.pointerId,cur);if(P.size===2){const [a,b]=[...P.values()],d=Math.hypot(a.x-b.x,a.y-b.y);if(last)c.zoom*=d/last;last=d}draw()};
+ v.onpointerup=v.onpointercancel=e=>{P.delete(e.pointerId);last=null;if(!P.size)v.classList.remove('on')};
+ v.onwheel=e=>{e.preventDefault();c.zoom*=Math.exp(-e.deltaY*.002);draw()};
+ v.tabIndex=0;v.onkeydown=e=>{const k={ArrowLeft:[-2,0],ArrowRight:[2,0],ArrowUp:[0,-2],ArrowDown:[0,2]}[e.key];if(k){e.preventDefault();c.x+=k[0];c.y+=k[1];draw()}};
+ const close=()=>{m.remove();removeEventListener('keydown',esck)},esck=e=>{if(e.key==='Escape')close()};addEventListener('keydown',esck);
+ m.onclick=e=>{if(e.target===m)close()};m.querySelector('#ccn').onclick=close;m.querySelector('#crs').onclick=()=>{c={x:50,y:50,zoom:1};draw()};
+ m.querySelector('#cok').onclick=()=>{const def=c.x===50&&c.y===50&&c.zoom===1;if(JSON.stringify(def?null:c)!==JSON.stringify(s.crop||null)){if(def)delete s.crop;else s.crop={...c};setDirty();edit()}close()};
+ setTimeout(()=>v.focus(),30)}
 async function decode(file){
  try{return await createImageBitmap(file)}catch{}
  try{const u=URL.createObjectURL(file);const im=new Image();im.src=u;await im.decode();return im}catch{}

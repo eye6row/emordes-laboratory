@@ -71,7 +71,9 @@ function clean(input) {
         recipes: (() => { const row = r => ({ ingredient: str(r && (r.ingredient ?? r.item), 120), amount: str(r && r.amount, 120) }); const rows = a => (Array.isArray(a) ? a : []).slice(0, 40).map(row).filter(r => r.ingredient || r.amount);
           let rs = Array.isArray(s.recipes) ? s.recipes : (Array.isArray(s.recipe) && s.recipe.length ? [{ title: 'Recipe', rows: s.recipe }] : []);
           return rs.slice(0, 12).map(x => ({ title: str(x && x.title, 120), rows: rows(x && x.rows) })).filter(x => x.title || x.rows.length); })(),
-        image, images
+        image, images,
+        ...(() => { const c = s.crop; if (!c || typeof c !== 'object' || !image) return {}; const n = (v, lo, hi, d) => { v = Number(v); return Number.isFinite(v) ? Math.round(Math.max(lo, Math.min(hi, v)) * 100) / 100 : d; };
+          const o = { x: n(c.x, 0, 100, 50), y: n(c.y, 0, 100, 50), zoom: n(c.zoom, 1, 3, 1) }; return (o.x === 50 && o.y === 50 && o.zoom === 1) ? {} : { crop: o }; })()
       };
     })
   };
