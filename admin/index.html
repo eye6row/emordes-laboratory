@@ -42,7 +42,7 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 .photo input{position:absolute;width:1px;height:1px;opacity:0}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
 .f{display:grid;gap:5px}.f.w{grid-column:1/-1}.f>span{color:var(--mut)}
-.rec{display:grid;gap:6px}.rrow{display:grid;grid-template-columns:1fr 1fr 28px;gap:6px}
+.recs{display:grid;gap:10px}.rb{display:grid;gap:6px;padding:10px;border:1px solid var(--line);border-radius:12px}.rh{display:grid;grid-template-columns:1fr 26px 26px 28px;gap:6px}.rt{font-weight:600}.mvb{border-radius:8px}.mvb:disabled{opacity:.3}.rec{display:grid;gap:6px}.rrow{display:grid;grid-template-columns:1fr 1fr 28px;gap:6px}
 .x{border-radius:8px;color:var(--mut)}.x:hover{color:var(--bad);background:var(--bg2)}
 .add{justify-self:start;color:var(--mut);padding:4px 0}.add:hover{color:var(--ink)}
 .del{color:var(--bad)}
@@ -93,7 +93,7 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const norm=a=>a.map(s=>({...s,images:s.images&&s.images.length?[...s.images]:s.image?[s.image]:[]}));
+const norm=a=>a.map(s=>({...s,recipes:(Array.isArray(s.recipes)?s.recipes:(s.recipe&&s.recipe.length?[{title:'Recipe',rows:s.recipe}]:[])).map(q=>({title:q.title||'',rows:(q.rows||[]).map(r=>({ingredient:r.ingredient??r.item??'',amount:r.amount||''}))})),recipe:undefined,images:s.images&&s.images.length?[...s.images]:s.image?[s.image]:[]}));
 let D=[],sha=null,sel=0,dirty=false,busy=false;
 const src=p=>!p?'':/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):'/'+p;
 let mt;function status(t,c=''){const s=$('#status');s.textContent=t;s.className=c;const m=$('#mstat');m.textContent=t;clearTimeout(mt);if(!/Unsaved|…/.test(t))mt=setTimeout(()=>m.textContent=dirty?'Unsaved changes':'',3000)}
@@ -117,7 +117,7 @@ $('#items').onclick=e=>{const it=e.target.closest('.item');if(!it)return;const i
  sel=i;list();edit();if(innerWidth<761)$('#ed').scrollIntoView({behavior:'smooth'})};
 $('#items').onkeydown=e=>{if(e.key==='Enter'&&e.target.classList.contains('item'))e.target.click()};
 $('#addS').onclick=()=>{const max=D.reduce((m,s)=>Math.max(m,parseInt(s.n)||0),0);
- D.push({n:String(max+1).padStart(3,'0'),title:'New Sample',fiber:'',gsm:0,finish:'',origin:'',tags:[],description:'',year:String(new Date().getFullYear()),recipe:[],image:'',images:[]});sel=D.length-1;setDirty();list();edit()};
+ D.push({n:String(max+1).padStart(3,'0'),title:'New Sample',fiber:'',gsm:0,finish:'',origin:'',tags:[],description:'',year:String(new Date().getFullYear()),recipes:[],image:'',images:[]});sel=D.length-1;setDirty();list();edit()};
 
 const F=[['n','No.','text'],['title','Title','text'],['fiber','Fiber','text'],['gsm','Weight (GSM)','number'],['finish','Finish','text'],['origin','Origin','text'],['tags','Tags (comma separated)','text'],['year','Year','text']];
 function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--mut)">No samples. Add one.</p>';return}
@@ -127,13 +127,13 @@ function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--
   <div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p></div>
  <div class="fields">${F.map(([k,l,t])=>`<label class="f${k==='title'||k==='tags'?' w':''}"><span>${l}</span><input data-k="${k}" type="${t}" ${t==='number'?'inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}"></label>`).join('')}
   <label class="f w"><span>Description</span><textarea data-k="description">${esc(s.description)}</textarea></label>
-  <div class="f w"><span>Recipe (optional, shows on the sample page)</span><div class="rec" id="rec"></div><button class="add" id="addR">+ Add ingredient</button></div>
+  <div class="f w"><span>Recipes (optional, show on the sample page)</span><div class="recs" id="rec"></div><button class="add" id="addR">+ Add recipe</button></div>
  </div></div>`;
  rec();
  $('#ed').querySelectorAll('[data-k]').forEach(el=>el.oninput=()=>{const k=el.dataset.k;s[k]=k==='tags'?el.value.split(',').map(t=>t.trim()).filter(Boolean):k==='gsm'?Number(el.value)||0:el.value;setDirty();
   if(k==='title'||k==='n'){$('#ed h2').innerHTML=`<span>EML-${esc(s.n)}</span>${esc(s.title)}`;const it=$(`.item[data-i="${sel}"]`);it.querySelector('b').textContent=s.title;it.querySelector('small').textContent='EML-'+s.n}});
  $('#delS').onclick=()=>{if(!confirm(`Delete EML-${s.n} ${s.title}? (Takes effect when you Save)`))return;D.splice(sel,1);sel=Math.max(0,sel-1);setDirty();list();edit()};
- $('#addR').onclick=()=>{s.recipe.push({item:'',amount:''});setDirty();rec();$('#rec .rrow:last-child input').focus()};
+ $('#addR').onclick=()=>{s.recipes.push({title:'',rows:[{ingredient:'',amount:''}]});setDirty();rec();$('#rec .rb:last-child .rt').focus()};
  $('#file').onchange=e=>upload([...e.target.files]);gal()}
 function gal(){const s=D[sel],g=$('#gal');
  g.innerHTML=s.images.map((p,j)=>`<div class="g" draggable="true" data-j="${j}" style="background-image:url('${esc(src(p))}')">${j?'':'<span class="cv">COVER</span>'}<span class="gb"><button data-a="l" aria-label="Move photo ${j+1} earlier">←</button>${j?`<button data-a="c" aria-label="Make photo ${j+1} the cover">★</button>`:''}<button data-a="r" aria-label="Move photo ${j+1} later">→</button><button class="x" data-a="x" aria-label="Remove photo ${j+1}">✕</button></span></div>`).join('');
@@ -145,8 +145,12 @@ function gal(){const s=D[sel],g=$('#gal');
   el.ondragover=e=>{e.preventDefault();el.classList.add('over')};el.ondragleave=()=>el.classList.remove('over');
   el.ondrop=e=>{e.preventDefault();if(from!=null)mv(from,+el.dataset.j);from=null}})}
 function changed(){const s=D[sel];s.image=s.images[0]||'';setDirty();list();edit()}
-function rec(){const s=D[sel];$('#rec').innerHTML=s.recipe.map((r,j)=>`<div class="rrow" data-j="${j}"><input data-r="item" placeholder="Ingredient" value="${esc(r.item)}" aria-label="Ingredient"><input data-r="amount" placeholder="Amount" value="${esc(r.amount)}" aria-label="Amount"><button class="x" aria-label="Remove ingredient">✕</button></div>`).join('');
- $('#rec').querySelectorAll('.rrow').forEach(row=>{const j=+row.dataset.j;row.querySelectorAll('input').forEach(i=>i.oninput=()=>{s.recipe[j][i.dataset.r]=i.value;setDirty()});row.querySelector('.x').onclick=()=>{s.recipe.splice(j,1);setDirty();rec()}})}
+function rec(){const s=D[sel],R=s.recipes,n=R.length;$('#rec').innerHTML=R.map((q,k)=>`<div class="rb" data-k="${k}"><div class="rh"><input class="rt" placeholder="Recipe title" value="${esc(q.title)}" aria-label="Recipe title"><button class="mvb" data-m="-1" ${k?'':'disabled'} aria-label="Move recipe up">↑</button><button class="mvb" data-m="1" ${k<n-1?'':'disabled'} aria-label="Move recipe down">↓</button><button class="x rdel" aria-label="Delete recipe">✕</button></div><div class="rec">${q.rows.map((r,j)=>`<div class="rrow" data-j="${j}"><input data-r="ingredient" placeholder="Ingredient" value="${esc(r.ingredient)}" aria-label="Ingredient"><input data-r="amount" placeholder="Amount" value="${esc(r.amount)}" aria-label="Amount"><button class="x" aria-label="Remove ingredient">✕</button></div>`).join('')}</div><button class="add addI">+ Add ingredient</button></div>`).join('');
+ $('#rec').querySelectorAll('.rb').forEach(b=>{const k=+b.dataset.k,q=R[k];b.querySelector('.rt').oninput=e=>{q.title=e.target.value;setDirty()};
+  b.querySelectorAll('.mvb').forEach(m=>m.onclick=()=>{const t=k+ +m.dataset.m;[R[k],R[t]]=[R[t],R[k]];setDirty();rec()});
+  b.querySelector('.rdel').onclick=()=>{if(confirm('Delete recipe "'+(q.title||'Untitled')+'"?')){R.splice(k,1);setDirty();rec()}};
+  b.querySelector('.addI').onclick=()=>{q.rows.push({ingredient:'',amount:''});setDirty();rec();$(`#rec .rb[data-k="${k}"] .rrow:last-child input`).focus()};
+  b.querySelectorAll('.rrow').forEach(row=>{const j=+row.dataset.j;row.querySelectorAll('input').forEach(i=>i.oninput=()=>{q.rows[j][i.dataset.r]=i.value;setDirty()});row.querySelector('.x').onclick=()=>{q.rows.splice(j,1);setDirty();rec()}})})}
 
 async function decode(file){
  try{return await createImageBitmap(file)}catch{}

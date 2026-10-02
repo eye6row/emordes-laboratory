@@ -1,5 +1,5 @@
 let S=[];
-const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',r:x.recipe||[],imgs:(x.images&&x.images.length?x.images:x.image?[x.image]:[]).map(u)})).map(s=>(s.img=s.imgs[0]||'',s));
+const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),imgs:(x.images&&x.images.length?x.images:x.image?[x.image]:[]).map(u)})).map(s=>(s.img=s.imgs[0]||'',s));
 const u=p=>/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):p;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -40,7 +40,7 @@ $$('[data-home]').forEach(a=>a.onclick=e=>{e.preventDefault();closePanel(false);
 let cur=-1,detFocus=null;const det=$('#detail');
 function showDetail(i,from){const N=S.length;cur=(i+N)%N;const s=S[cur];if(det.hidden){detFocus=from||document.activeElement}
 $('#d-title').innerHTML=`<span>${esc(s.code)}</span>${esc(s.t)}`;
-$('#d-meta').innerHTML=`<dl>${[['Code',s.code],['Fiber',s.f],['Weight',s.g+' GSM'],['Finish',s.fi]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl><dl>${[['Origin',s.o],['Tags',s.tags.join(', ')],['Year',s.y],['Description',s.d]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${s.r.length?`<dl>${s.r.map((r,j)=>`<dt>${j?'':'Recipe'}</dt><dd>${esc((r.item+' '+r.amount).trim())}</dd>`).join('')}</dl>`:''}`;
+$('#d-meta').innerHTML=`<dl>${[['Code',s.code],['Fiber',s.f],['Weight',s.g+' GSM'],['Finish',s.fi]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl><dl>${[['Origin',s.o],['Tags',s.tags.join(', ')],['Year',s.y],['Description',s.d]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${s.r.map(q=>`<dl>${(q.rows.length?q.rows:[{i:'',a:''}]).map((r,j)=>`<dt>${j?'':esc(q.title)}</dt><dd>${esc((r.i+' '+r.a).trim())}</dd>`).join('')}</dl>`).join('')}`;
 const G=$('#d-imgs'),n=s.imgs.length;G.dataset.n=n>3?'many':Math.max(n,1);
 G.innerHTML=n?s.imgs.map((src,j)=>`<button class="dshot" data-j="${j}" aria-label="Enlarge photo ${j+1} of ${n}">${img(s,cur,n>1?' / '+(j+1):'',src)}</button>`).join(''):img(s,cur,'','');
 if(det.hidden){closePanel(false);det.hidden=false;document.body.classList.add('lock');requestAnimationFrame(()=>det.classList.add('in'))}

@@ -68,7 +68,9 @@ function clean(input) {
         finish: str(s.finish, 160), origin: str(s.origin, 120),
         tags: (Array.isArray(s.tags) ? s.tags : String(s.tags || '').split(',')).map(t => str(t, 40).toLowerCase()).filter(Boolean).slice(0, 12),
         description: str(s.description, 2000), year: str(s.year, 12),
-        recipe: (Array.isArray(s.recipe) ? s.recipe : []).slice(0, 40).map(r => ({ item: str(r && r.item, 120), amount: str(r && r.amount, 120) })).filter(r => r.item || r.amount),
+        recipes: (() => { const row = r => ({ ingredient: str(r && (r.ingredient ?? r.item), 120), amount: str(r && r.amount, 120) }); const rows = a => (Array.isArray(a) ? a : []).slice(0, 40).map(row).filter(r => r.ingredient || r.amount);
+          let rs = Array.isArray(s.recipes) ? s.recipes : (Array.isArray(s.recipe) && s.recipe.length ? [{ title: 'Recipe', rows: s.recipe }] : []);
+          return rs.slice(0, 12).map(x => ({ title: str(x && x.title, 120), rows: rows(x && x.rows) })).filter(x => x.title || x.rows.length); })(),
         image, images
       };
     })

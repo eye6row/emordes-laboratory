@@ -13,22 +13,27 @@
       ],
       "description": "Seaweed-derived alginate yarn, hand extrusion, naturally dyed with spirulina powder\n\nNote: This particular formulation had more water to achieve a certain thinner viscosity, resulting in a thinner extrusion.",
       "year": "2026",
-      "recipe": [
+      "recipes": [
         {
-          "item": "Sodium Alginate",
-          "amount": "15g (~2 tbsp)"
-        },
-        {
-          "item": "Powder Dye",
-          "amount": "1 tsp"
-        },
-        {
-          "item": "Glycerin",
-          "amount": "30g (50g if adding powder dye)"
-        },
-        {
-          "item": "Water",
-          "amount": "500g"
+          "title": "Yarn Recipe",
+          "rows": [
+            {
+              "ingredient": "Sodium Alginate",
+              "amount": "15g (~2 tbsp)"
+            },
+            {
+              "ingredient": "Powder Dye",
+              "amount": "1 tsp"
+            },
+            {
+              "ingredient": "Glycerin",
+              "amount": "30g (50g if adding powder dye)"
+            },
+            {
+              "ingredient": "Water",
+              "amount": "500g"
+            }
+          ]
         }
       ],
       "image": "images/sample-10.jpg",
@@ -49,7 +54,7 @@
       ],
       "description": "The Binakol wave, an optical whirlpool woven to ward off spirits. Studied here for density and repeat.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-01.jpg",
       "images": [
         "images/sample-01.jpg"
@@ -68,7 +73,7 @@
       ],
       "description": "Pineapple-leaf fiber, the cloth of the barong. Tested for drape and layering.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-02.jpg",
       "images": [
         "images/sample-02.jpg"
@@ -87,7 +92,7 @@
       ],
       "description": "Abaca blended with linen for structure without stiffness.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-03.jpg",
       "images": [
         "images/sample-03.jpg"
@@ -106,7 +111,7 @@
       ],
       "description": "Grown, not tanned. A fungal composite finished to read as leather.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-04.jpg",
       "images": [
         "images/sample-04.jpg"
@@ -125,7 +130,7 @@
       ],
       "description": "Post-consumer bottles spun into a sheer, iridescent organza.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-05.jpg",
       "images": [
         "images/sample-05.jpg"
@@ -144,7 +149,7 @@
       ],
       "description": "Musa fiber floats over a cotton ground in a satin jacquard.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-06.jpg",
       "images": [
         "images/sample-06.jpg"
@@ -163,7 +168,7 @@
       ],
       "description": "Resist-dye study after T'boli T'nalak, earth tones only.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-07.jpg",
       "images": [
         "images/sample-07.jpg"
@@ -182,7 +187,7 @@
       ],
       "description": "Mirror foil bonded to nylon. Crinkles and holds its shape.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-08.jpg",
       "images": [
         "images/sample-08.jpg"
@@ -201,7 +206,7 @@
       ],
       "description": "Coconut husk waste needle-punched with wool into a rigid felt.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-09.jpg",
       "images": [
         "images/sample-09.jpg"
@@ -220,7 +225,7 @@
       ],
       "description": "Ilocano Inabel overshot, raised geometric floats on cotton.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-11.jpg",
       "images": [
         "images/sample-11.jpg"
@@ -239,7 +244,7 @@
       ],
       "description": "Devoré treatment sculpts the pile, leaving silk windows.",
       "year": "2026",
-      "recipe": [],
+      "recipes": [],
       "image": "images/sample-12.jpg",
       "images": [
         "images/sample-12.jpg"
