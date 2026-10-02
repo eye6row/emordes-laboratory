@@ -1,0 +1,213 @@
+{
+  "samples": [
+    {
+      "n": "001",
+      "title": "Binakol Cotton",
+      "fiber": "100% Cotton",
+      "gsm": 280,
+      "finish": "Hand-loom twill, optical wave",
+      "origin": "Ilocos, PH",
+      "tags": [
+        "heritage",
+        "woven"
+      ],
+      "description": "The Binakol wave, an optical whirlpool woven to ward off spirits. Studied here for density and repeat.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-01.jpg"
+    },
+    {
+      "n": "002",
+      "title": "Piña Sheer Study",
+      "fiber": "Pineapple-leaf fiber blend",
+      "gsm": 40,
+      "finish": "Translucent, crisp hand",
+      "origin": "Aklan, PH",
+      "tags": [
+        "sheer",
+        "plant fiber"
+      ],
+      "description": "Pineapple-leaf fiber, the cloth of the barong. Tested for drape and layering.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-02.jpg"
+    },
+    {
+      "n": "003",
+      "title": "Abaca Blend",
+      "fiber": "60% Abaca / 40% Linen",
+      "gsm": 190,
+      "finish": "Raw slub, matte",
+      "origin": "Bicol, PH",
+      "tags": [
+        "bast",
+        "structural"
+      ],
+      "description": "Abaca blended with linen for structure without stiffness.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-03.jpg"
+    },
+    {
+      "n": "004",
+      "title": "Mycelium Bio-Leather",
+      "fiber": "Mycelium composite",
+      "gsm": 520,
+      "finish": "Pebbled, waxed",
+      "origin": "Lab-grown",
+      "tags": [
+        "biomaterial",
+        "vegan"
+      ],
+      "description": "Grown, not tanned. A fungal composite finished to read as leather.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-04.jpg"
+    },
+    {
+      "n": "005",
+      "title": "Recycled Organza",
+      "fiber": "100% rPET",
+      "gsm": 55,
+      "finish": "Iridescent, stiff",
+      "origin": "Post-consumer",
+      "tags": [
+        "recycled",
+        "sheer"
+      ],
+      "description": "Post-consumer bottles spun into a sheer, iridescent organza.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-05.jpg"
+    },
+    {
+      "n": "006",
+      "title": "Banana Silk Jacquard",
+      "fiber": "Musa fiber / Cotton",
+      "gsm": 210,
+      "finish": "Satin float jacquard",
+      "origin": "Davao, PH",
+      "tags": [
+        "plant fiber",
+        "jacquard"
+      ],
+      "description": "Musa fiber floats over a cotton ground in a satin jacquard.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-06.jpg"
+    },
+    {
+      "n": "007",
+      "title": "T'nalak Dye Study",
+      "fiber": "Abaca, natural dye",
+      "gsm": 170,
+      "finish": "Tie-resist, earth tones",
+      "origin": "South Cotabato, PH",
+      "tags": [
+        "heritage",
+        "natural dye"
+      ],
+      "description": "Resist-dye study after T'boli T'nalak, earth tones only.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-07.jpg"
+    },
+    {
+      "n": "008",
+      "title": "Chrome Laminate",
+      "fiber": "Nylon / metallic film",
+      "gsm": 120,
+      "finish": "Mirror foil, crinkle",
+      "origin": "Industrial",
+      "tags": [
+        "coated",
+        "future"
+      ],
+      "description": "Mirror foil bonded to nylon. Crinkles and holds its shape.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-08.jpg"
+    },
+    {
+      "n": "009",
+      "title": "Coconut Coir Felt",
+      "fiber": "Coir / wool",
+      "gsm": 650,
+      "finish": "Needle-punched, rigid",
+      "origin": "Quezon, PH",
+      "tags": [
+        "nonwoven",
+        "upcycled"
+      ],
+      "description": "Coconut husk waste needle-punched with wool into a rigid felt.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-09.jpg"
+    },
+    {
+      "n": "010",
+      "title": "Algae Yarn",
+      "fiber": "Sodium alginate / glycerin",
+      "gsm": 160,
+      "finish": "Glossy, flexible strand",
+      "origin": "Studio-made",
+      "tags": [
+        "biomaterial",
+        "yarn"
+      ],
+      "description": "Seaweed-derived alginate yarn, cast by hand and colored with powder dye.",
+      "year": "2026",
+      "recipe": [
+        {
+          "item": "Sodium Alginate",
+          "amount": "15g (~2 tbsp)"
+        },
+        {
+          "item": "Powder Dye",
+          "amount": "1 tsp"
+        },
+        {
+          "item": "Glycerin",
+          "amount": "30g (50g if adding powder dye)"
+        },
+        {
+          "item": "Water",
+          "amount": "500g"
+        }
+      ],
+      "image": "images/sample-10.jpg"
+    },
+    {
+      "n": "011",
+      "title": "Inabel Overshot",
+      "fiber": "100% Cotton",
+      "gsm": 300,
+      "finish": "Raised geometric float",
+      "origin": "Abra, PH",
+      "tags": [
+        "heritage",
+        "woven"
+      ],
+      "description": "Ilocano Inabel overshot, raised geometric floats on cotton.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-11.jpg"
+    },
+    {
+      "n": "012",
+      "title": "Burnout Velvet",
+      "fiber": "Viscose / silk",
+      "gsm": 230,
+      "finish": "Devoré, sculpted pile",
+      "origin": "Studio-treated",
+      "tags": [
+        "finish",
+        "experimental"
+      ],
+      "description": "Devoré treatment sculpts the pile, leaving silk windows.",
+      "year": "2026",
+      "recipe": [],
+      "image": "images/sample-12.jpg"
+    }
+  ]
+}
