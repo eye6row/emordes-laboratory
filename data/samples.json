@@ -34,15 +34,6 @@
               "amount": "500g"
             }
           ]
-        },
-        {
-          "title": "Dye Bath <b>Test</b>",
-          "rows": [
-            {
-              "ingredient": "Spirulina",
-              "amount": "2 tsp"
-            }
-          ]
         }
       ],
       "image": "images/sample-10.jpg",
