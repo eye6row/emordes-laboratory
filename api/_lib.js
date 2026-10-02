@@ -57,15 +57,19 @@ function clean(input) {
   return {
     samples: input.samples.map(s => {
       const gsm = Number(s.gsm);
-      const image = str(s.image, 200);
-      if (image && !/^(images\/[\w.-]+\.(jpe?g|png|webp)|images\/uploads\/[a-f0-9]{16}\.jpg)$/i.test(image)) throw new Error('bad image path');
+      const ok = p => /^(images\/[\w.-]+\.(jpe?g|png|webp)|images\/uploads\/[a-f0-9]{16}\.jpg)$/i.test(p);
+      let images = (Array.isArray(s.images) ? s.images : []).map(p => str(p, 200)).filter(Boolean);
+      if (!images.length && s.image) images = [str(s.image, 200)];
+      images = [...new Set(images)].slice(0, 24);
+      if (images.some(p => !ok(p))) throw new Error('bad image path');
+      const image = images[0] || '';
       return {
         n: str(s.n, 12) || '000', title: str(s.title, 120) || 'Untitled', fiber: str(s.fiber, 160), gsm: Number.isFinite(gsm) ? Math.max(0, Math.min(99999, Math.round(gsm))) : 0,
         finish: str(s.finish, 160), origin: str(s.origin, 120),
         tags: (Array.isArray(s.tags) ? s.tags : String(s.tags || '').split(',')).map(t => str(t, 40).toLowerCase()).filter(Boolean).slice(0, 12),
         description: str(s.description, 2000), year: str(s.year, 12),
         recipe: (Array.isArray(s.recipe) ? s.recipe : []).slice(0, 40).map(r => ({ item: str(r && r.item, 120), amount: str(r && r.amount, 120) })).filter(r => r.item || r.amount),
-        image
+        image, images
       };
     })
   };

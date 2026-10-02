@@ -14,7 +14,10 @@
       "description": "The Binakol wave, an optical whirlpool woven to ward off spirits. Studied here for density and repeat.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-01.jpg"
+      "image": "images/sample-01.jpg",
+      "images": [
+        "images/sample-01.jpg"
+      ]
     },
     {
       "n": "002",
@@ -30,7 +33,10 @@
       "description": "Pineapple-leaf fiber, the cloth of the barong. Tested for drape and layering.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-02.jpg"
+      "image": "images/sample-02.jpg",
+      "images": [
+        "images/sample-02.jpg"
+      ]
     },
     {
       "n": "003",
@@ -46,7 +52,10 @@
       "description": "Abaca blended with linen for structure without stiffness.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-03.jpg"
+      "image": "images/sample-03.jpg",
+      "images": [
+        "images/sample-03.jpg"
+      ]
     },
     {
       "n": "004",
@@ -62,7 +71,10 @@
       "description": "Grown, not tanned. A fungal composite finished to read as leather.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-04.jpg"
+      "image": "images/sample-04.jpg",
+      "images": [
+        "images/sample-04.jpg"
+      ]
     },
     {
       "n": "005",
@@ -78,7 +90,10 @@
       "description": "Post-consumer bottles spun into a sheer, iridescent organza.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-05.jpg"
+      "image": "images/sample-05.jpg",
+      "images": [
+        "images/sample-05.jpg"
+      ]
     },
     {
       "n": "006",
@@ -94,7 +109,10 @@
       "description": "Musa fiber floats over a cotton ground in a satin jacquard.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-06.jpg"
+      "image": "images/sample-06.jpg",
+      "images": [
+        "images/sample-06.jpg"
+      ]
     },
     {
       "n": "007",
@@ -110,7 +128,10 @@
       "description": "Resist-dye study after T'boli T'nalak, earth tones only.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-07.jpg"
+      "image": "images/sample-07.jpg",
+      "images": [
+        "images/sample-07.jpg"
+      ]
     },
     {
       "n": "008",
@@ -126,7 +147,10 @@
       "description": "Mirror foil bonded to nylon. Crinkles and holds its shape.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-08.jpg"
+      "image": "images/sample-08.jpg",
+      "images": [
+        "images/sample-08.jpg"
+      ]
     },
     {
       "n": "009",
@@ -142,7 +166,10 @@
       "description": "Coconut husk waste needle-punched with wool into a rigid felt.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-09.jpg"
+      "image": "images/sample-09.jpg",
+      "images": [
+        "images/sample-09.jpg"
+      ]
     },
     {
       "n": "010",
@@ -175,7 +202,10 @@
           "amount": "500g"
         }
       ],
-      "image": "images/sample-10.jpg"
+      "image": "images/sample-10.jpg",
+      "images": [
+        "images/sample-10.jpg"
+      ]
     },
     {
       "n": "011",
@@ -191,7 +221,10 @@
       "description": "Ilocano Inabel overshot, raised geometric floats on cotton.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-11.jpg"
+      "image": "images/sample-11.jpg",
+      "images": [
+        "images/sample-11.jpg"
+      ]
     },
     {
       "n": "012",
@@ -207,7 +240,10 @@
       "description": "Devoré treatment sculpts the pile, leaving silk windows.",
       "year": "2026",
       "recipe": [],
-      "image": "images/sample-12.jpg"
+      "image": "images/sample-12.jpg",
+      "images": [
+        "images/sample-12.jpg"
+      ]
     }
   ]
 }

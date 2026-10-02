@@ -47,6 +47,15 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 .add{justify-self:start;color:var(--mut);padding:4px 0}.add:hover{color:var(--ink)}
 .del{color:var(--bad)}
 .dirty{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--bad);margin-right:6px;vertical-align:middle}
+/* gallery */
+.gal{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.g{position:relative;aspect-ratio:1;border-radius:14px;background:var(--bg2) center/cover;border:1px solid var(--line);cursor:grab;overflow:hidden}
+.g.drag{opacity:.35}.g.over{outline:1.5px solid var(--ink);outline-offset:2px}
+.g .cv{position:absolute;left:6px;top:6px;font-size:9px;letter-spacing:.06em;background:var(--ink);color:#fff;border-radius:99px;padding:2px 7px}
+.g .gb{position:absolute;inset:auto 4px 4px;display:flex;justify-content:space-between;gap:2px}
+.g .gb button{width:24px;height:24px;border-radius:99px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:11px;line-height:1}
+.g .gb button:hover{background:#fff}.g .gb .x:hover{color:var(--bad)}
+.ghint{color:var(--mut);margin-top:8px}
 @media (max-width:760px){
  .bar{padding:0 14px}.brand span{display:none}#status{display:none}
  .app{grid-template-columns:1fr}.list{position:static;height:auto;max-height:42svh;border-right:0;border-bottom:1px solid var(--line)}
@@ -84,6 +93,7 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=a=>a.map(s=>({...s,images:s.images&&s.images.length?[...s.images]:s.image?[s.image]:[]}));
 let D=[],sha=null,sel=0,dirty=false,busy=false;
 const src=p=>!p?'':/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):'/'+p;
 let mt;function status(t,c=''){const s=$('#status');s.textContent=t;s.className=c;const m=$('#mstat');m.textContent=t;clearTimeout(mt);if(!/Unsaved|…/.test(t))mt=setTimeout(()=>m.textContent=dirty?'Unsaved changes':'',3000)}
@@ -98,22 +108,23 @@ $('#lf').onsubmit=async e=>{e.preventDefault();$('#lb').disabled=true;$('#lerr')
 $('#out').onclick=async()=>{if(dirty&&!confirm('Discard unsaved changes?'))return;await api('logout');dirty=false;show(false)};
 
 async function load(){status('Loading…');const r=await fetch('/api/samples?admin=1',{cache:'no-store'});if(!r.ok){status('Could not load data','bad');return}
- const j=await r.json();D=j.samples;sha=j.sha;sel=Math.min(sel,D.length-1);show(true);setDirty(false);status('All saved');list();edit()}
+ const j=await r.json();D=norm(j.samples);sha=j.sha;sel=Math.min(sel,D.length-1);show(true);setDirty(false);status('All saved');list();edit()}
 
 function list(){$('#cnt').textContent=D.length+' samples';
- $('#items').innerHTML=D.map((s,i)=>`<div class="item${i===sel?' on':''}" data-i="${i}" role="button" tabindex="0"><span class="th" style="${s.image?`background-image:url('${esc(src(s.image))}')`:''}">${s.image?'':'EML'}</span><span><small>EML-${esc(s.n)}</small><b>${esc(s.title)}</b></span><span class="mv"><button data-mv="-1" aria-label="Move up">↑</button><button data-mv="1" aria-label="Move down">↓</button></span></div>`).join('')}
+ $('#items').innerHTML=D.map((s,i)=>`<div class="item${i===sel?' on':''}" data-i="${i}" role="button" tabindex="0"><span class="th" style="${(s.images[0])?`background-image:url('${esc(src(s.images[0]))}')`:''}">${s.images[0]?'':'EML'}</span><span><small>EML-${esc(s.n)}</small><b>${esc(s.title)}</b></span><span class="mv"><button data-mv="-1" aria-label="Move up">↑</button><button data-mv="1" aria-label="Move down">↓</button></span></div>`).join('')}
 $('#items').onclick=e=>{const it=e.target.closest('.item');if(!it)return;const i=+it.dataset.i,m=e.target.closest('[data-mv]');
  if(m){const j=i+ +m.dataset.mv;if(j<0||j>=D.length)return;[D[i],D[j]]=[D[j],D[i]];if(sel===i)sel=j;else if(sel===j)sel=i;setDirty();list();return}
  sel=i;list();edit();if(innerWidth<761)$('#ed').scrollIntoView({behavior:'smooth'})};
 $('#items').onkeydown=e=>{if(e.key==='Enter'&&e.target.classList.contains('item'))e.target.click()};
 $('#addS').onclick=()=>{const max=D.reduce((m,s)=>Math.max(m,parseInt(s.n)||0),0);
- D.push({n:String(max+1).padStart(3,'0'),title:'New Sample',fiber:'',gsm:0,finish:'',origin:'',tags:[],description:'',year:String(new Date().getFullYear()),recipe:[],image:''});sel=D.length-1;setDirty();list();edit()};
+ D.push({n:String(max+1).padStart(3,'0'),title:'New Sample',fiber:'',gsm:0,finish:'',origin:'',tags:[],description:'',year:String(new Date().getFullYear()),recipe:[],image:'',images:[]});sel=D.length-1;setDirty();list();edit()};
 
 const F=[['n','No.','text'],['title','Title','text'],['fiber','Fiber','text'],['gsm','Weight (GSM)','number'],['finish','Finish','text'],['origin','Origin','text'],['tags','Tags (comma separated)','text'],['year','Year','text']];
 function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--mut)">No samples. Add one.</p>';return}
  $('#ed').innerHTML=`<div class="top"><h2><span>EML-${esc(s.n)}</span>${esc(s.title)}</h2><button class="pill del" id="delS">Delete sample</button></div>
- <div class="cols"><div><div class="photo${s.image?' has':''}" id="ph" style="${s.image?`background-image:url('${esc(src(s.image))}')`:''}">${s.image?'':'No photo'}
-  <label>${s.image?'Replace photo':'Upload photo'}<input type="file" id="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label></div></div>
+ <div class="cols"><div><div class="photo${s.images[0]?' has':''}" id="ph" style="${s.images[0]?`background-image:url('${esc(src(s.images[0]))}')`:''}">${s.images[0]?'':'No photos'}
+  <label>Add photos<input type="file" id="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label></div>
+  <div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p></div>
  <div class="fields">${F.map(([k,l,t])=>`<label class="f${k==='title'||k==='tags'?' w':''}"><span>${l}</span><input data-k="${k}" type="${t}" ${t==='number'?'inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}"></label>`).join('')}
   <label class="f w"><span>Description</span><textarea data-k="description">${esc(s.description)}</textarea></label>
   <div class="f w"><span>Recipe (optional, shows on the sample page)</span><div class="rec" id="rec"></div><button class="add" id="addR">+ Add ingredient</button></div>
@@ -123,7 +134,17 @@ function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--
   if(k==='title'||k==='n'){$('#ed h2').innerHTML=`<span>EML-${esc(s.n)}</span>${esc(s.title)}`;const it=$(`.item[data-i="${sel}"]`);it.querySelector('b').textContent=s.title;it.querySelector('small').textContent='EML-'+s.n}});
  $('#delS').onclick=()=>{if(!confirm(`Delete EML-${s.n} ${s.title}? (Takes effect when you Save)`))return;D.splice(sel,1);sel=Math.max(0,sel-1);setDirty();list();edit()};
  $('#addR').onclick=()=>{s.recipe.push({item:'',amount:''});setDirty();rec();$('#rec .rrow:last-child input').focus()};
- $('#file').onchange=e=>upload(e.target.files[0])}
+ $('#file').onchange=e=>upload([...e.target.files]);gal()}
+function gal(){const s=D[sel],g=$('#gal');
+ g.innerHTML=s.images.map((p,j)=>`<div class="g" draggable="true" data-j="${j}" style="background-image:url('${esc(src(p))}')">${j?'':'<span class="cv">COVER</span>'}<span class="gb"><button data-a="l" aria-label="Move photo ${j+1} earlier">←</button>${j?`<button data-a="c" aria-label="Make photo ${j+1} the cover">★</button>`:''}<button data-a="r" aria-label="Move photo ${j+1} later">→</button><button class="x" data-a="x" aria-label="Remove photo ${j+1}">✕</button></span></div>`).join('');
+ const mv=(a,b)=>{if(b<0||b>=s.images.length||a===b)return;const [x]=s.images.splice(a,1);s.images.splice(b,0,x);changed()};
+ g.onclick=e=>{const b=e.target.closest('[data-a]');if(!b)return;const j=+b.closest('.g').dataset.j,a=b.dataset.a;
+  if(a==='l')mv(j,j-1);else if(a==='r')mv(j,j+1);else if(a==='c')mv(j,0);else if(a==='x'&&confirm('Remove this photo from the sample?')){s.images.splice(j,1);changed()}};
+ let from=null;g.querySelectorAll('.g').forEach(el=>{el.ondragstart=e=>{from=+el.dataset.j;el.classList.add('drag');e.dataTransfer.effectAllowed='move'};
+  el.ondragend=()=>{el.classList.remove('drag');g.querySelectorAll('.over').forEach(o=>o.classList.remove('over'))};
+  el.ondragover=e=>{e.preventDefault();el.classList.add('over')};el.ondragleave=()=>el.classList.remove('over');
+  el.ondrop=e=>{e.preventDefault();if(from!=null)mv(from,+el.dataset.j);from=null}})}
+function changed(){const s=D[sel];s.image=s.images[0]||'';setDirty();list();edit()}
 function rec(){const s=D[sel];$('#rec').innerHTML=s.recipe.map((r,j)=>`<div class="rrow" data-j="${j}"><input data-r="item" placeholder="Ingredient" value="${esc(r.item)}" aria-label="Ingredient"><input data-r="amount" placeholder="Amount" value="${esc(r.amount)}" aria-label="Amount"><button class="x" aria-label="Remove ingredient">✕</button></div>`).join('');
  $('#rec').querySelectorAll('.rrow').forEach(row=>{const j=+row.dataset.j;row.querySelectorAll('input').forEach(i=>i.oninput=()=>{s.recipe[j][i.dataset.r]=i.value;setDirty()});row.querySelector('.x').onclick=()=>{s.recipe.splice(j,1);setDirty();rec()}})}
 
@@ -134,15 +155,16 @@ async function decode(file){
   if(!window.heic2any)await new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});
   const b=await heic2any({blob:file,toType:'image/jpeg',quality:.9});return createImageBitmap(Array.isArray(b)?b[0]:b)}
  throw new Error('Could not read that image')}
-async function upload(file){if(!file)return;const s=D[sel];busy=true;$('#save').disabled=true;status('Preparing photo…');
- try{const im=await decode(file);const w=im.width,h=im.height,k=Math.min(1,1600/Math.max(w,h));const c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);
+async function upload(files){if(!files.length)return;const s=D[sel];busy=true;$('#save').disabled=true;let done=0;
+ try{for(const file of files){status(`Preparing photo ${done+1} of ${files.length}…`);const im=await decode(file);const w=im.width,h=im.height,k=Math.min(1,1600/Math.max(w,h));const c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);
   const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);
   let q=.86,data=c.toDataURL('image/jpeg',q);while(data.length>3.6e6&&q>.5){q-=.1;data=c.toDataURL('image/jpeg',q)}
-  status('Uploading photo…');const j=await api('upload',{data});s.image=j.path;busy=false;setDirty();status('Photo uploaded. Press Save to publish.','ok');list();edit()}
- catch(e){busy=false;setDirty(dirty);status(e.message,'bad')}}
+  status(`Uploading photo ${done+1} of ${files.length}…`);const j=await api('upload',{data});if(!s.images.includes(j.path))s.images.push(j.path);s.image=s.images[0];done++}
+  busy=false;setDirty();status(`${done} photo${done>1?'s':''} uploaded. Press Save to publish.`,'ok');list();edit()}
+ catch(e){busy=false;if(done){s.image=s.images[0];setDirty();list();edit()}else setDirty(dirty);status(e.message,'bad')}}
 
 $('#save').onclick=async()=>{busy=true;$('#save').disabled=true;status('Saving…');
- try{const j=await api('save',{samples:D,sha});sha=j.sha;D=j.data.samples;busy=false;setDirty(false);status('Saved, live in a few seconds','ok');list();edit()}
+ try{const j=await api('save',{samples:D,sha});sha=j.sha;D=norm(j.data.samples);busy=false;setDirty(false);status('Saved, live in a few seconds','ok');list();edit()}
  catch(e){busy=false;$('#save').disabled=false;status(e.message,'bad')}};
 addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
 boot();
