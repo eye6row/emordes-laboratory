@@ -1,6 +1,42 @@
 {
   "samples": [
     {
+      "n": "010",
+      "title": "Algae Yarn",
+      "fiber": "Sodium alginate / glycerin",
+      "gsm": 160,
+      "finish": "Glossy, flexible strand",
+      "origin": "Studio-made",
+      "tags": [
+        "biomaterial",
+        "yarn"
+      ],
+      "description": "Seaweed-derived alginate yarn, hand extrusion, naturally dyed with spirulina powder\n\nNote: This particular formulation had more water to achieve a certain thinner viscosity, resulting in a thinner extrusion.",
+      "year": "2026",
+      "recipe": [
+        {
+          "item": "Sodium Alginate",
+          "amount": "15g (~2 tbsp)"
+        },
+        {
+          "item": "Powder Dye",
+          "amount": "1 tsp"
+        },
+        {
+          "item": "Glycerin",
+          "amount": "30g (50g if adding powder dye)"
+        },
+        {
+          "item": "Water",
+          "amount": "500g"
+        }
+      ],
+      "image": "images/sample-10.jpg",
+      "images": [
+        "images/sample-10.jpg"
+      ]
+    },
+    {
       "n": "001",
       "title": "Binakol Cotton",
       "fiber": "100% Cotton",
@@ -169,42 +205,6 @@
       "image": "images/sample-09.jpg",
       "images": [
         "images/sample-09.jpg"
-      ]
-    },
-    {
-      "n": "010",
-      "title": "Algae Yarn",
-      "fiber": "Sodium alginate / glycerin",
-      "gsm": 160,
-      "finish": "Glossy, flexible strand",
-      "origin": "Studio-made",
-      "tags": [
-        "biomaterial",
-        "yarn"
-      ],
-      "description": "Seaweed-derived alginate yarn, hand extrusion, naturally dyed with spirulina powder\n\nNote: This particular formulation had more water to achieve a certain thinner viscosity, resulting in a thinner extrusion.",
-      "year": "2026",
-      "recipe": [
-        {
-          "item": "Sodium Alginate",
-          "amount": "15g (~2 tbsp)"
-        },
-        {
-          "item": "Powder Dye",
-          "amount": "1 tsp"
-        },
-        {
-          "item": "Glycerin",
-          "amount": "30g (50g if adding powder dye)"
-        },
-        {
-          "item": "Water",
-          "amount": "500g"
-        }
-      ],
-      "image": "images/sample-10.jpg",
-      "images": [
-        "images/sample-10.jpg"
       ]
     },
     {
