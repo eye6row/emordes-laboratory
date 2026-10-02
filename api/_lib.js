@@ -54,7 +54,11 @@ const str = (v, max) => String(v == null ? '' : v).replace(/[\u0000-\u0008\u000B
 function clean(input) {
   if (!input || !Array.isArray(input.samples)) throw new Error('samples missing');
   if (input.samples.length > 200) throw new Error('too many samples');
+  const cats = [];
+  for (const c of (Array.isArray(input.categories) ? input.categories : [])) { const v = str(c, 60); if (v && !cats.some(x => x.toLowerCase() === v.toLowerCase())) cats.push(v); }
+  if (cats.length > 30) throw new Error('too many categories (max 30)');
   return {
+    ...(cats.length ? { categories: cats } : {}),
     samples: input.samples.map(s => {
       const gsm = Number(s.gsm);
       const ok = p => /^(images\/[\w.-]+\.(jpe?g|png|webp)|images\/uploads\/[a-f0-9]{16}\.jpg)$/i.test(p);
@@ -72,6 +76,7 @@ function clean(input) {
           let rs = Array.isArray(s.recipes) ? s.recipes : (Array.isArray(s.recipe) && s.recipe.length ? [{ title: 'Recipe', rows: s.recipe }] : []);
           return rs.slice(0, 12).map(x => ({ title: str(x && x.title, 120), rows: rows(x && x.rows) })).filter(x => x.title || x.rows.length); })(),
         image, images,
+        ...(() => { const c = str(s.category, 60), m = c && cats.find(x => x.toLowerCase() === c.toLowerCase()); return m ? { category: m } : {}; })(),
         ...(() => { const c = s.captions && typeof s.captions === 'object' && !Array.isArray(s.captions) ? s.captions : {}, o = {};
           for (const p of images) { const v = str(String(c[p] == null ? '' : c[p]).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 300); if (v) o[p] = v; }
           return Object.keys(o).length ? { captions: o } : {}; })(),

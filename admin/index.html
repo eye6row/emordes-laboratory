@@ -104,6 +104,11 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 [data-theme=dark] .item.on small{color:#555}
 [data-theme=dark] .cm{background:rgba(0,0,0,.6)}[data-theme=dark] .cbox{background:#121314}
 [data-theme=dark] .mstat{background:rgba(18,18,18,.85)}
+.cats{border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin-bottom:8px}.cats summary{display:flex;justify-content:space-between;cursor:pointer;color:var(--mut);list-style:none}.cats summary::-webkit-details-marker{display:none}.cats[open] summary{margin-bottom:8px;color:var(--ink)}
+#clist{display:grid;gap:5px}.crow{display:grid;grid-template-columns:14px 1fr auto 26px 26px 26px;gap:5px;align-items:center}.crow small{color:var(--mut);font-variant-numeric:tabular-nums;min-width:14px;text-align:right}.crow .mvb,.crow .x{height:28px}.crow input{min-width:0}
+.grip{color:var(--mut);cursor:grab;font-size:10px;letter-spacing:-2px}.crow.drag{opacity:.4}.crow.over{box-shadow:0 -2px 0 var(--ink)}
+.cadd{display:grid;grid-template-columns:1fr auto;gap:6px;margin-top:8px}.cats .ghint{margin:6px 0 0}
+#catSel{width:100%;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);font:inherit;color:inherit}
 </style></head>
 <body>
 <section class="login" id="login" hidden>
@@ -123,7 +128,8 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
       <button class="pill" id="out">Log out</button><button class="pill dark" id="save" disabled>Save</button></div>
   </header>
   <div class="app">
-    <aside class="list"><div class="h"><span id="cnt"></span><button class="pill" id="addS">+ Add sample</button></div><div id="items"></div></aside>
+    <aside class="list"><details class="cats" id="catsBox"><summary><span>Categories</span><span id="ccnt"></span></summary><div id="clist"></div><form id="cadd" class="cadd"><input id="cnew" maxlength="60" placeholder="New category" aria-label="New category name"><button class="pill">Add</button></form><p class="ghint">Groups tiles on the home page, in this order. Empty = no groups.</p></details>
+    <div class="h"><span id="cnt"></span><button class="pill" id="addS">+ Add sample</button></div><div id="items"></div></aside>
     <main class="ed" id="ed"></main>
   </div>
   <div class="mstat" id="mstat" aria-live="polite"></div>
@@ -140,7 +146,7 @@ function lay(x){const out=[],seen=new Set();(Array.isArray(x.fields)?x.fields:[]
 const pack=a=>a.map(s=>{const f=s.fields.map(x=>{const d=x.key&&DEF.find(d=>d[0]===x.key),o=x.key?{key:x.key,zone:x.zone}:{label:x.label,value:x.value,zone:x.zone};if(d&&x.label.trim()&&x.label.trim()!==d[1])o.label=x.label.trim();if(x.hidden)o.hidden=true;return o});
  const isDef=f.every((x,i)=>x.key===DEF[i]?.[0]&&x.zone===DEF[i][2]&&!x.label&&!x.hidden)&&f.length===DEF.length;const o={...s};if(isDef)delete o.fields;else o.fields=f;return o});
 const norm=a=>a.map(s=>({...s,fields:lay(s),recipes:(Array.isArray(s.recipes)?s.recipes:(s.recipe&&s.recipe.length?[{title:'Recipe',rows:s.recipe}]:[])).map(q=>({title:q.title||'',rows:(q.rows||[]).map(r=>({ingredient:r.ingredient??r.item??'',amount:r.amount||''}))})),recipe:undefined,images:s.images&&s.images.length?[...s.images]:s.image?[s.image]:[],captions:{...(s.captions&&typeof s.captions==='object'?s.captions:{})}}));
-let D=[],sha=null,sel=0,dirty=false,busy=false;
+let D=[],CATS=[],sha=null,sel=0,dirty=false,busy=false;
 const src=p=>!p?'':/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):'/'+p;
 let mt;function status(t,c=''){const s=$('#status');s.textContent=t;s.className=c;const m=$('#mstat');m.textContent=t;clearTimeout(mt);if(!/Unsaved|…/.test(t))mt=setTimeout(()=>m.textContent=dirty?'Unsaved changes':'',3000)}
 function setDirty(v=true){dirty=v;$('#save').disabled=!v||busy;if(v)status('Unsaved changes')}
@@ -154,13 +160,28 @@ $('#lf').onsubmit=async e=>{e.preventDefault();$('#lb').disabled=true;$('#lerr')
 $('#out').onclick=async()=>{if(dirty&&!confirm('Discard unsaved changes?'))return;await api('logout');dirty=false;show(false)};
 
 async function load(){status('Loading…');const r=await fetch('/api/samples?admin=1',{cache:'no-store'});if(!r.ok){status('Could not load data','bad');return}
- const j=await r.json();D=norm(j.samples);sha=j.sha;sel=Math.min(sel,D.length-1);show(true);setDirty(false);status('All saved');list();edit()}
+ const j=await r.json();CATS=Array.isArray(j.categories)?[...j.categories]:[];D=norm(j.samples);sha=j.sha;sel=Math.min(sel,D.length-1);show(true);setDirty(false);status('All saved');cats();list();edit()}
 
 function list(){$('#cnt').textContent=D.length+' samples';
  $('#items').innerHTML=D.map((s,i)=>`<div class="item${i===sel?' on':''}" data-i="${i}" role="button" tabindex="0"><span class="th" style="${(s.images[0])?`background-image:url('${esc(src(s.images[0]))}')`:''}">${s.images[0]?'':'EML'}</span><span><small>EML-${esc(s.n)}</small><b>${esc(s.title)}</b></span><span class="mv"><button data-mv="-1" aria-label="Move up">↑</button><button data-mv="1" aria-label="Move down">↓</button></span></div>`).join('')}
 $('#items').onclick=e=>{const it=e.target.closest('.item');if(!it)return;const i=+it.dataset.i,m=e.target.closest('[data-mv]');
  if(m){const j=i+ +m.dataset.mv;if(j<0||j>=D.length)return;[D[i],D[j]]=[D[j],D[i]];if(sel===i)sel=j;else if(sel===j)sel=i;setDirty();list();return}
  sel=i;list();edit();if(innerWidth<761)$('#ed').scrollIntoView({behavior:'smooth'})};
+function cats(){const n=CATS.length;$('#ccnt').textContent=n||'';const cnt=c=>D.filter(s=>s.category===c).length;
+ $('#clist').innerHTML=CATS.map((c,i)=>`<div class="crow" data-i="${i}" draggable="true"><span class="grip" aria-hidden="true">⋮⋮</span><input value="${esc(c)}" maxlength="60" aria-label="Category name"><small>${cnt(c)}</small><button class="mvb" data-m="-1" ${i?'':'disabled'} aria-label="Move up">↑</button><button class="mvb" data-m="1" ${i<n-1?'':'disabled'} aria-label="Move down">↓</button><button class="x" aria-label="Delete category">✕</button></div>`).join('');
+ $('#clist').querySelectorAll('.crow').forEach(r=>{const i=+r.dataset.i,inp=r.querySelector('input');
+  inp.onchange=()=>{const v=inp.value.trim().slice(0,60),old=CATS[i];if(!v||CATS.some((c,k)=>k!==i&&c.toLowerCase()===v.toLowerCase())){inp.value=old;if(v)alert('That category already exists.');return}
+   if(v===old)return;CATS[i]=v;D.forEach(s=>{if(s.category===old)s.category=v});setDirty();cats();edit()};
+  r.querySelectorAll('.mvb').forEach(b=>b.onclick=()=>cmv(i,i+ +b.dataset.m));
+  r.querySelector('.x').onclick=()=>{const c=CATS[i],k=cnt(c);if(!confirm(`Delete category "${c}"?${k?` Its ${k} sample${k>1?'s':''} will become uncategorized.`:''} (Takes effect when you Save)`))return;
+   CATS.splice(i,1);D.forEach(s=>{if(s.category===c)delete s.category});setDirty();cats();edit()};
+  r.ondragstart=e=>{e.dataTransfer.setData('text/plain',i);r.classList.add('drag')};r.ondragend=()=>r.classList.remove('drag');
+  r.ondragover=e=>{e.preventDefault();r.classList.add('over')};r.ondragleave=()=>r.classList.remove('over');
+  r.ondrop=e=>{e.preventDefault();r.classList.remove('over');const f=+e.dataTransfer.getData('text/plain');if(Number.isInteger(f))cmv(f,i)}})}
+function cmv(a,b){if(b<0||b>=CATS.length||a===b)return;const [c]=CATS.splice(a,1);CATS.splice(b,0,c);setDirty();cats();edit()}
+$('#cadd').onsubmit=e=>{e.preventDefault();const v=$('#cnew').value.trim().slice(0,60);if(!v)return;
+ if(CATS.some(c=>c.toLowerCase()===v.toLowerCase()))return alert('That category already exists.');if(CATS.length>=30)return alert('Max 30 categories.');
+ CATS.push(v);$('#cnew').value='';setDirty();cats();edit()};
 $('#items').onkeydown=e=>{if(e.key==='Enter'&&e.target.classList.contains('item'))e.target.click()};
 $('#addS').onclick=()=>{const max=D.reduce((m,s)=>Math.max(m,parseInt(s.n)||0),0);
  D.push({n:String(max+1).padStart(3,'0'),title:'New Sample',fiber:'',gsm:0,finish:'',origin:'',tags:[],description:'',year:String(new Date().getFullYear()),recipes:[],image:'',images:[]});sel=D.length-1;setDirty();list();edit()};
@@ -171,12 +192,13 @@ function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--
  <div class="cols"><div><div class="photo${s.images[0]?' has':''}" id="ph" style="${s.images[0]?`background-image:url('${esc(src(s.images[0]))}')`:''}">${s.images[0]?'':'No photos'}
   <label>Add photos<input type="file" id="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label></div>
   ${s.images[0]?`<button class="pill cropbtn" id="cropB">Crop cover${s.crop?' (custom)':''}</button>`:''}<div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p></div>
- <div class="fields">${F.map(([k,l,t])=>`<label class="f${k==='title'||k==='tags'?' w':''}"><span>${l}</span><input data-k="${k}" type="${t}" ${t==='number'?'inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}"></label>`).join('')}
+ <div class="fields"><label class="f w"><span>Category</span><select id="catSel"><option value="">${CATS.length?'Uncategorized':'No categories yet (add in sidebar)'}</option>${CATS.map(c=>`<option${c===s.category?' selected':''}>${esc(c)}</option>`).join('')}</select></label>${F.map(([k,l,t])=>`<label class="f${k==='title'||k==='tags'?' w':''}"><span>${l}</span><input data-k="${k}" type="${t}" ${t==='number'?'inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}"></label>`).join('')}
   <div class="f w"><span>Fields &amp; placement on the sample page. Drag or use ↑↓ to reorder, pick where each shows.</span><div class="flds" id="flds"></div><button class="add" id="addF">+ Add field</button>
    <div class="pv" id="pv" aria-hidden="true"></div></div>
   <div class="f w"><span>Recipes (optional, show on the sample page)</span><div class="recs" id="rec"></div><button class="add" id="addR">+ Add recipe</button></div>
  </div></div>`;
  rec();flds();
+ $('#catSel').onchange=e=>{if(e.target.value)s.category=e.target.value;else delete s.category;setDirty();cats()};
  $('#ed').querySelectorAll('[data-k]').forEach(el=>el.oninput=()=>{const k=el.dataset.k;s[k]=k==='tags'?el.value.split(',').map(t=>t.trim()).filter(Boolean):k==='gsm'?Number(el.value)||0:el.value;setDirty();
   if(k==='title'||k==='n'){$('#ed h2').innerHTML=`<span>EML-${esc(s.n)}</span>${esc(s.title)}`;const it=$(`.item[data-i="${sel}"]`);it.querySelector('b').textContent=s.title;it.querySelector('small').textContent='EML-'+s.n}});
  $('#addF').onclick=()=>{if(s.fields.filter(f=>!f.key).length>=40)return alert('Max 40 custom fields');s.fields.push({label:'',value:'',zone:'r',hidden:false});setDirty();flds();$('#flds .fr:last-child .fl').focus()};
@@ -265,7 +287,7 @@ async function upload(files){if(!files.length)return;const s=D[sel];busy=true;$(
  catch(e){busy=false;if(done){s.image=s.images[0];setDirty();list();edit()}else setDirty(dirty);status(e.message,'bad')}}
 
 $('#save').onclick=async()=>{busy=true;$('#save').disabled=true;status('Saving…');
- try{const j=await api('save',{samples:pack(D),sha});sha=j.sha;D=norm(j.data.samples);busy=false;setDirty(false);status('Saved, live in a few seconds','ok');list();edit()}
+ try{const j=await api('save',{categories:CATS,samples:pack(D),sha});sha=j.sha;CATS=j.data.categories||[];D=norm(j.data.samples);cats();busy=false;setDirty(false);status('Saved, live in a few seconds','ok');list();edit()}
  catch(e){busy=false;$('#save').disabled=false;status(e.message,'bad')}};
 addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
 boot();

@@ -1,11 +1,11 @@
 const para=v=>String(v||'').replace(/\r\n?/g,'\n').trim().split(/\n\s*\n/).map(b=>'<p>'+esc(b).replace(/\n/g,'<br>')+'</p>').join('');
-let S=[];
+let S=[],CATS=[];
 const DEF=[['code','Code','l'],['fiber','Fiber','l'],['gsm','Weight','l'],['finish','Finish','l'],['origin','Origin','r'],['tags','Tags','r'],['year','Year','r'],['description','Description','r'],['recipes','Recipes','w']],ZONES=['l','r','w','b'];
 function lay(x){const out=[],seen=new Set();(Array.isArray(x.fields)?x.fields:[]).forEach(f=>{if(!f||typeof f!=='object')return;const z=ZONES.includes(f.zone)?f.zone:null;
  if(f.key){const d=DEF.find(d=>d[0]===f.key);if(!d||seen.has(f.key))return;seen.add(f.key);out.push({key:f.key,label:f.label||d[1],zone:z||d[2],hidden:!!f.hidden})}
  else out.push({label:f.label||'',value:f.value||'',zone:z||'r',hidden:!!f.hidden})});
  DEF.forEach(d=>{if(!seen.has(d[0]))out.push({key:d[0],label:d[1],zone:d[2],hidden:false})});return out}
-const toS=d=>d.samples.map(x=>({n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),L:lay(x),raw:(x.images&&x.images.length?x.images:x.image?[x.image]:[]),cm:x.captions&&typeof x.captions==='object'?x.captions:{}})).map(s=>(s.imgs=s.raw.map(u),s.caps=s.raw.map(p=>String(s.cm[p]||'').trim()),s.img=s.imgs[0]||'',s));
+const toS=d=>d.samples.map(x=>({cat:CATS.includes(x.category)?x.category:'',n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),L:lay(x),raw:(x.images&&x.images.length?x.images:x.image?[x.image]:[]),cm:x.captions&&typeof x.captions==='object'?x.captions:{}})).map(s=>(s.imgs=s.raw.map(u),s.caps=s.raw.map(p=>String(s.cm[p]||'').trim()),s.img=s.imgs[0]||'',s));
 const u=p=>/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):p;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -20,14 +20,22 @@ return `style="--h:${hue};--s:${sat}%;--a:${(i*37)%90}deg"`}
 const cst=c=>{if(!c)return '';const n=(v,a,b,d)=>{v=+v;return isFinite(v)?Math.max(a,Math.min(b,v)):d},x=n(c.x,0,100,50),y=n(c.y,0,100,50),z=n(c.zoom,1,3,1);return ` style="object-position:${x}% ${y}%;transform-origin:${x}% ${y}%;transform:scale(${z})"`};
 const img=(s,i,k='',src=s.img,cr='')=>`<div class="ph-img" ${ph(i)}><span>${s.code}${k}</span><img src="${esc(src)}" alt="${esc(s.t)} sample${k}" loading="lazy"${cr} onerror="this.remove()"></div>`;
 
-function render(){const N=S.length;$('#count').textContent=N+' Specimens / Placeholder data';$('#shown').textContent=N+' / '+N;
-$('#grid').innerHTML=S.map((s,i)=>`<li class="card" data-i="${i}" data-tags="${esc(s.tags.join(' '))}" style="--d:${i*40}ms"><button aria-label="Open ${esc(s.t)}, ${s.code}">${img(s,i,'',s.img,cst(s.c))}<span class="ov"><span class="ot"><b>${esc(s.t)}</b><small>${esc(s.code)} / ${esc(s.tags[0])}</small></span>${ARROW}</span></button><div class="cap"><span>${esc(s.code)}</span><span>${esc(s.t)}</span><span>${esc(s.g)} gsm</span></div></li>`).join('');
-$('#idx').innerHTML=S.map((s,i)=>`<tr data-i="${i}" data-tags="${esc(s.tags.join(' '))}"><td>${esc(s.n)}</td><td><button>${esc(s.t)}</button></td><td>${esc(s.tags[0])}</td><td>${esc(s.y)}</td></tr>`).join('');
+const gid=c=>'cat-'+(c?CATS.indexOf(c):'u');
+const groups=()=>{const g=[...CATS,''].map(c=>({c,i:S.map((s,i)=>s.cat===c?i:-1).filter(i=>i>=0)})).filter(x=>x.i.length);return g};
+const gname=c=>c||(CATS.length?'Uncategorized':'');
+function render(){const N=S.length;$('#count').textContent=N+' Specimens';$('#shown').textContent=N+' / '+N;
+const G=groups(),labeled=CATS.length>0;const J=$('#jump');J.hidden=!labeled||G.length<2;
+J.innerHTML=labeled?G.map(g=>`<a href="#${gid(g.c)}" data-j="${gid(g.c)}">${esc(gname(g.c))}<sup>${g.i.length}</sup></a>`).join(''):'';
+const card=i=>{const s=S[i];return `<li class="card" data-i="${i}" data-tags="${esc(s.tags.join(' '))}" style="--d:${i*40}ms"><button aria-label="Open ${esc(s.t)}, ${s.code}">${img(s,i,'',s.img,cst(s.c))}<span class="ov"><span class="ot"><b>${esc(s.t)}</b><small>${esc(s.code)} / ${esc(s.tags[0])}</small></span>${ARROW}</span></button><div class="cap"><span>${esc(s.code)}</span><span>${esc(s.t)}</span><span>${esc(s.g)} gsm</span></div></li>`};
+$('#grid').innerHTML=G.map(g=>(labeled?`<li class="gh" id="${gid(g.c)}" data-g="${gid(g.c)}"><span>${esc(gname(g.c))}</span><span class="gn">${String(g.i.length).padStart(2,'0')}</span></li>`:'')+g.i.map(card).join('')).join('');
+$('#grid').querySelectorAll('.card').forEach(el=>el.dataset.g=gid(S[+el.dataset.i].cat));
+$('#idx').innerHTML=G.map(g=>(labeled?`<tr class="igh" data-g="${gid(g.c)}"><th colspan="4">${esc(gname(g.c))}</th></tr>`:'')+g.i.map(i=>{const s=S[i];return `<tr data-i="${i}" data-tags="${esc(s.tags.join(' '))}"><td>${esc(s.n)}</td><td><button>${esc(s.t)}</button></td><td>${esc(s.tags[0])}</td><td>${esc(s.y)}</td></tr>`}).join('')).join('');
 $('#picks').innerHTML=S.map(s=>`<label><input type="checkbox" name="s" value="${esc(s.code)} ${esc(s.t)}"><span>${esc(s.code)}</span> ${esc(s.t)}</label>`).join('');}
 
 // filters
 $$('.filters button').forEach(b=>b.onclick=()=>{$$('.filters button').forEach(o=>o.classList.toggle('on',o===b));const f=b.dataset.f;let n=0;
-$$('[data-tags]').forEach(el=>{const h=f!=='all'&&!el.dataset.tags.includes(f);el.classList.toggle('hide',h);if(!h&&el.tagName==='LI')n++});$('#shown').textContent=`${n} / ${S.length}`});
+$$('[data-tags]').forEach(el=>{const h=f!=='all'&&!el.dataset.tags.includes(f);el.classList.toggle('hide',h);if(!h&&el.tagName==='LI')n++});
+$$('.gh,.igh').forEach(h=>h.classList.toggle('hide',!$$(`.card[data-g="${h.dataset.g}"]`).some(c=>!c.classList.contains('hide'))));$('#shown').textContent=`${n} / ${S.length}`});
 
 // panels
 let open=null,lastFocus=null;const scrim=$('.scrim');
@@ -86,8 +94,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(open)closePanel(
 if(e.key==='Tab'){if(open)trap(open,e);else if(!det.hidden)trap(det,e)}
 if(!det.hidden&&!open){if(e.key==='ArrowRight')showDetail(cur+1);if(e.key==='ArrowLeft')showDetail(cur-1)}});
 (async()=>{let d;try{const r=await fetch('/api/samples');if(!r.ok)throw 0;d=await r.json()}catch{d=await (await fetch('/data/samples.json')).json()}
-S=toS(d);render();const m=location.hash.match(/^#eml-(.+)$/);if(m){const i=S.findIndex(s=>s.code.toLowerCase()==='eml-'+m[1]);if(i>=0)showDetail(i)}})();
+CATS=Array.isArray(d.categories)?d.categories.filter(c=>typeof c==='string'&&c):[];S=toS(d);if(CATS.length){const o=c=>c?CATS.indexOf(c):CATS.length;S=S.map((s,k)=>[s,k]).sort((a,b)=>o(a[0].cat)-o(b[0].cat)||a[1]-b[1]).map(x=>x[0])}render();const m=location.hash.match(/^#eml-(.+)$/);if(m){const i=S.findIndex(s=>s.code.toLowerCase()==='eml-'+m[1]);if(i>=0)showDetail(i)}})();
 
 $('#f').onsubmit=e=>{e.preventDefault();const d=new FormData(e.target),s=d.getAll('s').join(', ')||'none selected';
 const body=`Name: ${d.get('name')}\nEmail: ${d.get('email')}\nType: ${d.get('type')}\nSamples: ${s}\nDate: ${d.get('date')}\nNotes: ${d.get('notes')}`;
 location.href=`mailto:jh@emordes.studio?subject=${encodeURIComponent('Laboratory: '+d.get('type'))}&body=${encodeURIComponent(body)}`};
+$('#jump').addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();const t=document.getElementById(a.dataset.j);if(t)scrollTo({top:t.getBoundingClientRect().top+scrollY-parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bar')||60)-14,behavior:'smooth'})});
