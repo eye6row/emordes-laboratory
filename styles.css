@@ -110,3 +110,27 @@ main{padding:calc(var(--bar) + 10px) 22px 40px}
 .lbbar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 22px 22px;font-size:11px;color:var(--mut)}.lbbar span:last-child{display:flex;gap:8px}
 @media (max-width:760px){.dimgs[data-n]{grid-template-columns:1fr;aspect-ratio:auto}.dimgs[data-n] .dshot{aspect-ratio:1;grid-row:auto!important}.dimgs[data-n="many"]{grid-template-columns:1fr 1fr}.lbbar{padding:0 14px 18px}}
 .lb[hidden]{display:none}
+
+.tt{color:var(--mut);padding:4px 0;font-size:inherit;text-transform:uppercase;letter-spacing:.06em;font-size:10px}.tt:hover{color:var(--ink)}
+.acts .tt{margin-right:4px}
+[data-theme=dark]{color-scheme:dark;--bg:#0b0b0b;--bg2:#161718;--ink:#ededed;--mut:#8b8e93;--line:rgba(237,237,237,.12)}
+[data-theme=dark] .bar{background:rgba(11,11,11,.72)}
+[data-theme=dark] .pill.dark,[data-theme=dark] .item.on,[data-theme=dark] .g .cv,[data-theme=dark] .filters button.on{color:#0b0b0b}
+[data-theme=dark] .pill.dark:hover{background:#cfcfcf}
+[data-theme=dark] .skip{color:#0b0b0b}
+[data-theme=dark] .ph-img{filter:brightness(.82) saturate(.9)}[data-theme=dark] .ph-img:has(img){filter:none}
+[data-theme=dark] .ph-img span{color:rgba(0,0,0,.55)}
+[data-theme=dark] .ov{background:rgba(18,18,18,.66);box-shadow:0 0 0 1px rgba(255,255,255,.08) inset}
+[data-theme=dark] .scrim{background:rgba(0,0,0,.4)}
+[data-theme=dark] .panel{background:rgba(14,14,14,.74);box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+[data-theme=dark] .filters button,[data-theme=dark] .pill{background:rgba(237,237,237,.07)}
+[data-theme=dark] .filters button:hover,[data-theme=dark] .pill:hover{background:rgba(237,237,237,.14)}
+[data-theme=dark] .filters button.on,[data-theme=dark] .pill.dark{background:var(--ink)}
+[data-theme=dark] .idx tbody tr:hover{background:rgba(237,237,237,.04)}
+[data-theme=dark] .logo{filter:none}
+[data-theme=dark] .form input:not([type=checkbox]),[data-theme=dark] .form select,[data-theme=dark] .form textarea{background:rgba(255,255,255,.04)}
+[data-theme=dark] #picks input{accent-color:#ededed}
+[data-theme=dark] .detail{background:rgba(11,11,11,.88)}
+[data-theme=dark] .back{background:rgba(20,20,20,.72)}
+[data-theme=dark] .lb{background:rgba(8,8,8,.9)}[data-theme=dark] .lbw img{box-shadow:0 20px 60px rgba(0,0,0,.6)}
+@media (max-width:720px){nav{gap:12px}}

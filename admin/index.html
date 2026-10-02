@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Editor / EMORDES LABORATORY</title>
-<style>
+<script>try{if(localStorage.getItem("izlab-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script><style>
 :root{--bg:#fff;--bg2:#F4F5F6;--ink:#111;--mut:#8a8d91;--line:rgba(17,17,17,.1);--r:22px;--ease:cubic-bezier(.2,.9,.1,1);--f:"Helvetica Neue",Helvetica,Arial,sans-serif;--bar:64px;--ok:#1a7f37;--bad:#c4321f}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font:400 12px/1.45 var(--f);letter-spacing:.01em;-webkit-font-smoothing:antialiased}
@@ -75,6 +75,21 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 }
 @media (min-width:761px){.mstat{display:none}}
 .mstat:empty{display:none}
+
+.tt{color:var(--mut);padding:4px 0;font-size:inherit;text-transform:uppercase;letter-spacing:.06em;font-size:10px}.tt:hover{color:var(--ink)}
+.acts .tt{margin-right:4px}
+[data-theme=dark]{color-scheme:dark;--bg:#0b0b0b;--bg2:#161718;--ink:#ededed;--mut:#8b8e93;--line:rgba(237,237,237,.12)}
+[data-theme=dark] .bar{background:rgba(11,11,11,.72)}
+[data-theme=dark] .pill.dark,[data-theme=dark] .item.on,[data-theme=dark] .g .cv,[data-theme=dark] .filters button.on{color:#0b0b0b}
+[data-theme=dark] .pill.dark:hover{background:#cfcfcf}
+[data-theme=dark] .skip{color:#0b0b0b}
+[data-theme=dark] .login form{background:rgba(22,23,24,.8)}
+[data-theme=dark] input,[data-theme=dark] textarea{background:#121314}
+[data-theme=dark] .photo label{background:rgba(18,18,18,.78)}
+[data-theme=dark] .g .gb button{background:rgba(18,18,18,.85)}[data-theme=dark] .g .gb button:hover{background:#000}
+[data-theme=dark] .item.on small{color:#555}
+[data-theme=dark] .cm{background:rgba(0,0,0,.6)}[data-theme=dark] .cbox{background:#121314}
+[data-theme=dark] .mstat{background:rgba(18,18,18,.85)}
 </style></head>
 <body>
 <section class="login" id="login" hidden>
@@ -90,7 +105,7 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 <div id="appwrap" hidden>
   <header class="bar">
     <a class="brand" href="/" target="_blank" rel="noopener"><b>EMORDES LABORATORY</b><span>Editor / view live site</span></a>
-    <div class="acts"><span id="status" aria-live="polite"></span>
+    <div class="acts"><button class="tt" id="tt" type="button" aria-label="Toggle dark mode"></button><span id="status" aria-live="polite"></span>
       <button class="pill" id="out">Log out</button><button class="pill dark" id="save" disabled>Save</button></div>
   </header>
   <div class="app">
@@ -206,4 +221,5 @@ $('#save').onclick=async()=>{busy=true;$('#save').disabled=true;status('Savingâ€
 addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
 boot();
 </script>
+<script>(function(){var b=document.getElementById("tt"),r=document.documentElement;function s(){var d=r.dataset.theme==="dark";b.textContent=d?"Light":"Dark";b.setAttribute("aria-pressed",d)}s();b.onclick=function(){var d=r.dataset.theme!=="dark";if(d)r.dataset.theme="dark";else delete r.dataset.theme;try{localStorage.setItem("izlab-theme",d?"dark":"light")}catch(e){}s()}})();</script>
 </body></html>

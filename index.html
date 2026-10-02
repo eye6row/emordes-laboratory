@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>EMORDES LABORATORY / Textile Innovation & Material Research</title>
 <meta name="description" content="EMORDES LABORATORY: textile innovation and material samples. Filipino weaving heritage meets future biomaterials.">
-<link rel="stylesheet" href="styles.css"></head>
+<script>try{if(localStorage.getItem("izlab-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script><link rel="stylesheet" href="styles.css"></head>
 <body>
 <a class="skip" href="#grid">Skip to samples</a>
 <header class="bar">
@@ -12,6 +12,7 @@
     <button data-panel="p-samples" aria-expanded="false" aria-controls="p-samples">Samples</button>
     <button data-panel="p-about" aria-expanded="false" aria-controls="p-about">About</button>
     <button data-panel="p-request" aria-expanded="false" aria-controls="p-request">Request</button>
+    <button class="tt" id="tt" type="button" aria-label="Toggle dark mode"></button>
   </nav>
 </header>
 
@@ -76,4 +77,5 @@
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer"><div class="lbw"><img id="lb-img" alt=""></div>
 <div class="lbbar"><span id="lb-c"></span><span><button class="pill" id="lb-p" aria-label="Previous photo">Prev</button><button class="pill" id="lb-n" aria-label="Next photo">Next</button><button class="pill" id="lb-x" aria-label="Close">Close</button></span></div></div>
 <script src="main.js"></script>
+<script>(function(){var b=document.getElementById("tt"),r=document.documentElement;function s(){var d=r.dataset.theme==="dark";b.textContent=d?"Light":"Dark";b.setAttribute("aria-pressed",d)}s();b.onclick=function(){var d=r.dataset.theme!=="dark";if(d)r.dataset.theme="dark";else delete r.dataset.theme;try{localStorage.setItem("izlab-theme",d?"dark":"light")}catch(e){}s()}})();</script>
 </body></html>
