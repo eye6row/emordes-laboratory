@@ -8,7 +8,7 @@ const S=[
 ["007","T'nalak Dye Study",'Abaca, natural dye',170,'Tie-resist, earth tones','South Cotabato, PH',['heritage','natural dye'],"Resist-dye study after T'boli T'nalak, earth tones only."],
 ['008','Chrome Laminate','Nylon / metallic film',120,'Mirror foil, crinkle','Industrial',['coated','future'],'Mirror foil bonded to nylon. Crinkles and holds its shape.'],
 ['009','Coconut Coir Felt','Coir / wool',650,'Needle-punched, rigid','Quezon, PH',['nonwoven','upcycled'],'Coconut husk waste needle-punched with wool into a rigid felt.'],
-['010','Algae Knit','Seaweed-cellulose yarn',160,'Soft rib, cool touch','Lab-grown',['biomaterial','knit'],'Seaweed-cellulose yarn knit in a soft rib, cool to the touch.'],
+['010','Algae Yarn','Sodium alginate / glycerin',160,'Glossy, flexible strand','Studio-made',['biomaterial','yarn'],'Seaweed-derived alginate yarn, cast by hand and colored with powder dye.'],
 ['011','Inabel Overshot','100% Cotton',300,'Raised geometric float','Abra, PH',['heritage','woven'],'Ilocano Inabel overshot, raised geometric floats on cotton.'],
 ['012','Burnout Velvet','Viscose / silk',230,'Devoré, sculpted pile','Studio-treated',['finish','experimental'],'Devoré treatment sculpts the pile, leaving silk windows.']
 ].map(([n,t,f,g,fi,o,tags,d],i)=>({n,code:'EML-'+n,t,f,g,fi,o,tags,d,img:`images/sample-${String(i+1).padStart(2,'0')}.jpg`}));
@@ -50,7 +50,7 @@ $$('[data-home]').forEach(a=>a.onclick=e=>{e.preventDefault();closePanel(false);
 let cur=-1,detFocus=null;const det=$('#detail');
 function showDetail(i,from){cur=(i+12)%12;const s=S[cur];if(det.hidden){detFocus=from||document.activeElement}
 $('#d-title').innerHTML=`<span>${s.code}</span>${esc(s.t)}`;
-$('#d-meta').innerHTML=`<dl>${[['Code',s.code],['Fiber',s.f],['Weight',s.g+' GSM'],['Finish',s.fi]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl><dl>${[['Origin',s.o],['Tags',s.tags.join(', ')],['Year','2026'],['Description',s.d]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+$('#d-meta').innerHTML=`<dl>${[['Code',s.code],['Fiber',s.f],['Weight',s.g+' GSM'],['Finish',s.fi]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl><dl>${[['Origin',s.o],['Tags',s.tags.join(', ')],['Year','2026'],['Description',s.d]].map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>${s.n==='010'?`<dl><dt>Recipe</dt><dd>Sodium Alginate 15g (~2 tbsp)</dd><dt></dt><dd>Powder Dye 1 tsp</dd><dt></dt><dd>Glycerin 30g (50g if adding powder dye)</dd><dt></dt><dd>Water 500g</dd></dl>`:''}`;
 $('#d-imgs').innerHTML=img(s,cur,'')+img(s,(cur+4)%12,' / Macro')+img(s,(cur+8)%12,' / Drape');
 if(det.hidden){closePanel(false);det.hidden=false;document.body.classList.add('lock');requestAnimationFrame(()=>det.classList.add('in'))}
 det.scrollTop=0;history.replaceState(null,'','#'+s.code.toLowerCase());$('#back').focus()}
