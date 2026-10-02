@@ -63,7 +63,7 @@ main{padding:calc(var(--bar) + 10px) 22px 40px}
 .form input:focus,.form select:focus,.form textarea:focus{border-color:var(--ink)}
 .picks{grid-column:1/-1;border:0}.picks legend{margin-bottom:5px}
 #picks{display:grid;grid-template-columns:repeat(4,1fr);gap:4px 14px}
-#picks label{flex-direction:row;align-items:center;gap:7px;color:var(--ink);cursor:pointer}#picks span{color:var(--mut)}
+#picks label{flex-direction:row;align-items:center;gap:7px;color:var(--ink);cursor:pointer}#picks span{color:var(--mut);white-space:nowrap}
 #picks input{accent-color:#111}
 .wide{grid-column:1/-1}.fr{display:flex;justify-content:space-between;align-items:center;color:var(--mut)}
 .pill{display:inline-flex;align-items:center;gap:8px;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
