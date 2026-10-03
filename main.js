@@ -1,11 +1,11 @@
 const para=v=>String(v||'').replace(/\r\n?/g,'\n').trim().split(/\n\s*\n/).map(b=>'<p>'+esc(b).replace(/\n/g,'<br>')+'</p>').join('');
 let S=[],CATS=[];
-const DEF=[['code','Code','l'],['fiber','Fiber','l'],['gsm','Weight','l'],['finish','Finish','l'],['origin','Origin','r'],['tags','Tags','r'],['year','Year','r'],['description','Description','r'],['recipes','Recipes','w']],ZONES=['l','r','w','b'];
+const DEF=[['code','Code','l'],['fiber','Fiber','l'],['gsm','Weight','l'],['finish','Finish','l'],['origin','Origin','r'],['tags','Tags','r'],['year','Year','r'],['description','Description','r'],['recipes','Recipes','w'],['notes','Notes','b']],ZONES=['l','r','w','b'];
 function lay(x){const out=[],seen=new Set();(Array.isArray(x.fields)?x.fields:[]).forEach(f=>{if(!f||typeof f!=='object')return;const z=ZONES.includes(f.zone)?f.zone:null;
  if(f.key){const d=DEF.find(d=>d[0]===f.key);if(!d||seen.has(f.key))return;seen.add(f.key);out.push({key:f.key,label:f.label||d[1],zone:z||d[2],hidden:!!f.hidden})}
  else out.push({label:f.label||'',value:f.value||'',zone:z||'r',hidden:!!f.hidden})});
  DEF.forEach(d=>{if(!seen.has(d[0]))out.push({key:d[0],label:d[1],zone:d[2],hidden:false})});return out}
-const toS=d=>d.samples.map(x=>({cat:CATS.includes(x.category)?x.category:'',n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),L:lay(x),raw:(x.images&&x.images.length?x.images:x.image?[x.image]:[]),cm:x.captions&&typeof x.captions==='object'?x.captions:{},crs:x.crops&&typeof x.crops==='object'?x.crops:{}})).map(s=>(s.imgs=s.raw.map(u),s.caps=s.raw.map(p=>String(s.cm[p]||'').trim()),s.pc=s.raw.map(p=>s.crs[p]||null),s.img=s.imgs[0]||'',s));
+const toS=d=>d.samples.map(x=>({cat:CATS.includes(x.category)?x.category:'',n:x.n,code:'EML-'+x.n,t:x.title,f:x.fiber,g:x.gsm,fi:x.finish,o:x.origin,tags:x.tags.length?x.tags:['sample'],d:x.description,y:x.year||'',c:x.crop||null,r:(x.recipes||(x.recipe&&x.recipe.length?[{title:'Recipe',rows:x.recipe}]:[])).map(q=>({title:q.title||'Recipe',rows:(q.rows||[]).map(w=>({i:w.ingredient??w.item??'',a:w.amount||''}))})),L:lay(x),raw:(x.images&&x.images.length?x.images:x.image?[x.image]:[]),cm:x.captions&&typeof x.captions==='object'?x.captions:{},no:String(x.notes||'').trim(),crs:x.crops&&typeof x.crops==='object'?x.crops:{}})).map(s=>(s.imgs=s.raw.map(u),s.caps=s.raw.map(p=>String(s.cm[p]||'').trim()),s.pc=s.raw.map(p=>s.crs[p]||null),s.img=s.imgs[0]||'',s));
 const u=p=>/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):p;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -57,7 +57,7 @@ function showDetail(i,from){const N=S.length;cur=(i+N)%N;const s=S[cur];if(det.h
 $('#d-title').innerHTML=`<span>${esc(s.code)}</span>${esc(s.t)}`;
 const V=f=>({code:s.code,fiber:s.f,gsm:s.g+' GSM',finish:s.fi,origin:s.o,tags:s.tags.join(', '),year:s.y})[f.key];
 const zone=z=>{let h='',row='';const flush=()=>{if(row)h+=`<dl>${row}</dl>`;row=''};
- s.L.filter(f=>!f.hidden&&f.zone===z).forEach(f=>{if(f.key==='recipes'){flush();h+=s.r.map(q=>`<dl>${(q.rows.length?q.rows:[{i:'',a:''}]).map((r,j)=>`<dt>${j?'':esc(q.title)}</dt><dd>${esc((r.i+' '+r.a).trim())}</dd>`).join('')}</dl>`).join('')}
+ s.L.filter(f=>!f.hidden&&f.zone===z).forEach(f=>{if(f.key==='notes'){if(s.no){flush();h+=`<aside class="note"><b class="nh">${esc(f.label==='Notes'?'notes':f.label)}</b><div class="nb">${para(s.no)}</div><span class="nm">${esc(s.code)}</span></aside>`}return}if(f.key==='recipes'){flush();h+=s.r.map(q=>`<dl>${(q.rows.length?q.rows:[{i:'',a:''}]).map((r,j)=>`<dt>${j?'':esc(q.title)}</dt><dd>${esc((r.i+' '+r.a).trim())}</dd>`).join('')}</dl>`).join('')}
   else if(f.key==='description'||!f.key)row+=`<dt>${esc(f.label)}</dt><dd class="desc">${para(f.key?s.d:f.value)}</dd>`;else row+=`<dt>${esc(f.label)}</dt><dd>${esc(V(f))}</dd>`});flush();return h};
 const zl=zone('l'),zr=zone('r'),zw=zone('w'),zb=zone('b');
 $('#d-meta').innerHTML=(zl||zr?`<div class="dcol">${zl}</div><div class="dcol">${zr}</div>`:'')+(zw?`<div class="dwide">${zw}</div>`:'');
@@ -100,3 +100,23 @@ $('#f').onsubmit=e=>{e.preventDefault();const d=new FormData(e.target),s=d.getAl
 const body=`Name: ${d.get('name')}\nEmail: ${d.get('email')}\nType: ${d.get('type')}\nSamples: ${s}\nDate: ${d.get('date')}\nNotes: ${d.get('notes')}`;
 location.href=`mailto:jh@emordes.studio?subject=${encodeURIComponent('Laboratory: '+d.get('type'))}&body=${encodeURIComponent(body)}`};
 $('#jump').addEventListener('click',e=>{const a=e.target.closest('a');if(!a)return;e.preventDefault();const t=document.getElementById(a.dataset.j);if(t)scrollTo({top:t.getBoundingClientRect().top+scrollY-parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bar')||60)-14,behavior:'smooth'})});
+
+// print / pdf spec sheets
+function sheet(s){const V={code:s.code,fiber:s.f,gsm:s.g?s.g+' GSM':'',finish:s.fi,origin:s.o,tags:s.tags.join(', '),year:s.y};
+ const rows=[];s.L.filter(f=>!f.hidden).forEach(f=>{if(!f.key){if(f.value)rows.push([f.label,f.value]);return}if(V[f.key]!=null&&V[f.key]!==''&&f.key!=='code')rows.push([f.label,V[f.key]])});
+ if(s.cat)rows.splice(1,0,['Category',s.cat]);
+ const on=k=>s.L.some(f=>f.key===k&&!f.hidden),lab=k=>(s.L.find(f=>f.key===k)||{}).label;
+ const th=s.imgs.slice(1,4);
+ return `<article class="ps"><header class="psh"><div><b>EMORDES LABORATORY</b><span>Textile Innovation &amp; Material Research</span></div><div class="psm"><span>Spec sheet</span><span>${new Date().toLocaleDateString()}</span></div></header>
+ <h1><span>${esc(s.code)}</span>${esc(s.t)}</h1>
+ <div class="psg"><div class="psi">${s.img?`<img src="${esc(s.img)}" alt="">`:''}${th.length?`<div class="pst">${th.map(x=>`<img src="${esc(x)}" alt="">`).join('')}</div>`:''}</div>
+ <div class="psd"><table class="pmt">${rows.map(r=>`<tr><th>${esc(r[0])}</th><td>${esc(r[1])}</td></tr>`).join('')}</table>
+ ${on('description')&&s.d?`<h3>${esc(lab('description'))}</h3><div class="pdesc">${para(s.d)}</div>`:''}
+ ${on('recipes')?s.r.filter(q=>q.rows.length).map(q=>`<h3>${esc(q.title)}</h3><table class="prt"><tr><th>Ingredient</th><th>Amount</th></tr>${q.rows.map(r=>`<tr><td>${esc(r.i)}</td><td>${esc(r.a)}</td></tr>`).join('')}</table>`).join(''):''}
+ ${on('notes')&&s.no?`<div class="pnote"><b>notes</b>${para(s.no)}</div>`:''}</div></div>
+ <footer class="psf"><span>© EMORDES LABORATORY</span><span>izlab.emordes.studio/#${esc(s.code.toLowerCase())}</span></footer></article>`}
+async function printS(list){const P=$('#pr');P.innerHTML=list.map(sheet).join('');document.documentElement.classList.add('printing');
+ await Promise.all([...P.querySelectorAll('img')].map(i=>i.decode().catch(()=>{})));window.print()}
+addEventListener('afterprint',()=>{document.documentElement.classList.remove('printing');$('#pr').innerHTML=''});
+$('#prt').onclick=()=>{if(cur>=0)printS([S[cur]])};$('#prall').onclick=()=>printS(S);
+window.__printS=printS;
