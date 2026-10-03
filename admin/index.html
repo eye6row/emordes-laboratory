@@ -142,13 +142,13 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 <script>
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const DEF=[['code','Code','l'],['fiber','Fiber','l'],['gsm','Weight','l'],['finish','Finish','l'],['origin','Origin','r'],['tags','Tags','r'],['year','Year','r'],['description','Description','r'],['recipes','Recipes','w']],ZN=[['l','Meta, left column'],['r','Meta, right column'],['w','Meta, full row'],['b','Below photos']];
+const DEF=[['code','Code','l'],['fiber','Fiber','l'],['gsm','Weight','l'],['finish','Finish','l'],['origin','Origin','r'],['tags','Tags','r'],['year','Year','r'],['description','Description','r'],['recipes','Recipes','w'],['notes','Notes','b']],ZN=[['l','Meta, left column'],['r','Meta, right column'],['w','Meta, full row'],['b','Below photos']];
 function lay(x){const out=[],seen=new Set();(Array.isArray(x.fields)?x.fields:[]).forEach(f=>{if(!f||typeof f!=='object')return;const z=ZN.some(q=>q[0]===f.zone)?f.zone:null;
  if(f.key){const d=DEF.find(d=>d[0]===f.key);if(!d||seen.has(f.key))return;seen.add(f.key);out.push({key:f.key,label:f.label||d[1],zone:z||d[2],hidden:!!f.hidden})}
  else out.push({label:f.label||'',value:f.value||'',zone:z||'r',hidden:!!f.hidden})});
  DEF.forEach(d=>{if(!seen.has(d[0]))out.push({key:d[0],label:d[1],zone:d[2],hidden:false})});return out}
 const pack=a=>a.map(s=>{const f=s.fields.map(x=>{const d=x.key&&DEF.find(d=>d[0]===x.key),o=x.key?{key:x.key,zone:x.zone}:{label:x.label,value:x.value,zone:x.zone};if(d&&x.label.trim()&&x.label.trim()!==d[1])o.label=x.label.trim();if(x.hidden)o.hidden=true;return o});
- const isDef=f.every((x,i)=>x.key===DEF[i]?.[0]&&x.zone===DEF[i][2]&&!x.label&&!x.hidden)&&f.length===DEF.length;const o={...s};if(isDef)delete o.fields;else o.fields=f;return o});
+ const isDef=f.every((x,i)=>x.key===DEF[i]?.[0]&&x.zone===DEF[i][2]&&!x.label&&!x.hidden)&&f.length===DEF.length;const o={...s};if(isDef)delete o.fields;else o.fields=f;if(!String(o.notes||'').trim())delete o.notes;return o});
 const norm=a=>a.map(s=>({...s,fields:lay(s),recipes:(Array.isArray(s.recipes)?s.recipes:(s.recipe&&s.recipe.length?[{title:'Recipe',rows:s.recipe}]:[])).map(q=>({title:q.title||'',rows:(q.rows||[]).map(r=>({ingredient:r.ingredient??r.item??'',amount:r.amount||''}))})),recipe:undefined,images:s.images&&s.images.length?[...s.images]:s.image?[s.image]:[],captions:{...(s.captions&&typeof s.captions==='object'?s.captions:{})},crops:{...(s.crops&&typeof s.crops==='object'?s.crops:{})}}));
 let D=[],CATS=[],sha=null,sel=0,dirty=false,busy=false;
 const src=p=>!p?'':/^images\/uploads\//.test(p)?'/api/img?p='+encodeURIComponent(p):'/'+p;
@@ -223,6 +223,7 @@ function changed(){const s=D[sel];if((s.images[0]||'')!==s.image)delete s.crop;s
 function flds(){const s=D[sel],L=s.fields,n=L.length,box=$('#flds');
  const val=f=>{const k=f.key;if(k==='code')return `<span class="fv mut">EML-${esc(s.n)} (from No.)</span>`;if(k==='recipes')return `<span class="fv mut">${s.recipes.length} recipe${s.recipes.length==1?'':'s'}, edit below. Recipe titles are used as labels.</span>`;
   if(k==='description')return `<textarea class="fvi" data-v="description" rows="6" maxlength="4000" aria-label="Description">${esc(s.description)}</textarea>`;
+  if(k==='notes')return `<textarea class="fvi" data-v="notes" rows="4" maxlength="2000" placeholder="Studio notes, process, reminders" aria-label="Notes">${esc(s.notes||'')}</textarea>`;
   if(!k)return `<textarea class="fvi" data-v="" rows="2" maxlength="2000" placeholder="Value" aria-label="Value">${esc(f.value)}</textarea>`;
   return `<input class="fvi" data-v="${k}" ${k==='gsm'?'type="number" inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}" placeholder="${k==='tags'?'comma separated':''}" aria-label="${esc(f.label)} value">`};
  box.innerHTML=L.map((f,i)=>`<div class="fr${f.hidden?' off':''}" data-i="${i}" draggable="true"><span class="hd" title="Drag to reorder" aria-hidden="true">⋮⋮</span>
