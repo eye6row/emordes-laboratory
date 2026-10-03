@@ -68,7 +68,7 @@
     },
     {
       "n": "004",
-      "title": "Mycelium Bio-Leather",
+      "title": "Binakol Low Contrast",
       "fiber": "Mycelium composite",
       "gsm": 520,
       "finish": "Pebbled, waxed",
@@ -90,7 +90,7 @@
     },
     {
       "n": "006",
-      "title": "Banana Silk Jacquard",
+      "title": "Binakol Inverse",
       "fiber": "Musa fiber / Cotton",
       "gsm": 210,
       "finish": "Satin float jacquard",
@@ -111,7 +111,7 @@
     },
     {
       "n": "003",
-      "title": "Abaca Blend",
+      "title": "Binakol Unwoven",
       "fiber": "60% Abaca / 40% Linen",
       "gsm": 190,
       "finish": "Raw slub, matte",
@@ -139,7 +139,7 @@
     },
     {
       "n": "002",
-      "title": "Binakol Cotton",
+      "title": "Binakol Alternating Unwoven",
       "fiber": "100% Cotton",
       "gsm": 320,
       "finish": "Hand-loom twill, optical wave",
@@ -215,7 +215,7 @@
     },
     {
       "n": "005",
-      "title": "Recycled Organza",
+      "title": "Binakol Bib",
       "fiber": "100% rPET",
       "gsm": 55,
       "finish": "Iridescent, stiff",
@@ -243,7 +243,7 @@
     },
     {
       "n": "002",
-      "title": "Piña Sheer Study",
+      "title": "Binakol 2\"",
       "fiber": "Pineapple-leaf fiber blend",
       "gsm": 40,
       "finish": "Translucent, crisp hand",
