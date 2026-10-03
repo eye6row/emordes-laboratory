@@ -72,6 +72,7 @@ function clean(input) {
         finish: str(s.finish, 160), origin: str(s.origin, 120),
         tags: (Array.isArray(s.tags) ? s.tags : String(s.tags || '').split(',')).map(t => str(t, 40).toLowerCase()).filter(Boolean).slice(0, 12),
         description: str(String(s.description == null ? '' : s.description).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 4000), year: str(s.year, 12),
+        ...(() => { const v = str(String(s.notes == null ? '' : s.notes).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 2000); return v ? { notes: v } : {}; })(),
         recipes: (() => { const row = r => ({ ingredient: str(r && (r.ingredient ?? r.item), 120), amount: str(r && r.amount, 120) }); const rows = a => (Array.isArray(a) ? a : []).slice(0, 40).map(row).filter(r => r.ingredient || r.amount);
           let rs = Array.isArray(s.recipes) ? s.recipes : (Array.isArray(s.recipe) && s.recipe.length ? [{ title: 'Recipe', rows: s.recipe }] : []);
           return rs.slice(0, 12).map(x => ({ title: str(x && x.title, 120), rows: rows(x && x.rows) })).filter(x => x.title || x.rows.length); })(),
@@ -80,7 +81,7 @@ function clean(input) {
         ...(() => { const c = s.captions && typeof s.captions === 'object' && !Array.isArray(s.captions) ? s.captions : {}, o = {};
           for (const p of images) { const v = str(String(c[p] == null ? '' : c[p]).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 300); if (v) o[p] = v; }
           return Object.keys(o).length ? { captions: o } : {}; })(),
-        ...(() => { if (!Array.isArray(s.fields)) return {}; const KEYS = ['code', 'fiber', 'gsm', 'finish', 'origin', 'tags', 'year', 'description', 'recipes'], Z = ['l', 'r', 'w', 'b'], seen = new Set(), out = [];
+        ...(() => { if (!Array.isArray(s.fields)) return {}; const KEYS = ['code', 'fiber', 'gsm', 'finish', 'origin', 'tags', 'year', 'description', 'recipes', 'notes'], Z = ['l', 'r', 'w', 'b'], seen = new Set(), out = [];
           const ml = v => str(String(v == null ? '' : v).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), 2000);
           for (const f of s.fields.slice(0, 60)) { if (!f || typeof f !== 'object') continue; const zone = Z.includes(f.zone) ? f.zone : 'r', hidden = f.hidden === true;
             if (f.key != null) { const k = String(f.key); if (!KEYS.includes(k) || seen.has(k)) continue; seen.add(k); const o = { key: k, zone }; const l = str(f.label, 60); if (l) o.label = l; if (hidden) o.hidden = true; out.push(o); }
