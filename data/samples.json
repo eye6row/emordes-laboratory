@@ -1,10 +1,10 @@
 {
   "samples": [
     {
-      "n": "010",
+      "n": "001",
       "title": "Algae Yarn",
       "fiber": "Sodium alginate / glycerin",
-      "gsm": 160,
+      "gsm": 2,
       "finish": "Glossy, flexible strand",
       "origin": "Studio-made",
       "tags": [
@@ -60,7 +60,7 @@
       }
     },
     {
-      "n": "001",
+      "n": "002",
       "title": "Binakol Cotton",
       "fiber": "100% Cotton",
       "gsm": 280,
