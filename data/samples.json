@@ -74,8 +74,12 @@
       "description": "The Binakol wave, an optical whirlpool woven to ward off spirits. Woven in studio to study density and repeat.",
       "year": "2026",
       "recipes": [],
-      "image": "images/sample-01.jpg",
+      "image": "images/uploads/ba76d5ce602aab09.jpg",
       "images": [
+        "images/uploads/ba76d5ce602aab09.jpg",
+        "images/uploads/f634da8d9c3798e6.jpg",
+        "images/uploads/7ff6420497b8a33e.jpg",
+        "images/uploads/39e2e82351e1fb2d.jpg",
         "images/sample-01.jpg"
       ],
       "fields": [
@@ -144,7 +148,9 @@
       "recipes": [],
       "image": "images/sample-02.jpg",
       "images": [
-        "images/sample-02.jpg"
+        "images/sample-02.jpg",
+        "images/uploads/9a7a36db59151008.jpg",
+        "images/uploads/6cb61c9347d3b319.jpg"
       ]
     },
     {
@@ -161,8 +167,10 @@
       "description": "Abaca blended with linen for structure without stiffness.",
       "year": "2026",
       "recipes": [],
-      "image": "images/sample-03.jpg",
+      "image": "images/uploads/c5647c45cd5a7e75.jpg",
       "images": [
+        "images/uploads/c5647c45cd5a7e75.jpg",
+        "images/uploads/c2b126629abc134e.jpg",
         "images/sample-03.jpg"
       ]
     },
