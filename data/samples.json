@@ -82,6 +82,50 @@
       ]
     },
     {
+      "n": "006",
+      "title": "Banana Silk Jacquard",
+      "fiber": "Musa fiber / Cotton",
+      "gsm": 210,
+      "finish": "Satin float jacquard",
+      "origin": "Davao, PH",
+      "tags": [
+        "plant fiber",
+        "jacquard"
+      ],
+      "description": "Musa fiber floats over a cotton ground in a satin jacquard.",
+      "year": "2026",
+      "recipes": [],
+      "image": "images/uploads/3fbc46d104201372.jpg",
+      "images": [
+        "images/uploads/3fbc46d104201372.jpg",
+        "images/uploads/83d488713a6d17e2.jpg",
+        "images/sample-06.jpg"
+      ]
+    },
+    {
+      "n": "003",
+      "title": "Abaca Blend",
+      "fiber": "60% Abaca / 40% Linen",
+      "gsm": 190,
+      "finish": "Raw slub, matte",
+      "origin": "Bicol, PH",
+      "tags": [
+        "bast",
+        "structural"
+      ],
+      "description": "Abaca blended with linen for structure without stiffness.",
+      "year": "2026",
+      "recipes": [],
+      "image": "images/uploads/c5647c45cd5a7e75.jpg",
+      "images": [
+        "images/uploads/c5647c45cd5a7e75.jpg",
+        "images/uploads/c2b126629abc134e.jpg",
+        "images/uploads/239c19da2f87b386.jpg",
+        "images/uploads/098bc3995c5d5f86.jpg",
+        "images/sample-03.jpg"
+      ]
+    },
+    {
       "n": "002",
       "title": "Binakol Cotton",
       "fiber": "100% Cotton",
@@ -155,50 +199,6 @@
       ]
     },
     {
-      "n": "002",
-      "title": "Piña Sheer Study",
-      "fiber": "Pineapple-leaf fiber blend",
-      "gsm": 40,
-      "finish": "Translucent, crisp hand",
-      "origin": "Aklan, PH",
-      "tags": [
-        "sheer",
-        "plant fiber"
-      ],
-      "description": "Pineapple-leaf fiber, the cloth of the barong. Tested for drape and layering.",
-      "year": "2026",
-      "recipes": [],
-      "image": "images/uploads/6cb61c9347d3b319.jpg",
-      "images": [
-        "images/uploads/6cb61c9347d3b319.jpg",
-        "images/uploads/9a7a36db59151008.jpg",
-        "images/sample-02.jpg"
-      ]
-    },
-    {
-      "n": "003",
-      "title": "Abaca Blend",
-      "fiber": "60% Abaca / 40% Linen",
-      "gsm": 190,
-      "finish": "Raw slub, matte",
-      "origin": "Bicol, PH",
-      "tags": [
-        "bast",
-        "structural"
-      ],
-      "description": "Abaca blended with linen for structure without stiffness.",
-      "year": "2026",
-      "recipes": [],
-      "image": "images/uploads/c5647c45cd5a7e75.jpg",
-      "images": [
-        "images/uploads/c5647c45cd5a7e75.jpg",
-        "images/uploads/c2b126629abc134e.jpg",
-        "images/uploads/239c19da2f87b386.jpg",
-        "images/uploads/098bc3995c5d5f86.jpg",
-        "images/sample-03.jpg"
-      ]
-    },
-    {
       "n": "005",
       "title": "Recycled Organza",
       "fiber": "100% rPET",
@@ -222,24 +222,24 @@
       ]
     },
     {
-      "n": "006",
-      "title": "Banana Silk Jacquard",
-      "fiber": "Musa fiber / Cotton",
-      "gsm": 210,
-      "finish": "Satin float jacquard",
-      "origin": "Davao, PH",
+      "n": "002",
+      "title": "Piña Sheer Study",
+      "fiber": "Pineapple-leaf fiber blend",
+      "gsm": 40,
+      "finish": "Translucent, crisp hand",
+      "origin": "Aklan, PH",
       "tags": [
-        "plant fiber",
-        "jacquard"
+        "sheer",
+        "plant fiber"
       ],
-      "description": "Musa fiber floats over a cotton ground in a satin jacquard.",
+      "description": "Pineapple-leaf fiber, the cloth of the barong. Tested for drape and layering.",
       "year": "2026",
       "recipes": [],
-      "image": "images/uploads/3fbc46d104201372.jpg",
+      "image": "images/uploads/6cb61c9347d3b319.jpg",
       "images": [
-        "images/uploads/3fbc46d104201372.jpg",
-        "images/uploads/83d488713a6d17e2.jpg",
-        "images/sample-06.jpg"
+        "images/uploads/6cb61c9347d3b319.jpg",
+        "images/uploads/9a7a36db59151008.jpg",
+        "images/sample-02.jpg"
       ]
     },
     {
