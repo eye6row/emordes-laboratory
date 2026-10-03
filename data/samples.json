@@ -1,8 +1,4 @@
 {
-  "categories": [
-    "Biomaterial",
-    "Woven Textile"
-  ],
   "samples": [
     {
       "n": "001",
@@ -57,7 +53,6 @@
       "images": [
         "images/sample-10.jpg"
       ],
-      "category": "Biomaterial",
       "crop": {
         "x": 17.16,
         "y": 47.32,
@@ -66,7 +61,7 @@
     },
     {
       "n": "004",
-      "title": "Binakol Low Contrast",
+      "title": "Mycelium Bio-Leather",
       "fiber": "Mycelium composite",
       "gsm": 520,
       "finish": "Pebbled, waxed",
@@ -83,12 +78,11 @@
         "images/uploads/1756013d74934dd3.jpg",
         "images/uploads/2fd2d477e59eb881.jpg",
         "images/uploads/f98c55a2282005fb.jpg"
-      ],
-      "category": "Woven Textile"
+      ]
     },
     {
       "n": "006",
-      "title": "Binakol Inverse",
+      "title": "Banana Silk Jacquard",
       "fiber": "Musa fiber / Cotton",
       "gsm": 210,
       "finish": "Satin float jacquard",
@@ -105,11 +99,11 @@
         "images/uploads/3fbc46d104201372.jpg",
         "images/uploads/83d488713a6d17e2.jpg"
       ],
-      "category": "Woven Textile"
+      "notes": "Woven on the floor loom, second warp.\nBanana fiber softens after a cold rinse.\n\nTry a heavier weft next time for drape."
     },
     {
       "n": "003",
-      "title": "Binakol Unwoven",
+      "title": "Abaca Blend",
       "fiber": "60% Abaca / 40% Linen",
       "gsm": 190,
       "finish": "Raw slub, matte",
@@ -127,12 +121,11 @@
         "images/uploads/c2b126629abc134e.jpg",
         "images/uploads/239c19da2f87b386.jpg",
         "images/uploads/098bc3995c5d5f86.jpg"
-      ],
-      "category": "Woven Textile"
+      ]
     },
     {
       "n": "002",
-      "title": "Binakol Alternating Unwoven",
+      "title": "Binakol Cotton",
       "fiber": "100% Cotton",
       "gsm": 320,
       "finish": "Hand-loom twill, optical wave",
@@ -151,7 +144,6 @@
         "images/uploads/f634da8d9c3798e6.jpg",
         "images/uploads/39e2e82351e1fb2d.jpg"
       ],
-      "category": "Woven Textile",
       "fields": [
         {
           "key": "code",
@@ -204,7 +196,7 @@
     },
     {
       "n": "005",
-      "title": "Binakol Bib",
+      "title": "Recycled Organza",
       "fiber": "100% rPET",
       "gsm": 55,
       "finish": "Iridescent, stiff",
@@ -223,7 +215,6 @@
         "images/uploads/b233ee9fa43a36ac.jpg",
         "images/uploads/03ac1e104a2e2c1a.jpg"
       ],
-      "category": "Woven Textile",
       "crop": {
         "x": 50,
         "y": 24.33,
@@ -232,7 +223,7 @@
     },
     {
       "n": "002",
-      "title": "Binakol 2\"",
+      "title": "Pi\u00f1a Sheer Study",
       "fiber": "Pineapple-leaf fiber blend",
       "gsm": 40,
       "finish": "Translucent, crisp hand",
@@ -249,8 +240,102 @@
         "images/uploads/6cb61c9347d3b319.jpg",
         "images/uploads/9a7a36db59151008.jpg",
         "images/uploads/d302a42749972575.jpg"
+      ]
+    },
+    {
+      "n": "007",
+      "title": "T'nalak Dye Study",
+      "fiber": "Abaca, natural dye",
+      "gsm": 170,
+      "finish": "Tie-resist, earth tones",
+      "origin": "South Cotabato, PH",
+      "tags": [
+        "heritage",
+        "natural dye"
       ],
-      "category": "Woven Textile"
+      "description": "Resist-dye study after T'boli T'nalak, earth tones only.",
+      "year": "2026",
+      "recipes": [],
+      "image": "images/sample-07.jpg",
+      "images": [
+        "images/sample-07.jpg"
+      ]
+    },
+    {
+      "n": "008",
+      "title": "Chrome Laminate",
+      "fiber": "Nylon / metallic film",
+      "gsm": 120,
+      "finish": "Mirror foil, crinkle",
+      "origin": "Industrial",
+      "tags": [
+        "coated",
+        "future"
+      ],
+      "description": "Mirror foil bonded to nylon. Crinkles and holds its shape.",
+      "year": "2026",
+      "recipes": [],
+      "image": "images/sample-08.jpg",
+      "images": [
+        "images/sample-08.jpg"
+      ]
+    },
+    {
+      "n": "009",
+      "title": "Coconut Coir Felt",
+      "fiber": "Coir / wool",
+      "gsm": 650,
+      "finish": "Needle-punched, rigid",
+      "origin": "Quezon, PH",
+      "tags": [
+        "nonwoven",
+        "upcycled"
+      ],
+      "description": "Coconut husk waste needle-punched with wool into a rigid felt.",
+      "year": "2026",
+      "recipes": [],
+      "image": "images/sample-09.jpg",
+      "images": [
+        "images/sample-09.jpg"
+      ]
+    },
+    {
+      "n": "011",
+      "title": "Inabel Overshot",
+      "fiber": "100% Cotton",
+      "gsm": 300,
+      "finish": "Raised geometric float",
+      "origin": "Abra, PH",
+      "tags": [
+        "heritage",
+        "woven"
+      ],
+      "description": "Ilocano Inabel overshot, raised geometric floats on cotton.",
+      "year": "2026",
+      "recipes": [],
+      "image": "images/sample-11.jpg",
+      "images": [
+        "images/sample-11.jpg"
+      ]
+    },
+    {
+      "n": "012",
+      "title": "Burnout Velvet",
+      "fiber": "Viscose / silk",
+      "gsm": 230,
+      "finish": "Devor\u00e9, sculpted pile",
+      "origin": "Studio-treated",
+      "tags": [
+        "finish",
+        "experimental"
+      ],
+      "description": "Devor\u00e9 treatment sculpts the pile, leaving silk windows.",
+      "year": "2026",
+      "recipes": [],
+      "image": "images/sample-12.jpg",
+      "images": [
+        "images/sample-12.jpg"
+      ]
     }
   ]
 }
