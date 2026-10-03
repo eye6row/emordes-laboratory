@@ -174,3 +174,6 @@ main{padding:calc(var(--bar) + 10px) 22px 40px}
 @media (max-width:760px){#d-imgs.dimgs,#d-imgs.dimgs[data-n="many"]{columns:1}}
 .lbw{position:relative;overflow:hidden}
 .lbw img{max-width:100%;max-height:calc(100dvh - 120px);width:auto;height:auto}
+#d-imgs .ph-img:has(img){background:none;width:fit-content;max-width:100%;margin:0 auto;border-radius:var(--r);overflow:hidden}
+#d-imgs .ph-img img{width:auto;max-width:100%}
+#d-imgs .dshot{background:none;overflow:visible}
