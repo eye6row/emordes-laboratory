@@ -77,8 +77,7 @@
       "images": [
         "images/uploads/1756013d74934dd3.jpg",
         "images/uploads/2fd2d477e59eb881.jpg",
-        "images/uploads/f98c55a2282005fb.jpg",
-        "images/sample-04.jpg"
+        "images/uploads/f98c55a2282005fb.jpg"
       ]
     },
     {
@@ -98,8 +97,7 @@
       "image": "images/uploads/3fbc46d104201372.jpg",
       "images": [
         "images/uploads/3fbc46d104201372.jpg",
-        "images/uploads/83d488713a6d17e2.jpg",
-        "images/sample-06.jpg"
+        "images/uploads/83d488713a6d17e2.jpg"
       ]
     },
     {
@@ -121,8 +119,7 @@
         "images/uploads/c5647c45cd5a7e75.jpg",
         "images/uploads/c2b126629abc134e.jpg",
         "images/uploads/239c19da2f87b386.jpg",
-        "images/uploads/098bc3995c5d5f86.jpg",
-        "images/sample-03.jpg"
+        "images/uploads/098bc3995c5d5f86.jpg"
       ]
     },
     {
@@ -144,8 +141,7 @@
       "images": [
         "images/uploads/ba76d5ce602aab09.jpg",
         "images/uploads/f634da8d9c3798e6.jpg",
-        "images/uploads/39e2e82351e1fb2d.jpg",
-        "images/sample-01.jpg"
+        "images/uploads/39e2e82351e1fb2d.jpg"
       ],
       "fields": [
         {
@@ -216,9 +212,13 @@
         "images/uploads/130796951db94e8e.jpg",
         "images/uploads/1d5651f1c50aafc0.jpg",
         "images/uploads/b233ee9fa43a36ac.jpg",
-        "images/uploads/03ac1e104a2e2c1a.jpg",
-        "images/sample-05.jpg"
-      ]
+        "images/uploads/03ac1e104a2e2c1a.jpg"
+      ],
+      "crop": {
+        "x": 50,
+        "y": 24.33,
+        "zoom": 1
+      }
     },
     {
       "n": "002",
@@ -238,8 +238,7 @@
       "images": [
         "images/uploads/6cb61c9347d3b319.jpg",
         "images/uploads/9a7a36db59151008.jpg",
-        "images/uploads/d302a42749972575.jpg",
-        "images/sample-02.jpg"
+        "images/uploads/d302a42749972575.jpg"
       ]
     },
     {
