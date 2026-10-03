@@ -1,4 +1,8 @@
 {
+  "categories": [
+    "Biomaterials",
+    "Woven Textiles"
+  ],
   "samples": [
     {
       "n": "001",
@@ -53,6 +57,7 @@
       "images": [
         "images/sample-10.jpg"
       ],
+      "category": "Biomaterials",
       "crop": {
         "x": 17.16,
         "y": 47.32,
@@ -78,7 +83,8 @@
         "images/uploads/1756013d74934dd3.jpg",
         "images/uploads/2fd2d477e59eb881.jpg",
         "images/uploads/f98c55a2282005fb.jpg"
-      ]
+      ],
+      "category": "Woven Textiles"
     },
     {
       "n": "006",
@@ -98,7 +104,8 @@
       "images": [
         "images/uploads/3fbc46d104201372.jpg",
         "images/uploads/83d488713a6d17e2.jpg"
-      ]
+      ],
+      "category": "Woven Textiles"
     },
     {
       "n": "003",
@@ -120,7 +127,8 @@
         "images/uploads/c2b126629abc134e.jpg",
         "images/uploads/239c19da2f87b386.jpg",
         "images/uploads/098bc3995c5d5f86.jpg"
-      ]
+      ],
+      "category": "Woven Textiles"
     },
     {
       "n": "002",
@@ -143,6 +151,7 @@
         "images/uploads/f634da8d9c3798e6.jpg",
         "images/uploads/39e2e82351e1fb2d.jpg"
       ],
+      "category": "Woven Textiles",
       "fields": [
         {
           "key": "code",
@@ -190,6 +199,10 @@
           "label": "Weft",
           "value": "2 mm macrame, 10/2 cotton",
           "zone": "l"
+        },
+        {
+          "key": "notes",
+          "zone": "b"
         }
       ]
     },
@@ -214,6 +227,7 @@
         "images/uploads/b233ee9fa43a36ac.jpg",
         "images/uploads/03ac1e104a2e2c1a.jpg"
       ],
+      "category": "Woven Textiles",
       "crop": {
         "x": 50,
         "y": 24.33,
@@ -239,7 +253,8 @@
         "images/uploads/6cb61c9347d3b319.jpg",
         "images/uploads/9a7a36db59151008.jpg",
         "images/uploads/d302a42749972575.jpg"
-      ]
+      ],
+      "category": "Woven Textiles"
     },
     {
       "n": "007",
