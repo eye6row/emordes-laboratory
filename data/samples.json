@@ -297,63 +297,6 @@
         "images/sample-08.jpg"
       ],
       "category": "Coming Soon"
-    },
-    {
-      "n": "009",
-      "title": "Coconut Coir Felt",
-      "fiber": "Coir / wool",
-      "gsm": 650,
-      "finish": "Needle-punched, rigid",
-      "origin": "Quezon, PH",
-      "tags": [
-        "nonwoven",
-        "upcycled"
-      ],
-      "description": "Coconut husk waste needle-punched with wool into a rigid felt.",
-      "year": "2026",
-      "recipes": [],
-      "image": "images/sample-09.jpg",
-      "images": [
-        "images/sample-09.jpg"
-      ]
-    },
-    {
-      "n": "011",
-      "title": "Inabel Overshot",
-      "fiber": "100% Cotton",
-      "gsm": 300,
-      "finish": "Raised geometric float",
-      "origin": "Abra, PH",
-      "tags": [
-        "heritage",
-        "woven"
-      ],
-      "description": "Ilocano Inabel overshot, raised geometric floats on cotton.",
-      "year": "2026",
-      "recipes": [],
-      "image": "images/sample-11.jpg",
-      "images": [
-        "images/sample-11.jpg"
-      ]
-    },
-    {
-      "n": "012",
-      "title": "Burnout Velvet",
-      "fiber": "Viscose / silk",
-      "gsm": 230,
-      "finish": "Devoré, sculpted pile",
-      "origin": "Studio-treated",
-      "tags": [
-        "finish",
-        "experimental"
-      ],
-      "description": "Devoré treatment sculpts the pile, leaving silk windows.",
-      "year": "2026",
-      "recipes": [],
-      "image": "images/sample-12.jpg",
-      "images": [
-        "images/sample-12.jpg"
-      ]
     }
   ]
 }
