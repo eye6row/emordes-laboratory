@@ -59,14 +59,14 @@
 </section>
 
 <main>
-  <div class="sub"><span>Overview</span><span id="shown">12 / 12</span><span class="hide-m">Hover to preview, click to open</span></div>
+  <div class="sub"><span>Overview</span><span id="shown">12 / 12</span><span class="hide-m">Hover to preview, click to open</span><button class="prall" id="prall">Print all</button></div>
   <div class="jump" id="jump" role="navigation" aria-label="Categories" hidden></div>
   <ul class="grid" id="grid"></ul>
 </main>
 
 <section class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="d-title" hidden>
   <div class="din">
-    <button class="pill back" id="back"><i class="arr l" aria-hidden="true"></i> Back to Overview</button>
+    <div class="dtop"><button class="pill back" id="back"><i class="arr l" aria-hidden="true"></i> Back to Overview</button><button class="pill" id="prt">Print / PDF</button></div>
     <h2 id="d-title"></h2>
     <div class="dmeta" id="d-meta"></div>
     <div class="dimgs" id="d-imgs"></div><p class="dcap" id="d-cap" aria-hidden="true" hidden></p>
@@ -75,6 +75,7 @@
   </div>
 </section>
 
+<div id="pr" aria-hidden="true"></div>
 <footer class="foot"><span>© 2026 EMORDES LABORATORY</span><a href="mailto:jh@emordes.studio">jh@emordes.studio</a><a href="https://emordes.studio">emordes .studio</a></footer>
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer"><div class="lbw"><img id="lb-img" alt=""></div><p class="lbcap" id="lb-cap" hidden></p>
 <div class="lbbar"><span id="lb-c"></span><span><button class="pill" id="lb-p" aria-label="Previous photo">Prev</button><button class="pill" id="lb-n" aria-label="Next photo">Next</button><button class="pill" id="lb-x" aria-label="Close">Close</button></span></div></div>
