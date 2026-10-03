@@ -260,7 +260,7 @@
     },
     {
       "n": "007",
-      "title": "T'nalak Dye Study",
+      "title": "Philippines Natural Dyes",
       "fiber": "Abaca, natural dye",
       "gsm": 170,
       "finish": "Tie-resist, earth tones",
@@ -275,11 +275,12 @@
       "image": "images/sample-07.jpg",
       "images": [
         "images/sample-07.jpg"
-      ]
+      ],
+      "category": "Studies"
     },
     {
       "n": "008",
-      "title": "Chrome Laminate",
+      "title": "Crystal Grown Fabric",
       "fiber": "Nylon / metallic film",
       "gsm": 120,
       "finish": "Mirror foil, crinkle",
@@ -294,7 +295,8 @@
       "image": "images/sample-08.jpg",
       "images": [
         "images/sample-08.jpg"
-      ]
+      ],
+      "category": "Coming Soon"
     },
     {
       "n": "009",
