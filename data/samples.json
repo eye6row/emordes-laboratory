@@ -60,6 +60,28 @@
       }
     },
     {
+      "n": "004",
+      "title": "Mycelium Bio-Leather",
+      "fiber": "Mycelium composite",
+      "gsm": 520,
+      "finish": "Pebbled, waxed",
+      "origin": "Lab-grown",
+      "tags": [
+        "biomaterial",
+        "vegan"
+      ],
+      "description": "Grown, not tanned. A fungal composite finished to read as leather.",
+      "year": "2026",
+      "recipes": [],
+      "image": "images/uploads/1756013d74934dd3.jpg",
+      "images": [
+        "images/uploads/1756013d74934dd3.jpg",
+        "images/uploads/2fd2d477e59eb881.jpg",
+        "images/uploads/f98c55a2282005fb.jpg",
+        "images/sample-04.jpg"
+      ]
+    },
+    {
       "n": "002",
       "title": "Binakol Cotton",
       "fiber": "100% Cotton",
@@ -177,27 +199,6 @@
       ]
     },
     {
-      "n": "004",
-      "title": "Mycelium Bio-Leather",
-      "fiber": "Mycelium composite",
-      "gsm": 520,
-      "finish": "Pebbled, waxed",
-      "origin": "Lab-grown",
-      "tags": [
-        "biomaterial",
-        "vegan"
-      ],
-      "description": "Grown, not tanned. A fungal composite finished to read as leather.",
-      "year": "2026",
-      "recipes": [],
-      "image": "images/uploads/1756013d74934dd3.jpg",
-      "images": [
-        "images/uploads/1756013d74934dd3.jpg",
-        "images/uploads/2fd2d477e59eb881.jpg",
-        "images/sample-04.jpg"
-      ]
-    },
-    {
       "n": "005",
       "title": "Recycled Organza",
       "fiber": "100% rPET",
@@ -234,8 +235,10 @@
       "description": "Musa fiber floats over a cotton ground in a satin jacquard.",
       "year": "2026",
       "recipes": [],
-      "image": "images/sample-06.jpg",
+      "image": "images/uploads/3fbc46d104201372.jpg",
       "images": [
+        "images/uploads/3fbc46d104201372.jpg",
+        "images/uploads/83d488713a6d17e2.jpg",
         "images/sample-06.jpg"
       ]
     },
