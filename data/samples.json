@@ -77,6 +77,55 @@
       "image": "images/sample-01.jpg",
       "images": [
         "images/sample-01.jpg"
+      ],
+      "fields": [
+        {
+          "key": "code",
+          "zone": "l"
+        },
+        {
+          "key": "fiber",
+          "zone": "l"
+        },
+        {
+          "key": "gsm",
+          "zone": "l"
+        },
+        {
+          "key": "finish",
+          "zone": "l"
+        },
+        {
+          "key": "origin",
+          "zone": "r"
+        },
+        {
+          "key": "tags",
+          "zone": "r"
+        },
+        {
+          "key": "year",
+          "zone": "r"
+        },
+        {
+          "key": "description",
+          "zone": "r"
+        },
+        {
+          "key": "recipes",
+          "zone": "w",
+          "hidden": true
+        },
+        {
+          "label": "Warp",
+          "value": "8/2 cotton",
+          "zone": "l"
+        },
+        {
+          "label": "Weft",
+          "value": "2 mm macrame, 10/2 cotton",
+          "zone": "r"
+        }
       ]
     },
     {
