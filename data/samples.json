@@ -98,14 +98,7 @@
       "images": [
         "images/uploads/3fbc46d104201372.jpg",
         "images/uploads/83d488713a6d17e2.jpg"
-      ],
-      "crops": {
-        "images/uploads/83d488713a6d17e2.jpg": {
-          "x": 50,
-          "y": 20,
-          "zoom": 1.8
-        }
-      }
+      ]
     },
     {
       "n": "003",
