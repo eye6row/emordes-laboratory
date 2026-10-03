@@ -181,3 +181,42 @@ main{padding:calc(var(--bar) + 10px) 22px 40px}
 /* per-photo detail crop */
 #d-imgs .ph-img.pcrop{width:100%!important;aspect-ratio:4/5!important;background:var(--bg2)}
 #d-imgs .ph-img.pcrop img{position:absolute;inset:0;width:100%;height:100%;max-height:none;max-width:none;object-fit:cover}
+
+/* notes card */
+.note{position:relative;margin:18px 0 6px;padding:22px 20px 16px;background:var(--bg2);border-radius:4px 14px 14px 14px;max-width:560px;box-shadow:0 1px 0 var(--line)}
+.note::before{content:"";position:absolute;top:-7px;left:26px;width:64px;height:16px;background:rgba(17,17,17,.07);transform:rotate(-3deg);border-radius:2px}
+.note .nh{display:block;font:italic 400 22px/1 Georgia,"Times New Roman",serif;letter-spacing:-.01em;margin-bottom:10px;text-transform:lowercase}
+.note .nb{font-size:13px;line-height:1.55}.note .nb p{margin:0 0 .6em}.note .nb p:last-child{margin:0}
+.note .nm{position:absolute;top:12px;right:16px;font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.06em;color:var(--mut)}
+[data-theme=dark] .note::before{background:rgba(237,237,237,.1)}
+.dcol .note{margin-top:14px}.dwide .note{grid-column:1/-1}
+.dtop{position:sticky;top:calc(var(--bar) + 8px);z-index:2;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}.dtop>*{pointer-events:auto}.dtop .back{position:static}#prt{background:rgba(255,255,255,.7);box-shadow:0 0 0 1px var(--line) inset}[data-theme=dark] #prt{background:rgba(20,20,20,.72)}
+.prall{margin-left:auto;border:0;background:none;color:var(--mut);font:inherit;font-size:inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}.prall:hover{color:var(--ink)}
+#pr{display:none}
+/* print */
+@media print{
+ @page{size:auto;margin:12mm}
+ html.printing body>*:not(#pr){display:none!important}
+ html.printing #pr{display:block}
+ html,html[data-theme=dark]{--bg:#fff;--ink:#000;--mut:#666;color-scheme:light}
+ body{background:#fff!important;color:#000;overflow:visible!important}
+ .ps{font-family:var(--f);color:#000;font-size:9.5pt;line-height:1.4;break-after:page;page-break-after:always;display:flex;flex-direction:column;min-height:0}
+ .ps:last-child{break-after:auto;page-break-after:auto}
+ .psh{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.2pt solid #000;padding-bottom:6pt}
+ .psh b{display:block;font-size:12pt;letter-spacing:.04em}.psh span,.psm span{font:8pt ui-monospace,Menlo,monospace;letter-spacing:.06em;color:#555;text-transform:uppercase}
+ .psm{display:flex;flex-direction:column;align-items:flex-end;gap:1pt}
+ .ps h1{font-size:20pt;font-weight:500;letter-spacing:-.01em;margin:12pt 0 10pt;line-height:1.1}
+ .ps h1 span{display:block;font:9pt ui-monospace,Menlo,monospace;letter-spacing:.08em;color:#555;margin-bottom:4pt}
+ .psg{display:grid;grid-template-columns:44% 1fr;gap:16pt;align-items:start}
+ .psi img{width:100%;max-height:120mm;object-fit:contain;object-position:left top;display:block;border-radius:2pt}
+ .pst{display:grid;grid-template-columns:repeat(3,1fr);gap:4pt;margin-top:4pt}.pst img{height:28mm;width:100%;object-fit:cover;max-height:none}
+ .pmt,.prt{width:100%;border-collapse:collapse;font:8.5pt ui-monospace,Menlo,monospace}
+ .pmt th,.pmt td,.prt td,.prt th{text-align:left;vertical-align:top;padding:3.5pt 0;border-bottom:.5pt solid #ccc}
+ .pmt th{width:32%;font-weight:400;color:#666;text-transform:uppercase;letter-spacing:.05em;font-size:7.5pt;padding-right:8pt}
+ .prt th{font-weight:400;color:#666;text-transform:uppercase;font-size:7.5pt;letter-spacing:.05em;border-bottom:.8pt solid #000}
+ .ps h3{font-size:8pt;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin:12pt 0 4pt}
+ .pdesc p{margin:0 0 5pt}
+ .pnote{margin-top:12pt;padding:8pt 10pt;border:.5pt solid #bbb;border-radius:2pt 8pt 8pt 8pt}.pnote b{display:block;font:italic 400 13pt Georgia,serif;margin-bottom:4pt}.pnote p{margin:0 0 4pt}
+ .psf{display:flex;justify-content:space-between;margin-top:14pt;padding-top:5pt;border-top:.5pt solid #000;font:7pt ui-monospace,Menlo,monospace;letter-spacing:.06em;color:#555;text-transform:uppercase}
+ .psg,.ps h1,.pnote,.prt{break-inside:avoid}
+}
