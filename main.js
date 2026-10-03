@@ -117,6 +117,6 @@ function sheet(s){const V={code:s.code,fiber:s.f,gsm:s.g?s.g+' GSM':'',finish:s.
  <footer class="psf"><span>© EMORDES LABORATORY</span><span>izlab.emordes.studio/#${esc(s.code.toLowerCase())}</span></footer></article>`}
 async function printS(list){const P=$('#pr');P.innerHTML=list.map(sheet).join('');document.documentElement.classList.add('printing');
  await Promise.all([...P.querySelectorAll('img')].map(i=>i.decode().catch(()=>{})));window.print()}
-addEventListener('afterprint',()=>{document.documentElement.classList.remove('printing');$('#pr').innerHTML=''});
+addEventListener('afterprint',()=>setTimeout(()=>document.documentElement.classList.remove('printing'),300));
 $('#prt').onclick=()=>{if(cur>=0)printS([S[cur]])};$('#prall').onclick=()=>printS(S);
 window.__printS=printS;
