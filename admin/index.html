@@ -2,7 +2,8 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Editor / EMORDES LABORATORY</title>
-<script>try{if(localStorage.getItem("izlab-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}</script><style>
+<script>try{if(localStorage.getItem("izlab-theme")==="dark")document.documentElement.dataset.theme="dark"}catch(e){}
+</script><style>
 :root{--bg:#fff;--bg2:#F4F5F6;--ink:#111;--mut:#8a8d91;--line:rgba(17,17,17,.1);--r:22px;--ease:cubic-bezier(.2,.9,.1,1);--f:"Helvetica Neue",Helvetica,Arial,sans-serif;--bar:64px;--ok:#1a7f37;--bad:#c4321f}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font:400 12px/1.45 var(--f);letter-spacing:.01em;-webkit-font-smoothing:antialiased}
@@ -71,6 +72,8 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
 .g .gb button:hover{background:#fff}.g .gb .x:hover{color:var(--bad)}
 .ghint{color:var(--mut);margin-top:8px}
 /* crop */
+.rqf{display:grid;gap:8px}.rqf textarea{width:100%;resize:vertical;font:inherit;font-size:12px;padding:8px;border-radius:10px;border:1px solid var(--line);background:transparent;color:inherit}.rqtag{display:flex;gap:6px;align-items:center;font-size:11px;color:var(--mut)}
+.rq{border-top:1px solid var(--line);padding:8px 0;font-size:11.5px;display:grid;gap:4px}.rq p{white-space:pre-wrap;margin:0;color:var(--ink)}.rqh{display:flex;gap:6px;align-items:center;color:var(--mut);font-size:10px}.rqh b{font-weight:600;padding:1px 6px;border-radius:99px;border:1px solid var(--line)}.rqh b.done{background:var(--ink);color:var(--bg,#fff)}.rqh button{margin-left:auto;border:0;background:none;color:var(--mut);cursor:pointer;font-size:11px}.rqr{color:var(--mut);border-left:2px solid var(--line);padding-left:8px}.rqsb{margin-top:10px;width:100%}
 .cropbtn{margin-top:10px;width:100%}.gcrop{padding:4px 8px;font-size:10px;align-self:flex-start}
 .cm{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(17,17,17,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .cbox{width:min(420px,100%);display:grid;gap:14px;padding:18px;border-radius:var(--r);background:#fff;border:1px solid var(--line)}
@@ -129,6 +132,7 @@ input:focus,textarea:focus{border-color:var(--ink)}textarea{resize:vertical;min-
   </header>
   <div class="app">
     <aside class="list"><details class="cats" id="catsBox"><summary><span>Categories</span><span id="ccnt"></span></summary><div id="clist"></div><form id="cadd" class="cadd"><input id="cnew" maxlength="60" placeholder="New category" aria-label="New category name"><button class="pill">Add</button></form><p class="ghint">Groups tiles on the home page, in this order. Empty = no groups.</p></details>
+<details class="cats" id="rqBox"><summary><span>Edit requests for Kat</span><span id="rqcnt"></span></summary><form id="rqf" class="rqf"><textarea id="rqt" maxlength="2000" rows="4" placeholder="Describe a change you'd like Kat to make to the site" aria-label="Edit request"></textarea><label class="rqtag"><input type="checkbox" id="rqs"> <span id="rqsl">Tag current sample</span></label><button class="pill dark">Send request</button></form><p class="ghint" id="rqmsg">Saved to the repo. Kat replies here when done.</p><div id="rql"></div></details>
     <div class="h"><span id="cnt"></span><button class="pill" id="addS">+ Add sample</button></div><div id="items"></div></aside>
     <main class="ed" id="ed"></main>
   </div>
@@ -154,7 +158,7 @@ async function api(path,body){const r=await fetch('/api/'+path,{method:'POST',he
  const j=await r.json().catch(()=>({}));if(r.status===401&&path!=='login'){show(false);throw new Error('Session expired, log in again')}if(!r.ok)throw new Error(j.error||'Error '+r.status);return j}
 
 async function boot(){const r=await fetch('/api/me',{cache:'no-store'});const j=await r.json();j.authed?load():show(false)}
-function show(app){$('#login').hidden=app;$('#appwrap').hidden=!app;if(!app)setTimeout(()=>$('#pw').focus(),50)}
+function show(app){$('#login').hidden=app;$('#appwrap').hidden=!app;if(app)rqInit();if(!app)setTimeout(()=>$('#pw').focus(),50)}
 $('#lf').onsubmit=async e=>{e.preventDefault();$('#lb').disabled=true;$('#lerr').textContent='';
  try{await api('login',{password:$('#pw').value});$('#pw').value='';await load()}catch(x){$('#lerr').textContent=x.message}finally{$('#lb').disabled=false}};
 $('#out').onclick=async()=>{if(dirty&&!confirm('Discard unsaved changes?'))return;await api('logout');dirty=false;show(false)};
@@ -191,7 +195,7 @@ function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--
  $('#ed').innerHTML=`<div class="top"><h2><span>EML-${esc(s.n)}</span>${esc(s.title)}</h2><button class="pill del" id="delS">Delete sample</button></div>
  <div class="cols"><div><div class="photo${s.images[0]?' has':''}" id="ph" style="${s.images[0]?`background-image:url('${esc(src(s.images[0]))}')`:''}">${s.images[0]?'':'No photos'}
   <label>Add photos<input type="file" id="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"></label></div>
-  ${s.images[0]?`<button class="pill cropbtn" id="cropB">Crop cover${s.crop?' (custom)':''}</button>`:''}<div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p></div>
+  ${s.images[0]?`<button class="pill cropbtn" id="cropB">Crop cover${s.crop?' (custom)':''}</button>`:''}<div class="gal" id="gal"></div><p class="ghint">${s.images.length>1?'Drag or use arrows to reorder. First photo is the cover.':s.images.length?'Add more photos to build a gallery.':''}</p><button class="pill rqsb" id="rqSample">Request change for this sample</button></div>
  <div class="fields"><label class="f w"><span>Category</span><select id="catSel"><option value="">${CATS.length?'Uncategorized':'No categories yet (add in sidebar)'}</option>${CATS.map(c=>`<option${c===s.category?' selected':''}>${esc(c)}</option>`).join('')}</select></label>${F.map(([k,l,t])=>`<label class="f${k==='title'||k==='tags'?' w':''}"><span>${l}</span><input data-k="${k}" type="${t}" ${t==='number'?'inputmode="numeric" min="0"':''} value="${esc(k==='tags'?s.tags.join(', '):s[k])}"></label>`).join('')}
   <div class="f w"><span>Fields &amp; placement on the sample page. Drag or use ↑↓ to reorder, pick where each shows.</span><div class="flds" id="flds"></div><button class="add" id="addF">+ Add field</button>
    <div class="pv" id="pv" aria-hidden="true"></div></div>
@@ -204,7 +208,7 @@ function edit(){const s=D[sel];if(!s){$('#ed').innerHTML='<p style="color:var(--
  $('#addF').onclick=()=>{if(s.fields.filter(f=>!f.key).length>=40)return alert('Max 40 custom fields');s.fields.push({label:'',value:'',zone:'r',hidden:false});setDirty();flds();$('#flds .fr:last-child .fl').focus()};
  $('#delS').onclick=()=>{if(!confirm(`Delete EML-${s.n} ${s.title}? (Takes effect when you Save)`))return;D.splice(sel,1);sel=Math.max(0,sel-1);setDirty();list();edit()};
  $('#addR').onclick=()=>{s.recipes.push({title:'',rows:[{ingredient:'',amount:''}]});setDirty();rec();$('#rec .rb:last-child .rt').focus()};
- $('#file').onchange=e=>upload([...e.target.files]);if($('#cropB'))$('#cropB').onclick=()=>crop(null);gal()}
+ $('#file').onchange=e=>upload([...e.target.files]);if($('#cropB'))$('#cropB').onclick=()=>crop(null);$('#rqSample').onclick=()=>{const b=$('#rqBox');b.open=true;$('#rqs').checked=true;rqLbl();b.scrollIntoView({block:'nearest'});$('#rqt').focus()};rqLbl();gal()}
 function gal(){const s=D[sel],g=$('#gal');
  s.captions=s.captions||{};g.innerHTML=s.images.map((p,j)=>`<div class="gc"><div class="g" draggable="true" data-j="${j}" style="background-image:url('${esc(src(p))}')">${j?'':'<span class="cv">COVER</span>'}<span class="gb"><button data-a="l" aria-label="Move photo ${j+1} earlier">←</button>${j?`<button data-a="c" aria-label="Make photo ${j+1} the cover">★</button>`:''}<button data-a="r" aria-label="Move photo ${j+1} later">→</button><button class="x" data-a="x" aria-label="Remove photo ${j+1}">✕</button></span></div><textarea class="gcap" data-p="${esc(p)}" rows="2" maxlength="300" placeholder="Caption" aria-label="Caption for photo ${j+1}">${esc(s.captions[p]||'')}</textarea><button class="pill gcrop" data-cj="${j}" aria-label="Crop photo ${j+1} on detail page">${s.crops&&s.crops[p]?'Crop (custom)':'Crop'}</button></div>`).join('');
  g.addEventListener('click',e=>{const b=e.target.closest('.gcrop');if(b){e.stopPropagation();crop(+b.dataset.cj)}},true);g.oninput=e=>{const t=e.target.closest('.gcap');if(!t)return;const v=t.value.slice(0,300);if(v.trim())s.captions[t.dataset.p]=v;else delete s.captions[t.dataset.p];setDirty()};
@@ -291,6 +295,17 @@ $('#save').onclick=async()=>{busy=true;$('#save').disabled=true;status('Saving�
  catch(e){busy=false;$('#save').disabled=false;status(e.message,'bad')}};
 addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
 boot();
+// edit requests (admin only)
+let RQ=[];const rqCode=()=>D&&D[sel]?'EML-'+D[sel].n:'';
+function rqLbl(){const l=$('#rqsl');if(l)l.textContent=rqCode()?'Tag '+rqCode():'Tag current sample'}
+async function rqApi(body){const r=await fetch('/api/requests',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||'failed');return j.list||[]}
+function rqDraw(){const L=[...RQ].sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt)));const o=L.filter(r=>r.status!=='done').length;$('#rqcnt').textContent=L.length?o+' open':'';
+ $('#rql').innerHTML=L.map(r=>`<div class="rq"><div class="rqh"><b class="${r.status==='done'?'done':''}">${r.status==='done'?'Done':'Open'}</b>${r.sample?`<span>${esc(r.sample)}</span>`:''}<span>${esc(new Date(r.createdAt).toLocaleDateString())}</span><button data-id="${esc(r.id)}" aria-label="Delete request">Delete</button></div><p>${esc(r.text)}</p>${r.reply?`<div class="rqr">Kat: ${esc(r.reply)}</div>`:''}</div>`).join('')}
+async function rqInit(){const b=$('#rqBox');if(!b||b.dataset.on)return;b.dataset.on=1;
+ try{RQ=await rqApi({action:'list'});rqDraw()}catch(e){$('#rqmsg').textContent='Could not load requests: '+e.message}
+ $('#rqf').onsubmit=async e=>{e.preventDefault();const t=$('#rqt').value.trim();if(!t)return;const btn=e.target.querySelector('button');btn.disabled=true;$('#rqmsg').textContent='Sending...';
+  try{RQ=await rqApi({action:'add',text:t,sample:$('#rqs').checked?rqCode():''});$('#rqt').value='';$('#rqs').checked=false;$('#rqmsg').textContent='Sent. Kat replies here when done.';rqDraw()}catch(err){$('#rqmsg').textContent='Error: '+err.message}btn.disabled=false};
+ $('#rql').onclick=async e=>{const d=e.target.closest('button[data-id]');if(!d||!confirm('Delete this request?'))return;try{RQ=await rqApi({action:'delete',id:d.dataset.id});rqDraw()}catch(err){alert(err.message)}}}
 </script>
 <script>(function(){var b=document.getElementById("tt"),r=document.documentElement;function s(){var d=r.dataset.theme==="dark";b.textContent=d?"Light":"Dark";b.setAttribute("aria-pressed",d)}s();b.onclick=function(){var d=r.dataset.theme!=="dark";if(d)r.dataset.theme="dark";else delete r.dataset.theme;try{localStorage.setItem("izlab-theme",d?"dark":"light")}catch(e){}s()}})();</script>
 </body></html>
