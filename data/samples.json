@@ -126,7 +126,7 @@
       "image": "images/uploads/c5647c45cd5a7e75.jpg",
       "images": [
         "images/uploads/c5647c45cd5a7e75.jpg",
-        "images/uploads/c2b126629abc134e.jpg",
+        "images/uploads/96f058d362df77e4.jpg",
         "images/uploads/239c19da2f87b386.jpg",
         "images/uploads/098bc3995c5d5f86.jpg"
       ],
@@ -201,10 +201,6 @@
           "label": "Weft",
           "value": "2 mm macrame, 10/2 cotton",
           "zone": "l"
-        },
-        {
-          "key": "notes",
-          "zone": "b"
         }
       ]
     },
