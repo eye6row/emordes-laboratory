@@ -98,8 +98,7 @@
       "images": [
         "images/uploads/3fbc46d104201372.jpg",
         "images/uploads/83d488713a6d17e2.jpg"
-      ],
-      "notes": "Woven on the floor loom, second warp.\nBanana fiber softens after a cold rinse.\n\nTry a heavier weft next time for drape."
+      ]
     },
     {
       "n": "003",
@@ -223,7 +222,7 @@
     },
     {
       "n": "002",
-      "title": "Pi\u00f1a Sheer Study",
+      "title": "Piña Sheer Study",
       "fiber": "Pineapple-leaf fiber blend",
       "gsm": 40,
       "finish": "Translucent, crisp hand",
@@ -323,13 +322,13 @@
       "title": "Burnout Velvet",
       "fiber": "Viscose / silk",
       "gsm": 230,
-      "finish": "Devor\u00e9, sculpted pile",
+      "finish": "Devoré, sculpted pile",
       "origin": "Studio-treated",
       "tags": [
         "finish",
         "experimental"
       ],
-      "description": "Devor\u00e9 treatment sculpts the pile, leaving silk windows.",
+      "description": "Devoré treatment sculpts the pile, leaving silk windows.",
       "year": "2026",
       "recipes": [],
       "image": "images/sample-12.jpg",
