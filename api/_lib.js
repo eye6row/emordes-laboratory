@@ -88,7 +88,10 @@ function clean(input) {
           if (out.filter(f => !f.key).length > 40) throw new Error('too many custom fields (max 40)');
           return out.length ? { fields: out } : {}; })(),
         ...(() => { const c = s.crop; if (!c || typeof c !== 'object' || !image) return {}; const n = (v, lo, hi, d) => { v = Number(v); return Number.isFinite(v) ? Math.round(Math.max(lo, Math.min(hi, v)) * 100) / 100 : d; };
-          const o = { x: n(c.x, 0, 100, 50), y: n(c.y, 0, 100, 50), zoom: n(c.zoom, 1, 3, 1) }; return (o.x === 50 && o.y === 50 && o.zoom === 1) ? {} : { crop: o }; })()
+          const o = { x: n(c.x, 0, 100, 50), y: n(c.y, 0, 100, 50), zoom: n(c.zoom, 1, 3, 1) }; return (o.x === 50 && o.y === 50 && o.zoom === 1) ? {} : { crop: o }; })(),
+        ...(() => { const c = s.crops && typeof s.crops === 'object' && !Array.isArray(s.crops) ? s.crops : {}, o = {}; const n = (v, lo, hi, d) => { v = Number(v); return Number.isFinite(v) ? Math.round(Math.max(lo, Math.min(hi, v)) * 100) / 100 : d; };
+          for (const p of images) { const q = c[p]; if (!q || typeof q !== 'object') continue; const r = { x: n(q.x, 0, 100, 50), y: n(q.y, 0, 100, 50), zoom: n(q.zoom, 1, 3, 1) }; if (!(r.x === 50 && r.y === 50 && r.zoom === 1)) o[p] = r; }
+          return Object.keys(o).length ? { crops: o } : {}; })()
       };
     })
   };
