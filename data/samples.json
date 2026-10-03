@@ -123,14 +123,19 @@
       "description": "Abaca blended with linen for structure without stiffness.",
       "year": "2026",
       "recipes": [],
-      "image": "images/uploads/c5647c45cd5a7e75.jpg",
+      "image": "images/uploads/96f058d362df77e4.jpg",
       "images": [
-        "images/uploads/c5647c45cd5a7e75.jpg",
         "images/uploads/96f058d362df77e4.jpg",
+        "images/uploads/c5647c45cd5a7e75.jpg",
         "images/uploads/239c19da2f87b386.jpg",
         "images/uploads/098bc3995c5d5f86.jpg"
       ],
-      "category": "Woven Textiles"
+      "category": "Woven Textiles",
+      "crop": {
+        "x": 14.7,
+        "y": 27.38,
+        "zoom": 1.18
+      }
     },
     {
       "n": "002",
@@ -201,6 +206,10 @@
           "label": "Weft",
           "value": "2 mm macrame, 10/2 cotton",
           "zone": "l"
+        },
+        {
+          "key": "notes",
+          "zone": "b"
         }
       ]
     },
