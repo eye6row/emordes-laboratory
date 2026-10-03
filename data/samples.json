@@ -152,9 +152,9 @@
       "description": "The Binakol wave, an optical whirlpool woven to ward off spirits. Woven in studio to study density and repeat.",
       "year": "2026",
       "recipes": [],
-      "image": "images/uploads/ba76d5ce602aab09.jpg",
+      "image": "images/uploads/4184b07f3f7c957b.jpg",
       "images": [
-        "images/uploads/ba76d5ce602aab09.jpg",
+        "images/uploads/4184b07f3f7c957b.jpg",
         "images/uploads/f634da8d9c3798e6.jpg",
         "images/uploads/39e2e82351e1fb2d.jpg"
       ],
@@ -206,12 +206,13 @@
           "label": "Weft",
           "value": "2 mm macrame, 10/2 cotton",
           "zone": "l"
-        },
-        {
-          "key": "notes",
-          "zone": "b"
         }
-      ]
+      ],
+      "crop": {
+        "x": 50,
+        "y": 47.28,
+        "zoom": 1
+      }
     },
     {
       "n": "005",
