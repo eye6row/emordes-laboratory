@@ -57,8 +57,13 @@ function clean(input) {
   const cats = [];
   for (const c of (Array.isArray(input.categories) ? input.categories : [])) { const v = str(c, 60); if (v && !cats.some(x => x.toLowerCase() === v.toLowerCase())) cats.push(v); }
   if (cats.length > 30) throw new Error('too many categories (max 30)');
+  const ml = (v, max) => str(String(v == null ? '' : v).replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n'), max);
+  const about = (() => { const a = input.about; if (!a || typeof a !== 'object') return null;
+    const img = str(a.image, 200); if (img && !/^(images\/[\w.-]+\.(jpe?g|png|webp)|images\/uploads\/[a-f0-9]{16}\.jpg)$/i.test(img)) throw new Error('bad about image');
+    const o = { tagline: str(a.tagline, 120), title: ml(a.title, 400), body: ml(a.body, 8000) }; if (img) o.image = img; return o; })();
   return {
     ...(cats.length ? { categories: cats } : {}),
+    ...(about ? { about } : {}),
     samples: input.samples.map(s => {
       const gsm = Number(s.gsm);
       const ok = p => /^(images\/[\w.-]+\.(jpe?g|png|webp)|images\/uploads\/[a-f0-9]{16}\.jpg)$/i.test(p);
@@ -92,7 +97,10 @@ function clean(input) {
           const o = { x: n(c.x, 0, 100, 50), y: n(c.y, 0, 100, 50), zoom: n(c.zoom, 1, 3, 1) }; return (o.x === 50 && o.y === 50 && o.zoom === 1) ? {} : { crop: o }; })(),
         ...(() => { const c = s.crops && typeof s.crops === 'object' && !Array.isArray(s.crops) ? s.crops : {}, o = {}; const n = (v, lo, hi, d) => { v = Number(v); return Number.isFinite(v) ? Math.round(Math.max(lo, Math.min(hi, v)) * 100) / 100 : d; };
           for (const p of images) { const q = c[p]; if (!q || typeof q !== 'object') continue; const r = { x: n(q.x, 0, 100, 50), y: n(q.y, 0, 100, 50), zoom: n(q.zoom, 1, 3, 1) }; if (!(r.x === 50 && r.y === 50 && r.zoom === 1)) o[p] = r; }
-          return Object.keys(o).length ? { crops: o } : {}; })()
+          return Object.keys(o).length ? { crops: o } : {}; })(),
+        ...(() => { const c = s.sizes && typeof s.sizes === 'object' && !Array.isArray(s.sizes) ? s.sizes : {}, o = {};
+          for (const p of images) if (['s', 'm', 'l', 'f'].includes(c[p])) o[p] = c[p];
+          return Object.keys(o).length ? { sizes: o } : {}; })()
       };
     })
   };
