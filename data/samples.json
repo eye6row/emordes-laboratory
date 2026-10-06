@@ -72,12 +72,12 @@
       }
     },
     {
-      "n": "004",
+      "n": "002",
       "title": "Binakol Low Contrast Belt",
-      "fiber": "Mycelium composite",
+      "fiber": "100% Cotton",
       "gsm": 520,
-      "finish": "Pebbled, waxed",
-      "origin": "Lab-grown",
+      "finish": "Hand-loom twill, optical wave",
+      "origin": "Ilocos, PH",
       "tags": [
         "biomaterial",
         "vegan"
@@ -92,6 +92,49 @@
         "images/uploads/2fd2d477e59eb881.jpg"
       ],
       "category": "Woven Textiles",
+      "fields": [
+        {
+          "key": "code",
+          "zone": "l"
+        },
+        {
+          "key": "fiber",
+          "zone": "l"
+        },
+        {
+          "key": "gsm",
+          "zone": "l"
+        },
+        {
+          "key": "finish",
+          "zone": "l"
+        },
+        {
+          "key": "origin",
+          "zone": "r",
+          "label": "Cultural Origin"
+        },
+        {
+          "key": "tags",
+          "zone": "r"
+        },
+        {
+          "key": "year",
+          "zone": "r"
+        },
+        {
+          "key": "description",
+          "zone": "r"
+        },
+        {
+          "key": "recipes",
+          "zone": "w"
+        },
+        {
+          "key": "notes",
+          "zone": "b"
+        }
+      ],
       "sizes": {
         "images/uploads/1756013d74934dd3.jpg": "m",
         "images/uploads/f98c55a2282005fb.jpg": "l",
@@ -99,12 +142,12 @@
       }
     },
     {
-      "n": "006",
+      "n": "003",
       "title": "Binakol Inverse",
-      "fiber": "Musa fiber / Cotton",
+      "fiber": "100% Cotton",
       "gsm": 210,
-      "finish": "Satin float jacquard",
-      "origin": "Davao, PH",
+      "finish": "Hand-loom twill, optical wave",
+      "origin": "Ilocos, PH",
       "tags": [
         "plant fiber",
         "jacquard"
@@ -117,15 +160,58 @@
         "images/uploads/3fbc46d104201372.jpg",
         "images/uploads/83d488713a6d17e2.jpg"
       ],
-      "category": "Woven Textiles"
+      "category": "Woven Textiles",
+      "fields": [
+        {
+          "key": "code",
+          "zone": "l"
+        },
+        {
+          "key": "fiber",
+          "zone": "l"
+        },
+        {
+          "key": "gsm",
+          "zone": "l"
+        },
+        {
+          "key": "finish",
+          "zone": "l"
+        },
+        {
+          "key": "origin",
+          "zone": "r",
+          "label": "Cultural Origin"
+        },
+        {
+          "key": "tags",
+          "zone": "r"
+        },
+        {
+          "key": "year",
+          "zone": "r"
+        },
+        {
+          "key": "description",
+          "zone": "r"
+        },
+        {
+          "key": "recipes",
+          "zone": "w"
+        },
+        {
+          "key": "notes",
+          "zone": "b"
+        }
+      ]
     },
     {
-      "n": "003",
+      "n": "004",
       "title": "Binakol Unwoven",
-      "fiber": "60% Abaca / 40% Linen",
+      "fiber": "100% Cotton",
       "gsm": 190,
-      "finish": "Raw slub, matte",
-      "origin": "Bicol, PH",
+      "finish": "Hand-loom twill, optical wave",
+      "origin": "Ilocos, PH",
       "tags": [
         "bast",
         "structural"
@@ -141,6 +227,49 @@
         "images/uploads/098bc3995c5d5f86.jpg"
       ],
       "category": "Woven Textiles",
+      "fields": [
+        {
+          "key": "code",
+          "zone": "l"
+        },
+        {
+          "key": "fiber",
+          "zone": "l"
+        },
+        {
+          "key": "gsm",
+          "zone": "l"
+        },
+        {
+          "key": "finish",
+          "zone": "l"
+        },
+        {
+          "key": "origin",
+          "zone": "r",
+          "label": "Cultural Origin"
+        },
+        {
+          "key": "tags",
+          "zone": "r"
+        },
+        {
+          "key": "year",
+          "zone": "r"
+        },
+        {
+          "key": "description",
+          "zone": "r"
+        },
+        {
+          "key": "recipes",
+          "zone": "w"
+        },
+        {
+          "key": "notes",
+          "zone": "b"
+        }
+      ],
       "crop": {
         "x": 14.7,
         "y": 27.38,
@@ -148,7 +277,7 @@
       }
     },
     {
-      "n": "002",
+      "n": "005",
       "title": "Binakol Alternating Unwoven",
       "fiber": "100% Cotton",
       "gsm": 320,
@@ -188,7 +317,8 @@
         },
         {
           "key": "origin",
-          "zone": "r"
+          "zone": "r",
+          "label": "Cultural Origin"
         },
         {
           "key": "tags",
@@ -234,12 +364,12 @@
       }
     },
     {
-      "n": "005",
+      "n": "006",
       "title": "Binakol Bib",
-      "fiber": "100% rPET",
+      "fiber": "100% Cotton",
       "gsm": 55,
-      "finish": "Iridescent, stiff",
-      "origin": "Post-consumer",
+      "finish": "Hand-loom twill, optical wave",
+      "origin": "Ilocos, PH",
       "tags": [
         "recycled",
         "sheer"
@@ -255,6 +385,49 @@
         "images/uploads/b233ee9fa43a36ac.jpg"
       ],
       "category": "Woven Textiles",
+      "fields": [
+        {
+          "key": "code",
+          "zone": "l"
+        },
+        {
+          "key": "fiber",
+          "zone": "l"
+        },
+        {
+          "key": "gsm",
+          "zone": "l"
+        },
+        {
+          "key": "finish",
+          "zone": "l"
+        },
+        {
+          "key": "origin",
+          "zone": "r",
+          "label": "Cultural Origin"
+        },
+        {
+          "key": "tags",
+          "zone": "r"
+        },
+        {
+          "key": "year",
+          "zone": "r"
+        },
+        {
+          "key": "description",
+          "zone": "r"
+        },
+        {
+          "key": "recipes",
+          "zone": "w"
+        },
+        {
+          "key": "notes",
+          "zone": "b"
+        }
+      ],
       "crop": {
         "x": 50,
         "y": 24.33,
@@ -265,12 +438,12 @@
       }
     },
     {
-      "n": "002",
+      "n": "007",
       "title": "Binakol 2\"",
-      "fiber": "Pineapple-leaf fiber blend",
+      "fiber": "100% Cotton",
       "gsm": 40,
-      "finish": "Translucent, crisp hand",
-      "origin": "Aklan, PH",
+      "finish": "Hand-loom twill, optical wave",
+      "origin": "Ilocos, PH",
       "tags": [
         "sheer",
         "plant fiber"
@@ -284,10 +457,53 @@
         "images/uploads/9a7a36db59151008.jpg",
         "images/uploads/d302a42749972575.jpg"
       ],
-      "category": "Woven Textiles"
+      "category": "Woven Textiles",
+      "fields": [
+        {
+          "key": "code",
+          "zone": "l"
+        },
+        {
+          "key": "fiber",
+          "zone": "l"
+        },
+        {
+          "key": "gsm",
+          "zone": "l"
+        },
+        {
+          "key": "finish",
+          "zone": "l"
+        },
+        {
+          "key": "origin",
+          "zone": "r",
+          "label": "Cultural Origin"
+        },
+        {
+          "key": "tags",
+          "zone": "r"
+        },
+        {
+          "key": "year",
+          "zone": "r"
+        },
+        {
+          "key": "description",
+          "zone": "r"
+        },
+        {
+          "key": "recipes",
+          "zone": "w"
+        },
+        {
+          "key": "notes",
+          "zone": "b"
+        }
+      ]
     },
     {
-      "n": "007",
+      "n": "008",
       "title": "Philippine Natural Dyes",
       "fiber": "Abaca, natural dye",
       "gsm": 170,
@@ -307,7 +523,7 @@
       "category": "Studies"
     },
     {
-      "n": "008",
+      "n": "009",
       "title": "Crystal Grown Fabric",
       "fiber": "Nylon / metallic film",
       "gsm": 120,
