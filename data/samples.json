@@ -68,7 +68,7 @@
     },
     {
       "n": "004",
-      "title": "Binakol Low Contrast",
+      "title": "Binakol Low Contrast Belt",
       "fiber": "Mycelium composite",
       "gsm": 520,
       "finish": "Pebbled, waxed",
@@ -206,6 +206,10 @@
           "label": "Weft",
           "value": "2 mm macrame, 10/2 cotton",
           "zone": "l"
+        },
+        {
+          "key": "notes",
+          "zone": "b"
         }
       ],
       "crop": {
