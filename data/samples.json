@@ -79,11 +79,13 @@
       "finish": "Hand-loom twill, optical wave",
       "origin": "Ilocos, PH",
       "tags": [
-        "biomaterial",
-        "vegan"
+        "heritage",
+        "woven",
+        "contemporized"
       ],
-      "description": "Grown, not tanned. A fungal composite finished to read as leather.",
+      "description": "The Binakol kusikus, an optical whirlpool woven to ward off spirits. First iteration. Low contrast pattern.",
       "year": "2026",
+      "notes": "warp: 8/2 white and black\n\nweft: 1 mm macrame (thick), 8/2 (thin)",
       "recipes": [],
       "image": "images/uploads/1756013d74934dd3.jpg",
       "images": [
@@ -128,7 +130,8 @@
         },
         {
           "key": "recipes",
-          "zone": "w"
+          "zone": "w",
+          "hidden": true
         },
         {
           "key": "notes",
@@ -149,8 +152,10 @@
       "finish": "Hand-loom twill, optical wave",
       "origin": "Ilocos, PH",
       "tags": [
-        "plant fiber",
-        "jacquard"
+        "heritage",
+        "woven",
+        "unwoven",
+        "contemporized"
       ],
       "description": "Musa fiber floats over a cotton ground in a satin jacquard.",
       "year": "2026",
@@ -213,8 +218,10 @@
       "finish": "Hand-loom twill, optical wave",
       "origin": "Ilocos, PH",
       "tags": [
-        "bast",
-        "structural"
+        "heritage",
+        "woven",
+        "unwoven",
+        "contemporized"
       ],
       "description": "Abaca blended with linen for structure without stiffness.",
       "year": "2026",
@@ -371,8 +378,9 @@
       "finish": "Hand-loom twill, optical wave",
       "origin": "Ilocos, PH",
       "tags": [
-        "recycled",
-        "sheer"
+        "heritage",
+        "woven",
+        "contemporized"
       ],
       "description": "Post-consumer bottles spun into a sheer, iridescent organza.",
       "year": "2026",
@@ -445,8 +453,9 @@
       "finish": "Hand-loom twill, optical wave",
       "origin": "Ilocos, PH",
       "tags": [
-        "sheer",
-        "plant fiber"
+        "heritage",
+        "woven",
+        "contemporized"
       ],
       "description": "Pineapple-leaf fiber, the cloth of the barong. Tested for drape and layering.",
       "year": "2026",
