@@ -86,7 +86,10 @@
         "images/uploads/f98c55a2282005fb.jpg",
         "images/uploads/2fd2d477e59eb881.jpg"
       ],
-      "category": "Woven Textiles"
+      "category": "Woven Textiles",
+      "sizes": {
+        "images/uploads/2fd2d477e59eb881.jpg": "m"
+      }
     },
     {
       "n": "006",
