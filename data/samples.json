@@ -85,7 +85,7 @@
       ],
       "description": "The Binakol kusikus, an optical whirlpool woven to ward off spirits. First iteration. Low contrast pattern.",
       "year": "2026",
-      "notes": "warp: 8/2 white and black\n\nweft: 1 mm macrame (thick), 8/2 (thin)",
+      "notes": "warp: 8/2 white and black\nweft: 1 mm macrame (thick), 8/2 (thin)",
       "recipes": [],
       "image": "images/uploads/1756013d74934dd3.jpg",
       "images": [
@@ -140,7 +140,7 @@
       ],
       "sizes": {
         "images/uploads/1756013d74934dd3.jpg": "m",
-        "images/uploads/f98c55a2282005fb.jpg": "l",
+        "images/uploads/f98c55a2282005fb.jpg": "m",
         "images/uploads/2fd2d477e59eb881.jpg": "s"
       }
     },
@@ -157,8 +157,9 @@
         "unwoven",
         "contemporized"
       ],
-      "description": "Musa fiber floats over a cotton ground in a satin jacquard.",
+      "description": "Binakol with inverse colorway across columns.",
       "year": "2026",
+      "notes": "Alternating inverse colorway achieved with single thread offset causing frame shift.\n\nwarp: 8/2 white and black\nweft: 2 mm macrame (thick), 10/2 (thin)",
       "recipes": [],
       "image": "images/uploads/3fbc46d104201372.jpg",
       "images": [
