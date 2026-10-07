@@ -10,6 +10,7 @@
     "id": "muxcayanxf5he",
     "text": "make it so that in the page photo layout preview, I can drag the photo within this space so that the photo doesn't have to be in a static place. I should be able to drag a photo and it can stay anywhere in that space. Let the other photos be reactive to how I move the photo so that they self adjust where they think they should be depending on where I'm moving the single photo. As if the one photo I am moving is pushing them around.",
     "createdAt": "2026-10-06T23:58:50.399Z",
-    "status": "open"
+    "status": "done",
+    "reply": "Done. Drag any photo in the layout preview to place it anywhere; the other photos push out of the way. Press Save to publish. \"Reset layout\" goes back to auto. Phones show the photos stacked in that same order."
   }
 ]
