@@ -139,9 +139,26 @@
         }
       ],
       "sizes": {
-        "images/uploads/1756013d74934dd3.jpg": "m",
+        "images/uploads/1756013d74934dd3.jpg": "s",
         "images/uploads/f98c55a2282005fb.jpg": "m",
         "images/uploads/2fd2d477e59eb881.jpg": "s"
+      },
+      "pos": {
+        "images/uploads/1756013d74934dd3.jpg": {
+          "x": 3.96,
+          "y": 0.59,
+          "r": 1.3343
+        },
+        "images/uploads/f98c55a2282005fb.jpg": {
+          "x": 48.21,
+          "y": 12.85,
+          "r": 1.25
+        },
+        "images/uploads/2fd2d477e59eb881.jpg": {
+          "x": 11.39,
+          "y": 45.29,
+          "r": 1.3343
+        }
       }
     },
     {
@@ -283,6 +300,28 @@
         "x": 14.7,
         "y": 27.38,
         "zoom": 1.18
+      },
+      "pos": {
+        "images/uploads/96f058d362df77e4.jpg": {
+          "x": 0,
+          "y": 69.33,
+          "r": 0.75
+        },
+        "images/uploads/c5647c45cd5a7e75.jpg": {
+          "x": 0,
+          "y": 118.71,
+          "r": 0.75
+        },
+        "images/uploads/239c19da2f87b386.jpg": {
+          "x": 51,
+          "y": 53.77,
+          "r": 1.25
+        },
+        "images/uploads/098bc3995c5d5f86.jpg": {
+          "x": 51,
+          "y": 127.66,
+          "r": 1.25
+        }
       }
     },
     {
@@ -437,6 +476,28 @@
       },
       "sizes": {
         "images/uploads/03ac1e104a2e2c1a.jpg": "m"
+      },
+      "pos": {
+        "images/uploads/130796951db94e8e.jpg": {
+          "x": 0,
+          "y": 0.36,
+          "r": 1.3343
+        },
+        "images/uploads/03ac1e104a2e2c1a.jpg": {
+          "x": 51,
+          "y": 3.83,
+          "r": 1.25
+        },
+        "images/uploads/1d5651f1c50aafc0.jpg": {
+          "x": 14,
+          "y": 69.2,
+          "r": 1.3343
+        },
+        "images/uploads/b233ee9fa43a36ac.jpg": {
+          "x": 47.21,
+          "y": 136.91,
+          "r": 1.3343
+        }
       }
     },
     {
