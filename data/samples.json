@@ -224,7 +224,7 @@
         "unwoven",
         "contemporized"
       ],
-      "description": "Abaca blended with linen for structure without stiffness.",
+      "description": "Binakol panel with unwoven section flanked by woven subpanels.",
       "year": "2026",
       "notes": "warp: 8/2 white and black\nweft: 2 mm macrame (thick), 10/2 (thin)",
       "recipes": [],
@@ -297,8 +297,9 @@
         "woven",
         "contemporized"
       ],
-      "description": "The Binakol wave, an optical whirlpool woven to ward off spirits. Woven in studio to study density and repeat.",
+      "description": "Small frequent repeat of unwoven and woven sections",
       "year": "2026",
+      "notes": "warp: 8/2 white and black\nweft: 2 mm macrame (thick), 10/2 (thin)",
       "recipes": [],
       "image": "images/uploads/4184b07f3f7c957b.jpg",
       "images": [
@@ -347,16 +348,6 @@
           "hidden": true
         },
         {
-          "label": "Warp",
-          "value": "8/2 cotton",
-          "zone": "l"
-        },
-        {
-          "label": "Weft",
-          "value": "2 mm macrame, 10/2 cotton",
-          "zone": "l"
-        },
-        {
           "key": "notes",
           "zone": "b"
         }
@@ -384,8 +375,9 @@
         "woven",
         "contemporized"
       ],
-      "description": "Post-consumer bottles spun into a sheer, iridescent organza.",
+      "description": "Stylized restructure of woven and unwoven panel. Bib panel.",
       "year": "2026",
+      "notes": "warp: 8/2 white and black\nweft: 2 mm macrame (thick), 10/2 (thin)",
       "recipes": [],
       "image": "images/uploads/130796951db94e8e.jpg",
       "images": [
@@ -459,8 +451,9 @@
         "woven",
         "contemporized"
       ],
-      "description": "Pineapple-leaf fiber, the cloth of the barong. Tested for drape and layering.",
+      "description": "2 in width focusing on center of kusikus motif",
       "year": "2026",
+      "notes": "warp: 8/2 white and black\nweft: 2 mm macrame (thick), 10/2 (thin)",
       "recipes": [],
       "image": "images/uploads/6cb61c9347d3b319.jpg",
       "images": [
