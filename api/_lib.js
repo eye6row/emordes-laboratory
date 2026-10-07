@@ -100,7 +100,10 @@ function clean(input) {
           return Object.keys(o).length ? { crops: o } : {}; })(),
         ...(() => { const c = s.sizes && typeof s.sizes === 'object' && !Array.isArray(s.sizes) ? s.sizes : {}, o = {};
           for (const p of images) if (['s', 'm', 'l', 'f'].includes(c[p])) o[p] = c[p];
-          return Object.keys(o).length ? { sizes: o } : {}; })()
+          return Object.keys(o).length ? { sizes: o } : {}; })(),
+        ...(() => { const c = s.pos && typeof s.pos === 'object' && !Array.isArray(s.pos) ? s.pos : {}, o = {}; const n = (v, lo, hi, d) => { v = Number(v); return Number.isFinite(v) ? Math.round(Math.max(lo, Math.min(hi, v)) * 10000) / 10000 : d; };
+          for (const p of images) { const q = c[p]; if (!q || typeof q !== 'object') continue; o[p] = { x: n(q.x, 0, 100, 0), y: n(q.y, 0, 20000, 0), r: n(q.r, 0.05, 20, 1) }; }
+          return Object.keys(o).length ? { pos: o } : {}; })()
       };
     })
   };
