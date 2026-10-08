@@ -12,5 +12,11 @@
     "createdAt": "2026-10-06T23:58:50.399Z",
     "status": "done",
     "reply": "Done. Drag any photo in the layout preview to place it anywhere; the other photos push out of the way. Press Save to publish. \"Reset layout\" goes back to auto. Phones show the photos stacked in that same order."
+  },
+  {
+    "id": "muyuemtss8or2",
+    "text": "add a tab next to \"Samples\" that says \"Home\" and let it link to emordes.studio",
+    "createdAt": "2026-10-08T01:13:21.424Z",
+    "status": "open"
   }
 ]
