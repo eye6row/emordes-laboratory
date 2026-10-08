@@ -12,9 +12,10 @@ button{background:none;border:0;cursor:pointer}
 .brand{display:flex;flex-direction:column;line-height:1.25}.brand b{font-weight:700;letter-spacing:.04em}.brand span{color:var(--mut)}
 .mark svg{width:26px;height:26px;display:block;fill:var(--ink);transition:transform .6s var(--ease)}.mark:hover svg{transform:rotate(45deg)}
 nav{justify-self:end;display:flex;gap:22px}
-nav button{position:relative;padding:4px 0}
-nav button::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
-nav button:hover::after,nav button[aria-expanded=true]::after{transform:scaleX(1)}
+nav button,nav .navlink{position:relative;padding:4px 0}
+nav .navlink{color:inherit;text-decoration:none;font:inherit;line-height:normal}
+nav button::after,nav .navlink::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+nav button:hover::after,nav .navlink:hover::after,nav button[aria-expanded=true]::after{transform:scaleX(1)}
 
 main{padding:calc(var(--bar) + 10px) 22px 40px}
 .sub{display:flex;gap:28px;color:var(--mut);padding:8px 2px 14px}.sub span:first-child{color:var(--ink)}
